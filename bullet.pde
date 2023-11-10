@@ -23,8 +23,7 @@ class bullet {
 
   void update() {
     pos.add(vel);
-
-    Draw();
+    
     return;
   }
 

@@ -1,5 +1,6 @@
-boolean mouseDown, openMenu, keyDown;
+boolean mouseDown, openMenu, keyDown, keyPress;
 boolean left, right, up, down, ring, inventory, boost;
+boolean nextWeapon;
 boolean buttonDown = false;
 boolean menuWasUp = true;
 int lastMouseButton;
@@ -16,6 +17,16 @@ void mouseReleased() {
 }
 
 void keyPressed() {
+  if(!keyDown)
+    keyPress = true;
+    
+    
+  if(keyPress){
+    if (key=='t'){
+      nextWeapon = true;
+    }
+    keyPress = false;
+  }
   
   keyDown = true;
   if (key=='a')
@@ -38,6 +49,8 @@ void keyPressed() {
     down = true;
   else if(key=='S')
     down = true;
+    
+
     
   if(key=='e')
     inventory = true;
@@ -67,6 +80,7 @@ void keyPressed() {
 
 void keyReleased() {
   keyDown = false;
+  keyPress = false;
   if (key=='a')
     left = false;
   else if (key=='A')
@@ -87,4 +101,6 @@ void keyReleased() {
     ring = false;
   if(key==' ')
     boost = false;
+  if (key=='t')
+     nextWeapon = false;
 }

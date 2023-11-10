@@ -108,7 +108,7 @@ class Particle {
     noStroke();
     fill(120*RED, 120*GREEN, 120*BLUE, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
     
-    println(255, it);
+    //println(255, it);
     
     ellipse(pos.x, pos.y, 4, 4); 
     return;
