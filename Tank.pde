@@ -18,10 +18,10 @@ class Tank {
   private float maxAcc = 1;
   private boolean player;
   private float RED, GREEN, BLUE;
-  
+
 
   private boolean colliding;
-  
+
   private ParticleSystem trail;
 
   private Weapon weapon;
@@ -38,12 +38,16 @@ class Tank {
     this.player = player;
     this.pos = pos;
 
-    if (RED >= 1)
-      this.RED = 1;
-    if (GREEN >= 1)
-      this.GREEN = 1;
-    if (BLUE >= 1)
-      this.GREEN = 1;
+    //if (RED >= 1)
+    //  this.RED = 1;
+    //if (GREEN >= 1)
+    //  this.GREEN = 1;
+    //if (BLUE >= 1)
+    //  this.GREEN = 1;
+    
+    this.RED   = RED;
+    this.GREEN = GREEN;
+    this.BLUE  = BLUE;
 
     //r = 75;
 
@@ -71,9 +75,9 @@ class Tank {
     down = false;
 
     weapon = new Weapon(this);
-    
-    trail = new ParticleSystem(0, pos, vel.copy().mult(-1), 45, RED, GREEN, BLUE, false);
-    
+
+    trail = new ParticleSystem(0, pos, vel.copy().mult(-1), 180, 50, 50 , 50, false);
+
     particlesystem.add(trail);
   }
 
@@ -101,10 +105,11 @@ class Tank {
     else
       AI();
     //}
-    
+
     //Draw();
-    
-    trail.addParticle((int)vel.mag() /5);
+
+    trail.addParticle(round(vel.mag()), 3*round(vel.mag()), 100);
+    trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
 
     if (Health > maxHealth)
       Health = maxHealth;
@@ -228,7 +233,7 @@ class Tank {
 
     stroke(0);
     strokeWeight(1);
-    fill(RED*100, GREEN*100, BLUE*100);
+    fill(RED, GREEN, BLUE);
     rect(-Width/2, -Height/2, Width, Height); //-20, -25, 40, 50
 
     pop();
@@ -242,7 +247,7 @@ class Tank {
     strokeWeight(0);
     stroke(0);
 
-    fill(140*RED, 140*GREEN, 140*BLUE);
+    fill(40+RED, 40+GREEN, 40+BLUE);
     ellipse(0, Width*13/40, Width/8, Width); //draw barrel
 
     //30*26/30

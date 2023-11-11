@@ -12,7 +12,7 @@ enum WeaponLists {
     Guided   ( 50,       1,      0,        0,        5,     0,        0,    5,          5       ),
     MultiShot( 0,        1,      5,        2,        10,    45,       1,    20,         20      ),
     SlowShot ( 5,        1,      0,        0,        2,     0,        0,    20,         20      ),
-    FastShot ( 100,      4,      0,        0,        20,    0,        15,   20,         20      );
+    FastShot ( 100,      4,      0,        0,        50,    0,        15,   20,         20      );
 
   private int coolDown  = 0;//coolDown is how long until you can fire again.
   private int damage    = 0;//damage taken by tank when hit by bullet created by weapon.

@@ -16,14 +16,10 @@ class ParticleSystem {
     this.BLUE  = BLUE;
     this.canDie = canDie;
 
-    //cos
-
-    PVector vec = direction.copy().sub(pos);
-
-    addParticle(num);
+    addParticle(num, 4, 300);
   }
 
-  void addParticle(int number) {
+  void addParticle(int number, int radius, int lifetime) {
     PVector vec = dir.copy().sub(pos);
 
     for (int i=0; i<number; i++) {
@@ -34,13 +30,17 @@ class ParticleSystem {
 
       vec.set(x, y).setMag(random(it/16));
 
-      particles.add(new Particle(pos.copy(), vec.copy(), RED, GREEN, BLUE));
+      particles.add(new Particle(pos.copy(), vec.copy(), lifetime, radius, RED, GREEN, BLUE));
     }
   }
 
   void update() {
-    for (int i=0; i<particles.size(); i++)
-      particles.get(i).update();
+    for (int i=0; i<particles.size(); i++){
+      if(particles.get(i).isDead())
+        particles.remove(i);
+      else
+        particles.get(i).update();
+    }
     return;
   }
 
@@ -64,11 +64,12 @@ class ParticleSystem {
     if (!canDie)
       return false;
       
+    boolean pass = true;
     for (int i=0; i<particles.size(); i++) {
-      if (particles.get(i).isDead())
-        return true;
+      if (!particles.get(i).isDead())
+        pass = false;
     }
-    return false;
+    return pass;
   }
 
   void setLifeSpan(float lifeSpan) {
@@ -90,11 +91,17 @@ class Particle {
   float r = 4;
 
   float RED, GREEN, BLUE;
+  
+  private int radius = 4;
 
-  Particle(PVector pos, PVector vel, float RED, float GREEN, float BLUE) {
+  Particle(PVector pos, PVector vel, float lifeSpan, int radius, float RED, float GREEN, float BLUE) {
     this.pos = pos;
     this.vel = vel;
     this.acc = new PVector(0, 0);
+    this.radius = radius;
+    
+    this.lifeSpan = lifeSpan;
+    lifeSpanMax = lifeSpan;
 
 
     //println(it/20, r);
@@ -119,9 +126,9 @@ class Particle {
 
   void Draw() {
     noStroke();
-    fill(120*RED, 120*GREEN, 120*BLUE, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
+    fill(RED, GREEN, BLUE, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
 
-    ellipse(pos.x, pos.y, 4, 4);
+    ellipse(pos.x, pos.y, radius, radius);
     return;
   }
 
