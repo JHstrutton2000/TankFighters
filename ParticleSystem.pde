@@ -15,18 +15,13 @@ class ParticleSystem {
 
     PVector vec = direction.copy().sub(pos);
 
-    float distance = dist(direction.x, direction.y, pos.x, pos.y); //Possible Logic Error!!!
-
     for (int i=0; i<num; i++) {
-      //vec = new PVector(random(-5, 5), random(-5, 5));
       float deg = vec.heading() + radians(random(-angle/2, angle/2));
 
-      float x = (cos(deg) * distance);
-      float y = (sin(deg) * distance);
+      float x = (cos(deg) * vec.mag());
+      float y = (sin(deg) * vec.mag());
 
       vec.set(x, y).setMag(random(it/16));
-      
-      //println(it/8, 5);
 
       particles.add(new Particle(pos.copy(), vec.copy(), RED, GREEN, BLUE));
     }
@@ -107,8 +102,6 @@ class Particle {
   void Draw() {
     noStroke();
     fill(120*RED, 120*GREEN, 120*BLUE, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
-    
-    //println(255, it);
     
     ellipse(pos.x, pos.y, 4, 4); 
     return;

@@ -262,7 +262,6 @@ class MainMenu{
              }
            }
            
-           //if(pass){
              PImage col  = createImage(int(width/it), int(height/it), RGB);
              PImage type  = createImage(int(width/it), int(height/it), RGB);
              

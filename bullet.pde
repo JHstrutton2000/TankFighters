@@ -7,7 +7,7 @@ class bullet {
   Tank tank;
   WeaponLists weapon;
   
-  int invFrame = 10;
+  int invFrame;
 
   bullet(Tank tank, WeaponLists weapon) {
     this.tank = tank;
@@ -17,17 +17,23 @@ class bullet {
     vel = tank.barrel.copy();
     vel.setMag((int)-weapon.getSpeed());
     
+    this.invFrame = 10;
+    
     this.r = it/16;
 
   }
 
   void update() {
     if(weapon == WeaponLists.Guided){
-      if(!mouseDown)
+      if(!mouseDown){
         vel.add(pos.copy().sub(new PVector(mouseX, mouseY)).mult(-0.01));
+        vel.set(constrain(vel.x, -weapon.getSpeed(), weapon.getSpeed()), constrain(vel.y, -weapon.getSpeed(), weapon.getSpeed()));
+      }
+      else
+        vel.mult(1.05);
     }
-    
-    vel.set(constrain(vel.x, -weapon.getSpeed(), weapon.getSpeed()), constrain(vel.y, -weapon.getSpeed(), weapon.getSpeed()));
+    else
+      vel.set(constrain(vel.x, -weapon.getSpeed(), weapon.getSpeed()), constrain(vel.y, -weapon.getSpeed(), weapon.getSpeed()));
     pos.add(vel);
     
     if(invFrame > 0){

@@ -25,6 +25,14 @@ void keyPressed() {
     if (key=='t'){
       nextWeapon = true;
     }
+    else if (key=='q')
+      ring = !ring;
+    
+    else if(key=='Q'){
+      mainMenu.open = true;
+      mainMenu.state = -1;
+      menuWasUp = true;
+    
     keyPress = false;
   }
   
@@ -54,13 +62,6 @@ void keyPressed() {
     
   if(key=='e')
     inventory = true;
-    
-  if (key=='q')
-    ring = true;
-  else if(key=='Q'){
-    mainMenu.open = true;
-    mainMenu.state = -1;
-    menuWasUp = true;
   }
   
   
@@ -87,8 +88,6 @@ void keyReleased() {
     down = false;
   else if (key=='S')
     down = false;
-  if (key=='q')
-    ring = false;
   if(key==' ')
     boost = false;
   if (key=='t')

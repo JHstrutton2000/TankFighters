@@ -40,14 +40,12 @@ class Weapon {
       coolDownTimer--;
 
     if (fired) {
-      if (fireRate >= 0 && fireTimer-- <= 0) {
+      if (fireRate >= 0 && fireTimer-- <= 0 && eqquiped.ammoSubtract(1)) {
         PVector vec = tank.barrel;
         float deg = vec.heading() + radians(random((int)-accuracy/2, (int)accuracy/2));
 
         vec.set(cos(deg), sin(deg));
         vec.mult(tank.barrelLength());
-        // barrellx = tank.pos.copy().sub(vec.copy().setMag(tank.Width-10))
-        // barrelly = tank.pos.copy().sub(vec)
 
         particlesystem.add(new ParticleSystem(20, tank.barrelpos(), tank.pos.copy().sub(vec), 45, 2, 2, 2));
         bullets.add(new bullet(tank, eqquiped));
@@ -56,7 +54,7 @@ class Weapon {
 
         fireRate--;
         fireTimer = masterfirerateTimer;
-      } else if (fireRate < 0)
+      } else if (fireRate < 0 || eqquiped.getAmmo() == 0)
         fired = false;
     }
   }
@@ -86,6 +84,7 @@ class Weapon {
     if (ring) {
       fill(255);
       text(eqquiped.toString(), tank.pos.x - tank.Width/2, tank.pos.y + tank.Height+5);
+      text(eqquiped.getAmmo(), tank.pos.x - tank.Width/2, tank.pos.y + tank.Height+15);
     }
   }
 }
