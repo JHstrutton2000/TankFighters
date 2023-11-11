@@ -10,7 +10,8 @@ class bullet {
     this.tank = tank;
     this.weapon = weapon;
 
-    pos = tank.pos.copy();
+    //pos = tank.pos.copy();
+    pos = tank.barrelpos();
     //vel = tank.barrel.copy().setMag(250);
     vel = tank.barrel.copy().setMag(weapon.getSpeed());
     
