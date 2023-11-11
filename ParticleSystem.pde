@@ -63,6 +63,9 @@ class ParticleSystem {
   boolean isDead() {
     if (!canDie)
       return false;
+     
+    if(particles.size() <= 0)
+      return true;
       
     boolean pass = true;
     for (int i=0; i<particles.size(); i++) {
