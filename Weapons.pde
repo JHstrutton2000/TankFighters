@@ -3,7 +3,10 @@ class Weapon{
   WeaponLists eqquiped;
   Tank tank;
   int maxWeapons = -1;
-  int coolDownTimer;
+  
+  double coolDownTimer, fireTimer, fireRate, masterfirerateTimer, accuracy;
+  
+  Boolean fired = false;
       
   Weapon(Tank tank){
     this.tank = tank;
@@ -13,18 +16,20 @@ class Weapon{
   }
   
   void fire(){
-    if (!menuWasUp && coolDownTimer == 0) {
-      particlesystem.add(new ParticleSystem(20, tank.pos.copy().sub(tank.barrel.copy().setMag(tank.Width-10)), tank.pos.copy().sub(tank.barrel), 45, 2, 2, 2));
+    if (!menuWasUp && coolDownTimer <= 0) {
 
-      bullets.add(new bullet(tank, eqquiped));
-      
-      
-      tank.applyRecoil(tank.barrel.copy().setMag(eqquiped.getkick()));
+      fired = true;
       
       coolDownTimer = eqquiped.getcoolDown();
       
+      fireRate = eqquiped.getfireRate();
       
-      println(eqquiped.getcoolDown(), eqquiped.getkick(), tank.barrel.copy().setMag(eqquiped.getkick()));
+      fireTimer = eqquiped.getfireTime();
+      
+      accuracy = eqquiped.getAccuracy();
+      masterfirerateTimer = fireTimer;
+      
+      //println(eqquiped.getcoolDown(), eqquiped.getkick(), tank.barrel.copy().setMag(eqquiped.getkick()));
       mouseDown = false;
     }
     else
@@ -38,6 +43,28 @@ class Weapon{
     //println(eqquiped, eqquipedNum, "/", maxWeapons);
     if(coolDownTimer > 0)
       coolDownTimer--;
+      
+      if(fired){
+        if(fireRate >= 0 && fireTimer-- <= 0){
+            PVector vec = tank.barrel;
+            float deg = vec.heading() + radians(random((int)-accuracy/2, (int)accuracy/2));
+            
+            vec.set(cos(deg), sin(deg));
+            vec.mult(tank.barrelLength());
+            // barrellx = tank.pos.copy().sub(vec.copy().setMag(tank.Width-10))
+            // barrelly = tank.pos.copy().sub(vec)
+      
+            particlesystem.add(new ParticleSystem(20, tank.barrelpos(), tank.pos.copy().sub(vec), 45, 2, 2, 2));
+            bullets.add(new bullet(tank, eqquiped));
+            
+            tank.applyRecoil(tank.barrel.copy().setMag(eqquiped.getkick()));
+            
+            fireRate--;
+            fireTimer = masterfirerateTimer;
+        }
+        else if(fireRate < 0)
+          fired = false;
+      }
   }
   
   void NextWeapon(){

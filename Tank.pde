@@ -20,7 +20,7 @@ class Tank {
 
   private boolean colliding;
 
-  private Weapon weapon;
+  private Weapon weapon;  
 
   Tank() {
     this(true, new PVector(random(width), random(height)), 0, 1, 0);
@@ -69,6 +69,23 @@ class Tank {
     weapon = new Weapon(this);
   }
 
+
+  float getWidth(){
+    return Width; 
+  }
+  
+  float getHeight(){
+    return Height; 
+  }
+  
+  float barrelLength(){
+    return Width*3/5; 
+  }
+  
+  PVector barrelpos(){
+    return pos.copy().sub(barrel.copy().setMag(Width-10));
+  }
+
   void update() {
     //if(!colliding){
     if (player)
@@ -81,20 +98,20 @@ class Tank {
 
     if (Health > maxHealth)
       Health = maxHealth;
-      
-    if(recoil.mag() < 0.01){
+
+    if (recoil.mag() < 0.01) {
       acc.set(constrain(acc.x, -maxAcc, maxAcc), constrain(acc.y, -maxAcc, maxAcc));
 
       vel.add(acc);
       vel.set(constrain(vel.x, -maxVel, maxVel), constrain(vel.y, -maxVel, maxVel));
-    }
-    else{
+    } else {
       vel.add(recoil);
       vel.set(constrain(vel.x, -maxVel, maxVel), constrain(vel.y, -maxVel, maxVel));
-      recoil.mult(0.75);
+      recoil.mult(0.5);
     }
 
-
+    if (player)
+      target = new PVector(mouseX, mouseY);
 
     pos.add(vel);
     acc.set(0, 0);
@@ -109,7 +126,7 @@ class Tank {
     return;
   }
 
-  void applyRecoil(PVector vec){
+  void applyRecoil(PVector vec) {
     recoil.set(vec);
     return;
   }
@@ -208,9 +225,6 @@ class Tank {
     push();
       translate(pos.x, pos.y);
   
-      if (player)
-        target = new PVector(mouseX, mouseY);
-  
       barrel = pos.copy().sub(target);
   
       rotate(barrel.heading() + 2*PI/4);
@@ -218,10 +232,10 @@ class Tank {
       stroke(0);
   
       fill(140*RED, 140*GREEN, 140*BLUE);
-      ellipse(0, Width*13/40, Width/8, Width);
+      ellipse(0, Width*13/40, Width/8, Width); //draw barrel
   
       //30*26/30
-      ellipse(0, 0, Height*26/30, Height*26/30);
+      ellipse(0, 0, Height*26/30, Height*26/30);//draw circle
     pop();
 
 

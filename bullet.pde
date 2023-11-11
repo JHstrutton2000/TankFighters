@@ -11,7 +11,8 @@ class bullet {
     this.weapon = weapon;
 
     pos = tank.pos.copy();
-    vel = tank.barrel.copy().setMag(250);
+    //vel = tank.barrel.copy().setMag(250);
+    vel = tank.barrel.copy().setMag(weapon.getSpeed());
     
     //println(it, 250);
     
