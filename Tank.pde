@@ -84,7 +84,7 @@ class Tank {
   }
   
   PVector barrelpos(){
-    return pos.copy().sub(barrel.copy().setMag(Width-10));
+    return pos.copy().sub(barrel.copy().setMag(Width+10));
   }
 
   void update() {
