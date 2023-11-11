@@ -1,5 +1,0 @@
-Stage
-test
-X
-player
-NewColorTest

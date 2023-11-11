@@ -66,16 +66,6 @@ void keyPressed() {
   
   if(key==' ')
     boost = true;
-  
-  //boolean pass = false;
-  //char[] ValidKeys = {'q', 's', 'w', 'd', 'a'};
-  
-  //for(int i=0; i<ValidKeys.length; i++)
-  //  if(key == ValidKeys[i])
-  //    pass = true;
- 
-  //if(!pass)
-  //  return;
 }
 
 void keyReleased() {

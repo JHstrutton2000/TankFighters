@@ -80,7 +80,7 @@ void draw() {
 
         for (int v=0; v<blocks.size(); v++) {
           if (v != i) {
-            if (blocks.get(i).x == blocks.get(v).x && blocks.get(i).y == blocks.get(v).y)
+            if (blocks.get(i).pos.x == blocks.get(v).pos.x && blocks.get(i).pos.y == blocks.get(v).pos.y)
               blocks.remove(v);
           }
         }

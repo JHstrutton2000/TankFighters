@@ -1,23 +1,31 @@
-class Block{
-  float x, y, w, h;
+class Block {
+  PVector pos;
+  PVector vel;
+  PVector acc;
+  
+  float Weight = 6.5;
+  
+  float w, h;
   float RED, GREEN, BLUE;
   color col;
   private PImage texture = null;
-  
+
   private blockTypes type;
-  
-  Block(float x, float y, float w, float h, PImage texture, blockTypes type){
-    this.x = x;
-    this.y = y;
+
+  Block(float x, float y, float w, float h, PImage texture, blockTypes type) {
+    this.pos = new PVector(x, y);
+    this.vel = new PVector();
+    this.acc = new PVector();
     this.w = w;
     this.h = h;
     this.texture = texture;
     this.type = type;
   }
-   
-  Block(float x, float y, float w, float h, float RED, float GREEN, float BLUE, int type){
-    this.x = x;
-    this.y = y;
+
+  Block(float x, float y, float w, float h, float RED, float GREEN, float BLUE, int type) {
+    this.pos = new PVector(x, y);
+    this.vel = new PVector();
+    this.acc = new PVector();
     this.w = w;
     this.h = h;
     this.RED = RED;
@@ -25,33 +33,46 @@ class Block{
     this.BLUE = BLUE;
     this.type = blockTypes.values()[type];
   }
-  
-  void update(){
-    if(type == blockTypes.Block || type == blockTypes.MovableBlock)
-      Draw();
-  }
-  
-  blockTypes getType(){
-    return type; 
-  }
-  
-  void isColliding(Tank tank){
-    float offset = 2.5;
-    if(tank.pos.x+tank.r/2-offset >= x*it && tank.pos.x-tank.r/2+offset <= (x+w)*it && tank.pos.y+tank.r/2-offset >= y*it && tank.pos.y-tank.r/2+offset <= (y+h)*it){
-      tank.pos.add(tank.pos.copy().sub((x+w/2)*it, (y+h/2)*it).setMag(1)).sub(tank.vel);
-      tank.vel.div(100);
-    }
 
+  void update() {
+    if (type == blockTypes.Block || type == blockTypes.MovableBlock)
+      Draw();
+      
+    if(type == blockTypes.MovableBlock){
+      pos.add(vel);
+      vel.add(acc).div(Weight);
+      
+      acc.set(0, 0);
+    }
   }
-  
-  void Draw(){
-    if(texture == null){
+
+  blockTypes getType() {
+    return type;
+  }
+
+  void isColliding(Tank tank) {
+    
+    float offset = 2.5;
+    if (tank.pos.x+tank.r/2-offset >= pos.x*it && tank.pos.x-tank.r/2+offset <= (pos.x+w)*it && tank.pos.y+tank.r/2-offset >= pos.y*it && tank.pos.y-tank.r/2+offset <= (pos.y+h)*it) {
+      tank.pos.add(tank.pos.copy().sub((pos.x+w/2)*it, (pos.y+h/2)*it).setMag(1)).sub(tank.vel);
+      
+      if (type == blockTypes.MovableBlock) {
+        acc = tank.vel.copy().div(Weight);
+        tank.vel.div(100/Weight);  
+      }
+      else{
+        tank.vel.div(100);
+      }
+    }
+  }
+
+  void Draw() {
+    if (texture == null) {
       stroke(1);
       fill(RED, GREEN, BLUE);
-      rect(x*it, y*it, w*it, h*it);
-    }
-    else{
-      image(texture, x*it + (w*it)/2, y*it + (h*it)/2);
+      rect(pos.x*it, pos.y*it, w*it, h*it);
+    } else {
+      image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);
     }
   }
-}  
+}

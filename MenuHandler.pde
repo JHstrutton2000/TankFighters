@@ -135,7 +135,7 @@ class MainMenu{
        for(int i=0; i<blocks.size(); i++){//populate with colored blocks
          Block block = blocks.get(i);
          fill(block.RED, block.GREEN, block.BLUE);
-         rect(block.x/2*it+xoff, block.y/2*it+yoff, it/2, it/2);
+         rect(block.pos.x/2*it+xoff, block.pos.y/2*it+yoff, it/2, it/2);
        }
        
        float st = LevelCreator.getState();
@@ -146,7 +146,7 @@ class MainMenu{
        
        boolean pass = true;
        for(int i=0; i<blocks.size(); i++){ //Does it already exist?
-         if(blocks.get(i).x == (int)Math.floor(sta/10) && blocks.get(i).y == (int)(sta - Math.floor(sta/10)*10))
+         if(blocks.get(i).pos.x == (int)Math.floor(sta/10) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/10)*10))
            pass = false;
        }
        
@@ -202,7 +202,7 @@ class MainMenu{
        }
        else if(Hovering && mouseDown && lastMouseButton == RIGHT){
          for(int i=0; i<blocks.size(); i++){
-           if(blocks.get(i).x == (int)Math.floor(sta/10) && blocks.get(i).y == (int)(sta - Math.floor(sta/10)*10))
+           if(blocks.get(i).pos.x == (int)Math.floor(sta/10) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/10)*10))
              blocks.remove(i);
          }
        }
@@ -269,8 +269,8 @@ class MainMenu{
              for(int i=0; i<blocks.size(); i++){
                Block block = blocks.get(i);
                int t = block.getType().ordinal();
-               col.set((int)block.x, (int)block.y, color(block.RED, block.GREEN, block.BLUE));
-               type.set((int)block.x, (int)block.y, color(t+1, t+1, t+1));
+               col.set((int)block.pos.x, (int)block.pos.y, color(block.RED, block.GREEN, block.BLUE));
+               type.set((int)block.pos.x, (int)block.pos.y, color(t+1, t+1, t+1));
              }
              
              if(str == "")

@@ -8,7 +8,8 @@ class Tank {
   private PVector target = new PVector(0, 0);
   private PVector barrel = new PVector(0, 0);
 
-  private float Health = 10;
+  private float Health    = 10;
+  private float shield    = 0;
   private float maxHealth = 10;
 
   private float Width = 40;
@@ -137,12 +138,7 @@ class Tank {
   }
 
   void controls() {
-    float num = 5;
-
-
-    // (x) = num/it
-
-    num = it/16;
+    float num = it/16;
 
     if (boost) {
       this.maxAcc = it/16;
@@ -193,8 +189,16 @@ class Tank {
     }
   }
 
-  void hit() {
-    Health -= 1;
+  void hit(int damage) {
+    if((shield - damage) > 0){
+       shield -= damage; 
+    }
+    else if(shield == 0){
+      Health -= damage;
+    }
+    else{
+      shield = 0;
+    }
 
     return;
   }

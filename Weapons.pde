@@ -29,7 +29,6 @@ class Weapon{
       accuracy = eqquiped.getAccuracy();
       masterfirerateTimer = fireTimer;
       
-      //println(eqquiped.getcoolDown(), eqquiped.getkick(), tank.barrel.copy().setMag(eqquiped.getkick()));
       mouseDown = false;
     }
     else
@@ -89,7 +88,9 @@ class Weapon{
   }
   
   void Draw(){
-      fill(255);  
-      text(eqquiped.toString(), 20, height-20);
+    if(ring){
+      fill(255);
+      text(eqquiped.toString(), tank.pos.x - tank.Width/2, tank.pos.y + tank.Height+5);
+    }
   }
 }

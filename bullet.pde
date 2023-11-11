@@ -10,17 +10,12 @@ class bullet {
     this.tank = tank;
     this.weapon = weapon;
 
-    //pos = tank.pos.copy();
     pos = tank.barrelpos();
-    //vel = tank.barrel.copy().setMag(250);
-    vel = tank.barrel.copy().setMag(weapon.getSpeed());
-    
-    //println(it, 250);
-    
+    vel = tank.barrel.copy();
     
     this.r = it/16;
 
-    vel.setMag(-maxVel);
+    vel.setMag(-weapon.getSpeed());
   }
 
   void update() {
@@ -39,7 +34,7 @@ class bullet {
         if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)) {
           particlesystem.add(new ParticleSystem(10, pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 45, tank.RED, tank.GREEN, tank.BLUE));
 
-          tank.hit();
+          tank.hit(weapon.getDamage());
           tank.applyForce(vel.copy().setMag(2));
           return true;
         }
@@ -48,7 +43,7 @@ class bullet {
 
     for (int i=0; i<blocks.size(); i++) {
       Block block = blocks.get(i);
-      if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.x*it && pos.x-r/2 <= (block.x+block.w)*it && pos.y+r/2 >= block.y*it && pos.y-r/2 <= (block.y+block.h)*it)) {
+      if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.pos.x*it && pos.x-r/2 <= (block.pos.x+block.w)*it && pos.y+r/2 >= block.pos.y*it && pos.y-r/2 <= (block.pos.y+block.h)*it)) {
         particlesystem.add(new ParticleSystem(20, pos.copy(), vel.copy().mult(-2), 360, block.RED, block.GREEN, block.BLUE));
         return true;
       }
