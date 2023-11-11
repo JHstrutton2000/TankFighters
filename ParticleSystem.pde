@@ -1,21 +1,32 @@
 class ParticleSystem {
   PVector pos;
+  PVector dir;
+  float angle;
   ArrayList<Particle> particles;
   float RED, GREEN, BLUE;
+  Boolean canDie = true;
 
-  ParticleSystem(int num, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE) {
+  ParticleSystem(int num, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
     particles = new ArrayList<Particle>();
     this.pos = pos;
-
-    this.RED = RED;
+    this.dir = direction;
+    this.angle = angle;
+    this.RED   = RED;
     this.GREEN = GREEN;
-    this.BLUE = BLUE;
+    this.BLUE  = BLUE;
+    this.canDie = canDie;
 
     //cos
 
     PVector vec = direction.copy().sub(pos);
 
-    for (int i=0; i<num; i++) {
+    addParticle(num);
+  }
+
+  void addParticle(int number) {
+    PVector vec = dir.copy().sub(pos);
+
+    for (int i=0; i<number; i++) {
       float deg = vec.heading() + radians(random(-angle/2, angle/2));
 
       float x = (cos(deg) * vec.mag());
@@ -44,8 +55,15 @@ class ParticleSystem {
       particles.get(i).r = radius;
     return;
   }
+  
+  void canDie(boolean val){
+    this.canDie = val;
+  }
 
   boolean isDead() {
+    if (!canDie)
+      return false;
+      
     for (int i=0; i<particles.size(); i++) {
       if (particles.get(i).isDead())
         return true;
@@ -77,8 +95,8 @@ class Particle {
     this.pos = pos;
     this.vel = vel;
     this.acc = new PVector(0, 0);
-    
-    
+
+
     //println(it/20, r);
     this.r = it/20;
 
@@ -102,13 +120,13 @@ class Particle {
   void Draw() {
     noStroke();
     fill(120*RED, 120*GREEN, 120*BLUE, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
-    
-    ellipse(pos.x, pos.y, 4, 4); 
+
+    ellipse(pos.x, pos.y, 4, 4);
     return;
   }
 
   void applyForce(PVector vec) {
-    acc.add(vec); 
+    acc.add(vec);
     return;
   }
 

@@ -18,10 +18,13 @@ class Tank {
   private float maxAcc = 1;
   private boolean player;
   private float RED, GREEN, BLUE;
+  
 
   private boolean colliding;
+  
+  private ParticleSystem trail;
 
-  private Weapon weapon;  
+  private Weapon weapon;
 
   Tank() {
     this(true, new PVector(random(width), random(height)), 0, 1, 0);
@@ -68,22 +71,26 @@ class Tank {
     down = false;
 
     weapon = new Weapon(this);
+    
+    trail = new ParticleSystem(0, pos, vel.copy().mult(-1), 45, RED, GREEN, BLUE, false);
+    
+    particlesystem.add(trail);
   }
 
 
-  float getWidth(){
-    return Width; 
+  float getWidth() {
+    return Width;
   }
-  
-  float getHeight(){
-    return Height; 
+
+  float getHeight() {
+    return Height;
   }
-  
-  float barrelLength(){
-    return Width*3/5; 
+
+  float barrelLength() {
+    return Width*3/5;
   }
-  
-  PVector barrelpos(){
+
+  PVector barrelpos() {
     return pos.copy().sub(barrel.copy().setMag(Width));
   }
 
@@ -94,8 +101,10 @@ class Tank {
     else
       AI();
     //}
-
+    
     //Draw();
+    
+    trail.addParticle((int)vel.mag() /5);
 
     if (Health > maxHealth)
       Health = maxHealth;
@@ -190,13 +199,11 @@ class Tank {
   }
 
   void hit(int damage) {
-    if((shield - damage) > 0){
-       shield -= damage; 
-    }
-    else if(shield == 0){
+    if ((shield - damage) > 0) {
+      shield -= damage;
+    } else if (shield == 0) {
       Health -= damage;
-    }
-    else{
+    } else {
       shield = 0;
     }
 
@@ -207,39 +214,39 @@ class Tank {
     float theta = (vel.heading());
 
     push();
-      translate(pos.x, pos.y);
-  
-      rotate(theta);
-      if (ring) {
-        noFill();
-        float val = map(Health, 0, maxHealth, 0, 255);
-  
-        stroke(RED*val, GREEN*val, BLUE*val);
-        strokeWeight(3);
-        ellipse(0, 0, r, r);
-      }
-  
-      stroke(0);
-      strokeWeight(1);
-      fill(RED*100, GREEN*100, BLUE*100);
-      rect(-Width/2, -Height/2, Width, Height); //-20, -25, 40, 50
+    translate(pos.x, pos.y);
+
+    rotate(theta);
+    if (ring) {
+      noFill();
+      float val = map(Health, 0, maxHealth, 0, 255);
+
+      stroke(RED*val, GREEN*val, BLUE*val);
+      strokeWeight(3);
+      ellipse(0, 0, r, r);
+    }
+
+    stroke(0);
+    strokeWeight(1);
+    fill(RED*100, GREEN*100, BLUE*100);
+    rect(-Width/2, -Height/2, Width, Height); //-20, -25, 40, 50
 
     pop();
 
     push();
-      translate(pos.x, pos.y);
-  
-      barrel = pos.copy().sub(target);
-  
-      rotate(barrel.heading() + 2*PI/4);
-      strokeWeight(0);
-      stroke(0);
-  
-      fill(140*RED, 140*GREEN, 140*BLUE);
-      ellipse(0, Width*13/40, Width/8, Width); //draw barrel
-  
-      //30*26/30
-      ellipse(0, 0, Height*26/30, Height*26/30);//draw circle
+    translate(pos.x, pos.y);
+
+    barrel = pos.copy().sub(target);
+
+    rotate(barrel.heading() + 2*PI/4);
+    strokeWeight(0);
+    stroke(0);
+
+    fill(140*RED, 140*GREEN, 140*BLUE);
+    ellipse(0, Width*13/40, Width/8, Width); //draw barrel
+
+    //30*26/30
+    ellipse(0, 0, Height*26/30, Height*26/30);//draw circle
     pop();
 
 
@@ -250,7 +257,7 @@ class Tank {
 
   boolean isDead() {
     if (Health<=0) {
-      particlesystem.add(new ParticleSystem(50, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE));
+      particlesystem.add(new ParticleSystem(50, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE, true));
       return true;
     }
     return false;
