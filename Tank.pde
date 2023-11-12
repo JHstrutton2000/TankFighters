@@ -99,16 +99,9 @@ class Tank {
   }
 
   void update() {
-    //if(!colliding){
-    if (player)
-      controls();
-    else
+    if(!player)
       AI();
-    //}
-
-    //Draw();
-
-    //trail.addParticle(round(vel.mag()), 3*round(vel.mag()), 0, 100);
+      
     if(vel.mag() > 0)
       trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), 100);
     
@@ -127,9 +120,6 @@ class Tank {
       vel.set(constrain(vel.x, -maxVel, maxVel), constrain(vel.y, -maxVel, maxVel));
       recoil.mult(0.5);
     }
-
-    if (player)
-      target = new PVector(mouseX, mouseY);
 
     pos.add(vel);
     acc.set(0, 0);
@@ -180,6 +170,9 @@ class Tank {
       weapon.NextWeapon();
       nextWeapon = false;
     }
+    
+    target = new PVector(mouseX, mouseY);
+    
     return;
   }
 

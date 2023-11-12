@@ -4,6 +4,9 @@ ArrayList<ParticleSystem> particlesystem;
 ArrayList<Block> blocks;
 ArrayList<String> Levels;
 
+ArrayList<Tank> playerTanks;
+int playerTankInstance =0;
+
 int count = 0;
 int pauseCount = 0;
 
@@ -34,6 +37,7 @@ void setup() {
   }
 
   tanks = new ArrayList<Tank>();
+  playerTanks = new ArrayList<Tank>();
   bullets = new ArrayList<bullet>();
   particlesystem = new ArrayList<ParticleSystem>();
   mainMenu = new MainMenu();
@@ -99,6 +103,20 @@ void draw() {
         if(i!=j) tanks.get(i).isColliding(tanks.get(j)); 
       }
     }
+    
+    for (int i=0; i<playerTanks.size(); i++) {
+      if(i == playerTankInstance)
+        playerTanks.get(i).controls();
+        
+      playerTanks.get(i).update();
+      playerTanks.get(i).Draw(); 
+      if (playerTanks.get(i).isDead())
+        playerTanks.remove(i);
+      for(int j=0; j<playerTanks.size(); j++){
+        if(i!=j) playerTanks.get(i).isColliding(playerTanks.get(j)); 
+      }
+    }
+    
     
 
     count++;

@@ -153,25 +153,6 @@ class MainMenu{
        if(Hovering && !buttonDown && pass && mouseDown && lastMouseButton == LEFT){ //mouseButton == LEFT
          float RED, GREEN, BLUE;
          
-         //if(LevelCreator.getTextBoxValue(0) != "")
-         //  RED = Float.parseFloat(LevelCreator.getTextBoxValue(0));
-         //else
-         //  RED = 0;
-         //if(LevelCreator.getTextBoxValue(1) != "")
-         //  GREEN = Float.parseFloat(LevelCreator.getTextBoxValue(1));
-         //else
-         //  GREEN = 0;
-         //if(LevelCreator.getTextBoxValue(2) != "")
-         //  BLUE = Float.parseFloat(LevelCreator.getTextBoxValue(2));
-         //else
-         //  BLUE = 0;
-           
-           
-          
-         //RED = Float.parseFloat(LevelCreator.getColorEditorRed(0));
-         //RED = Float.parseFloat(LevelCreator.getColorEditorRed(0));
-         //RED = Float.parseFloat(LevelCreator.getColorEditorRed(0));
-         
          if(LevelCreator.getColorEditorRed(0) != "")
            RED = Float.parseFloat(LevelCreator.getColorEditorRed(0));
          else
@@ -310,6 +291,7 @@ class MainMenu{
          LoadMenu.setState(-1);
          
          if(chooser.getButtonCount() > 0){
+            playerTanks = new ArrayList<Tank>();
             tanks = new ArrayList<Tank>();
             bullets = new ArrayList<bullet>();
             particlesystem = new ArrayList<ParticleSystem>();
@@ -333,9 +315,11 @@ class MainMenu{
                int t = (int)red(Ctype) - 1;
                
                if(t != -1){
-                 blocks.add(new Block(x, y, 1, 1, red(Ccol), green(Ccol), blue(Ccol), t));
-               if(t == blockTypes.Player.ordinal() || t == blockTypes.Enemy.ordinal())
-                 tanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol))); 
+                   blocks.add(new Block(x, y, 1, 1, red(Ccol), green(Ccol), blue(Ccol), t));
+                 if(t == blockTypes.Enemy.ordinal())
+                   tanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol))); 
+                 else if(t == blockTypes.Player.ordinal())
+                   playerTanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol)));
                }
              }
            }
