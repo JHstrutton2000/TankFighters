@@ -56,7 +56,7 @@ class bullet {
       Tank tank = tanks.get(i);
       if (tank.player != this.tank.player || invFrame <= 0) {
         if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)) {
-          particlesystem.add(new ParticleSystem(10, (int)(tank.r), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
+          particlesystem.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
 
           tank.hit(weapon.getDamage());
           tank.applyForce(vel.copy().setMag(2));
