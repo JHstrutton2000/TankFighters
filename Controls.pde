@@ -8,12 +8,18 @@ int lastMouseButton;
 void mousePressed() {
   mouseDown = true;
   lastMouseButton = mouseButton;
+  
 }
 
 void mouseReleased() {
   mouseDown = false; 
   buttonDown = false;
   lastMouseButton = mouseButton;
+}
+
+void mouseWheel(MouseEvent event) {
+  float e = event.getCount();
+  it += e;
 }
 
 void keyPressed() {

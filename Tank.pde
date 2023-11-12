@@ -37,37 +37,10 @@ class Tank {
   Tank(boolean player, PVector pos, float RED, float GREEN, float BLUE) {
     this.player = player;
     this.pos = pos;
-
-    //if (RED >= 1)
-    //  this.RED = 1;
-    //if (GREEN >= 1)
-    //  this.GREEN = 1;
-    //if (BLUE >= 1)
-    //  this.GREEN = 1;
     
     this.RED   = RED;
     this.GREEN = GREEN;
     this.BLUE  = BLUE;
-
-    //r = 75;
-
-    r = it*0.9375;
-
-    //x = 75/80
-
-    //println(0.9375);
-
-    //println((XCount+YCount)/2);
-
-    Width = 0.8*r;
-    Height = 0.6*r;
-
-    //Width = 4/5*this.r;
-    //Height = 3/5*this.r;
-
-    //println(r);
-    //println(Width, Height);
-    //println(0.8*r, 0.6*r);
 
     left = false;
     right = false;
@@ -101,6 +74,10 @@ class Tank {
   void update() {
     if(!player)
       AI();
+      
+    r = it*0.9375;
+    Width = 0.8*r;
+    Height = 0.6*r;
       
     if(vel.mag() > 0)
       trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), 100);
@@ -187,7 +164,7 @@ class Tank {
   void isColliding(Tank tank) {
     PVector Dist = this.pos.copy().sub(tank.pos);
 
-    if ((Dist.mag()) <= (this.r/2 + tank.r/2 - (0.1 * (this.r + tank.r)))) {
+    if ((Dist.mag()) <= ((this.r/2 + tank.r/2) - (0.1 * (this.r + tank.r)))) {
       this.colliding = true;
       tank.colliding = true;
 

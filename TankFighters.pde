@@ -81,6 +81,10 @@ void draw() {
         for (int t=0; t<tanks.size(); t++) {
           block.isColliding(tanks.get(t));
         }
+        
+        for (int t=0; t<playerTanks.size(); t++) {
+          block.isColliding(playerTanks.get(t));
+        }
 
         for (int v=0; v<blocks.size(); v++) {
           if (v != i) {
@@ -99,9 +103,13 @@ void draw() {
       tanks.get(i).Draw(); 
       if (tanks.get(i).isDead())
         tanks.remove(i);
-      for(int j=0; j<tanks.size(); j++){
-        if(i!=j) tanks.get(i).isColliding(tanks.get(j)); 
-      }
+        for(int j=0; j<tanks.size(); j++){
+          if(i!=j) tanks.get(i).isColliding(tanks.get(j)); 
+        }
+        
+        for(int j=0; j<playerTanks.size(); j++){
+          if(i!=j) tanks.get(i).isColliding(playerTanks.get(j)); 
+        }
     }
     
     for (int i=0; i<playerTanks.size(); i++) {
@@ -110,8 +118,15 @@ void draw() {
         
       playerTanks.get(i).update();
       playerTanks.get(i).Draw(); 
+      
       if (playerTanks.get(i).isDead())
         playerTanks.remove(i);
+        
+        
+      for(int j=0; j<tanks.size(); j++){
+        playerTanks.get(i).isColliding(tanks.get(j)); 
+      }
+      
       for(int j=0; j<playerTanks.size(); j++){
         if(i!=j) playerTanks.get(i).isColliding(playerTanks.get(j)); 
       }
