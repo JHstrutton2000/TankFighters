@@ -17,7 +17,7 @@ class bullet {
     vel = tank.barrel.copy();
     vel.setMag((int)-weapon.getSpeed());
     
-    this.invFrame = 10;
+    this.invFrame = (int)(10 * weapon.getSpeed());
     
     this.r = it/16;
 
