@@ -9,6 +9,9 @@ class Block {
   float RED, GREEN, BLUE;
   color col;
   private PImage texture = null;
+  
+  int health = 10;
+  boolean alive = true;
 
   private blockTypes type;
 
@@ -33,17 +36,30 @@ class Block {
     this.BLUE = BLUE;
     this.type = blockTypes.values()[type];
   }
+  
+  void damage(int damage){
+    health -= damage;
+  }
 
   void update() {
-    if (type == blockTypes.Block || type == blockTypes.MovableBlock)
-      Draw();
+    if(alive){
+      if (type == blockTypes.Block || type == blockTypes.MovableBlock || type == blockTypes.DamageBlock)
+        Draw();
+        
+      if(type == blockTypes.MovableBlock){
+        pos.add(vel);
+        vel.add(acc).div(Weight);
+        
+        acc.set(0, 0);
+      }
       
-    if(type == blockTypes.MovableBlock){
-      pos.add(vel);
-      vel.add(acc).div(Weight);
-      
-      acc.set(0, 0);
+      if(health <= 0)
+        alive = false;
     }
+  }
+  
+  boolean isAlive(){
+    return alive; 
   }
 
   blockTypes getType() {

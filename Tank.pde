@@ -76,7 +76,7 @@ class Tank {
 
     weapon = new Weapon(this);
 
-    trail = new ParticleSystem(0, pos, vel.copy().mult(-1), 180, 50, 50 , 50, false);
+    trail = new ParticleSystem(0, 4, pos, vel, 180, 50, 50 , 50, false);
 
     particlesystem.add(trail);
   }
@@ -108,7 +108,10 @@ class Tank {
 
     //Draw();
 
-    trail.addParticle(round(vel.mag()), 3*round(vel.mag()), 100);
+    //trail.addParticle(round(vel.mag()), 3*round(vel.mag()), 0, 100);
+    if(vel.mag() > 0)
+      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), 100);
+    
     trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
 
     if (Health > maxHealth)
@@ -262,7 +265,7 @@ class Tank {
 
   boolean isDead() {
     if (Health<=0) {
-      particlesystem.add(new ParticleSystem(50, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE, true));
+      particlesystem.add(new ParticleSystem(50, 4, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE, true));
       return true;
     }
     return false;

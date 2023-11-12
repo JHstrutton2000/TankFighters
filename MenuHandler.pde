@@ -62,7 +62,7 @@ class MainMenu{
     btns.add(new UIButton(loadImage("Icons/Enemy.png")));
     btns.add(new UIButton(loadImage("Icons/Block.png")));
     btns.add(new UIButton(loadImage("Icons/MovableBlock.png")));
-    
+    btns.add(new UIButton(loadImage("Icons/DamageBlock.png")));
     
     LevelCreator.addButtonChooser(25, 470, 325, 100, Constants.TabBackground, btns);
     

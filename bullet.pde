@@ -1,5 +1,5 @@
 class bullet {
-  PVector pos = new PVector(0, 0);
+  PVector pos = new PVector();
   PVector vel = new PVector();
   PVector acc = new PVector();
   float maxVel = 10;
@@ -17,9 +17,10 @@ class bullet {
     vel = tank.barrel.copy();
     vel.setMag((int)-weapon.getSpeed());
     
-    this.invFrame = (int)(10 * weapon.getSpeed());
+    this.r = weapon.bulletRadius();
+    this.r *= it/16;
     
-    this.r = it/16;
+    this.invFrame = (int)(5 / weapon.getSpeed() * r/2)+10;
 
   }
 
@@ -42,6 +43,10 @@ class bullet {
     
     return;
   }
+  
+  float getRadius(){
+    return this.r; 
+  }
 
   boolean checkhit() {
     if (pos.x>width || pos.x<0 || pos.y>height || pos.y<0)//Out of bounds
@@ -51,7 +56,7 @@ class bullet {
       Tank tank = tanks.get(i);
       if (tank.player != this.tank.player || invFrame <= 0) {
         if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)) {
-          particlesystem.add(new ParticleSystem(10, pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 45, tank.RED, tank.GREEN, tank.BLUE, true));
+          particlesystem.add(new ParticleSystem(10, (int)(tank.r), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
 
           tank.hit(weapon.getDamage());
           tank.applyForce(vel.copy().setMag(2));
@@ -63,10 +68,26 @@ class bullet {
     for (int i=0; i<blocks.size(); i++) {
       Block block = blocks.get(i);
       if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.pos.x*it && pos.x-r/2 <= (block.pos.x+block.w)*it && pos.y+r/2 >= block.pos.y*it && pos.y-r/2 <= (block.pos.y+block.h)*it)) {
-        particlesystem.add(new ParticleSystem(20, pos.copy(), vel.copy().mult(-2), 360, block.RED, block.GREEN, block.BLUE, true));
+        particlesystem.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.RED, block.GREEN, block.BLUE, true));
+        
+        if(block.type == blockTypes.DamageBlock)
+          block.damage(weapon.getDamage());
+        else if(block.type == blockTypes.MovableBlock)
+          tank.applyForce(vel.copy().setMag(2));
         return true;
       }
     }
+    
+    for(int i=0; i<bullets.size(); i++){
+      bullet b = bullets.get(i);
+      
+      if(b != this && dist(this.pos.x, this.pos.y, b.pos.x, b.pos.y) <= (b.r + this.r)){
+        particlesystem.add(new ParticleSystem(5, (int)(this.r/10), pos.copy(), vel.copy().mult(-2), 360, 255, 255, 255, true));
+        if(weapon.getDamage() < b.weapon.getDamage())
+          return true;
+      }
+    }
+    
     return false;
   }
 

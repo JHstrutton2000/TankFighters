@@ -2,20 +2,22 @@ enum blockTypes {
     Player,
     Enemy,
     Block,
-    MovableBlock
+    MovableBlock,
+    DamageBlock
 }
 
 enum WeaponLists {
-    //        cooldown  damage  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax
-    Default  ( 1,        1,      0,        0,        10,    1,        1,    100,        100     ),
-    Tracker  ( 5,        1,      0,        0,        10,    1,        1,    5,          5       ),
-    Guided   ( 50,       1,      0,        0,        5,     0,        0,    5,          5       ),
-    MultiShot( 0,        1,      5,        2,        10,    45,       1,    20,         20      ),
-    SlowShot ( 5,        1,      0,        0,        2,     0,        0,    20,         20      ),
-    FastShot ( 100,      4,      0,        0,        50,    0,        15,   20,         20      );
+    //        cooldown  damage  bulletRadius  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax
+    Default  ( 1,        1,      1,            0,        0,        10,    1,        1,    100,        100     ),
+    Tracker  ( 5,        1,      1,            0,        0,        10,    1,        1,    5,          5       ),
+    Guided   ( 50,       1,      1,            0,        0,        5,     0,        0,    5,          5       ),
+    MultiShot( 0,        1,      1,            5,        2,        10,    45,       1,    20,         20      ),
+    SlowShot ( 50,       10,     5,            0,        0,        2,     0,        30,   20,         20      ),
+    FastShot ( 100,      4,      1,            0,        0,        50,    0,        15,   20,         20      );
 
   private int coolDown  = 0;//coolDown is how long until you can fire again.
   private int damage    = 0;//damage taken by tank when hit by bullet created by weapon.
+  private float bulletRadius = 0;//Radius of bullet(s) fired
   private int fireRate  = 0;//fireRate is how many bullets are created per fireTime
   private int fireTime  = 0;//refer to fireRate
   private int accuracy  = 0;//angle of deviation from heading
@@ -24,9 +26,10 @@ enum WeaponLists {
   private int ammoCount = 0;//Current ammoCount held by the Weapon
   private int ammoMax   = 0;//the most ammo that can be held by the Weapon
 
-  private WeaponLists(int coolDown, int damage, int fireRate, int fireTime, float speed, int accuracy, int kick, int ammoCount, int ammoMax) {
+  private WeaponLists(int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, int kick, int ammoCount, int ammoMax) {
     this.coolDown = coolDown;
     this.damage   = damage;
+    this.bulletRadius = bulletRadius;
     this.fireRate = fireRate;
     this.fireTime = fireTime;
     this.accuracy = accuracy;
@@ -56,6 +59,10 @@ enum WeaponLists {
       ammoCount -= number;
       
     return result;
+  }
+  
+  public float bulletRadius(){
+    return bulletRadius;
   }
   
   public int getAmmo(){

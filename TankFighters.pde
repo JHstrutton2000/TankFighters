@@ -55,18 +55,18 @@ void draw() {
   } else {
     background(0);
 
-    for (int i=0; i<bullets.size(); i++) {
-      bullets.get(i).update(); 
-      bullets.get(i).Draw();
-      if (bullets.get(i).checkhit())
-        bullets.remove(i);
-    }
-
     for (int i=0; i<particlesystem.size(); i++) {
       ParticleSystem system = particlesystem.get(i);
       system.update();
       if (system.isDead())
         particlesystem.remove(i);
+    }
+    
+    for (int i=0; i<bullets.size(); i++) {
+      bullets.get(i).update(); 
+      bullets.get(i).Draw();
+      if (bullets.get(i).checkhit())
+        bullets.remove(i);
     }
 
     for (int i=0; i<blocks.size(); i++) {
@@ -85,6 +85,9 @@ void draw() {
           }
         }
       }
+      
+      if(!block.isAlive())
+        blocks.remove(i);
     }
     
     for (int i=0; i<tanks.size(); i++) {

@@ -1,29 +1,27 @@
 class ParticleSystem {
   PVector pos;
   PVector dir;
-  float angle;
   ArrayList<Particle> particles;
   float RED, GREEN, BLUE;
   Boolean canDie = true;
 
-  ParticleSystem(int num, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
+  ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
     particles = new ArrayList<Particle>();
     this.pos = pos;
     this.dir = direction;
-    this.angle = angle;
     this.RED   = RED;
     this.GREEN = GREEN;
     this.BLUE  = BLUE;
     this.canDie = canDie;
 
-    addParticle(num, 4, 300);
+    addParticle(num, radius, angle, 300);
   }
 
-  void addParticle(int number, int radius, int lifetime) {
+  void addParticle(int number, int radius, float deviation, int lifetime) {
     PVector vec = dir.copy().sub(pos);
 
     for (int i=0; i<number; i++) {
-      float deg = vec.heading() + radians(random(-angle/2, angle/2));
+      float deg = dir.copy().mult(-1).heading() + radians(random(-deviation, deviation));
 
       float x = (cos(deg) * vec.mag());
       float y = (sin(deg) * vec.mag());
