@@ -28,8 +28,6 @@ void mouseWheel(MouseEvent event) {
     
     mainMenu.updateLVBtns();
   }
-  
-  println(it);
 }
 
 void keyPressed() {

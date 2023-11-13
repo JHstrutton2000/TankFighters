@@ -38,8 +38,6 @@ class MainMenu{
     
     LevelCreator.addText("Level Creator", 165, 160, 70);
 
-    //updateLVBtns();
-    
     LVbtns = new ArrayList<UIButton>();
     
     for(int x=xoff; x<width/scale+xoff; x+=it/scale){
@@ -161,9 +159,11 @@ class MainMenu{
        
        boolean pass = true;
        for(int i=0; i<blocks.size(); i++){ //Does it already exist?
-         if(blocks.get(i).pos.x == (int)Math.floor(sta/10) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/10)*10))
+         if(blocks.get(i).pos.x == (int)Math.floor(sta/YCount) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/YCount)*YCount))
            pass = false;
        }
+       
+       //println(Hovering, !buttonDown, pass, mouseDown, lastMouseButton);
        
        if(Hovering && !buttonDown && pass && mouseDown && lastMouseButton == LEFT){ //mouseButton == LEFT
          float RED, GREEN, BLUE;
@@ -195,12 +195,13 @@ class MainMenu{
               
            **/
            
-           
+         println((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)));
+         
          blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, RED, GREEN, BLUE, LevelCreator.getChooserState(1)));
        }
        else if(Hovering && mouseDown && lastMouseButton == RIGHT){
          for(int i=0; i<blocks.size(); i++){
-           if(blocks.get(i).pos.x == (int)Math.floor(sta/10) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/10)*10))
+           if(blocks.get(i).pos.x == (int)Math.floor(sta/YCount) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/YCount)*YCount))
              blocks.remove(i);
          }
        }

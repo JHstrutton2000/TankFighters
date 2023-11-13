@@ -8,7 +8,7 @@ int playerTankInstance =0;
 int count = 0;
 int pauseCount = 0;
 
-float it = 80;
+float it = 40;
 int XCount, YCount;
 MainMenu mainMenu;
 
