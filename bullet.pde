@@ -53,7 +53,6 @@ class bullet implements GameObjects {
 
   boolean checkTankHit(Tank tank){
     if (tank != this.tank || invFrame <= 0) {
-      println(dist(pos.x, pos.y, tank.pos.x, tank.pos.y), tank.r, r);
       if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)/2) {
         gameObjects.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
 
