@@ -5,11 +5,11 @@ class bullet {
   float maxVel = 10;
   float r = 5;
   Tank tank;
-  WeaponLists weapon;
+  WeaponType weapon;
   
   int invFrame;
 
-  bullet(Tank tank, WeaponLists weapon) {
+  bullet(Tank tank, WeaponType weapon) {
     this.tank = tank;
     this.weapon = weapon;
     
@@ -25,7 +25,7 @@ class bullet {
   }
 
   void update() {
-    if(weapon == WeaponLists.Guided){
+    if(tank.getWeapon().eqquipedNum == 2){
       if(!mouseDown){
         vel.add(pos.copy().sub(new PVector(mouseX, mouseY)).mult(-0.01));
         vel.set(constrain(vel.x, -weapon.getSpeed(), weapon.getSpeed()), constrain(vel.y, -weapon.getSpeed(), weapon.getSpeed()));

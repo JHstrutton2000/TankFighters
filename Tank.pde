@@ -33,7 +33,7 @@ class Tank {
   Tank(boolean player, float RED, float GREEN, float BLUE) {
     this(player, new PVector(random(width), random(height)), RED, GREEN, BLUE);
   }
-
+  
   Tank(boolean player, PVector pos, float RED, float GREEN, float BLUE) {
     this.player = player;
     this.pos = pos;
@@ -46,14 +46,18 @@ class Tank {
     right = false;
     up = false;
     down = false;
-
+    
     weapon = new Weapon(this);
-
+    
     trail = new ParticleSystem(0, 4, pos, vel, 180, 50, 50 , 50, false);
 
     particlesystem.add(trail);
   }
 
+
+  Weapon getWeapon(){
+    return weapon; 
+  }
 
   float getWidth() {
     return Width;
@@ -197,7 +201,9 @@ class Tank {
     rotate(theta);
     if (ring) {
       noFill();
-      float val = map(Health, 0, maxHealth, 0, 255);
+      float val = map(Health, 0, maxHealth, 0, 1);
+      
+      println(Health, maxHealth, val);
 
       stroke(RED*val, GREEN*val, BLUE*val);
       strokeWeight(3);
