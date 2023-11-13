@@ -5,3 +5,13 @@ enum blockTypes {
     MovableBlock,
     DamageBlock
 }
+
+enum WeaponNames{
+  Default,
+  Tracker,
+  Guided,
+  MultiShot,
+  SlowShot,
+  FastShot,
+  Mine
+}

@@ -1,4 +1,5 @@
 public class WeaponType {
+  private WeaponNames name = WeaponNames.Default;//Name of the WeaponType
   private int coolDown  = 0;//coolDown is how long until you can fire again.
   private int damage    = 0;//damage taken by tank when hit by bullet created by weapon.
   private float bulletRadius = 0;//Radius of bullet(s) fired
@@ -10,7 +11,8 @@ public class WeaponType {
   private int ammoCount = 0;//Current ammoCount held by the Weapon
   private int ammoMax   = 0;//the most ammo that can be held by the Weapon
 
-  private WeaponType(int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, int kick, int ammoCount, int ammoMax) {
+  private WeaponType(WeaponNames name, int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, int kick, int ammoCount, int ammoMax) {
+    this.name = name; 
     this.coolDown = coolDown;
     this.damage   = damage;
     this.bulletRadius = bulletRadius;
@@ -22,6 +24,10 @@ public class WeaponType {
     
     this.ammoCount = ammoCount;
     this.ammoMax   = ammoMax;
+  }
+  
+  public WeaponNames getName(){
+    return name; 
   }
   
   public Boolean ammoSubtract(int number){
@@ -85,13 +91,14 @@ public class WeaponType {
 ArrayList<WeaponType> initialiseWeapons(ArrayList<WeaponType> Weapons){
     Weapons = new ArrayList<WeaponType>();
     
-    //                         cooldown  damage  bulletRadius  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax
-    Weapons.add(new WeaponType( 1,        1,      1,            0,        0,        10,    1,        1,    100,        100     ));
-    Weapons.add(new WeaponType( 5,        1,      1,            0,        0,        10,    1,        1,    5,          5       ));
-    Weapons.add(new WeaponType( 50,       1,      1,            0,        0,        5,     0,        0,    5,          5       ));
-    Weapons.add(new WeaponType( 0,        1,      1,            5,        2,        10,    45,       1,    20,         20      ));
-    Weapons.add(new WeaponType( 50,       10,     5,            0,        0,        2,     0,        30,   20,         20      ));
-    Weapons.add(new WeaponType( 100,      4,      1,            0,        0,        50,    0,        15,   20,         20      )); 
+    //                          Name                 cooldown  damage  bulletRadius  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax
+    Weapons.add(new WeaponType(WeaponNames.Default,   1,        1,      1,            0,        0,        10,    1,        1,    100,        100     ));
+    Weapons.add(new WeaponType(WeaponNames.Tracker,   5,        1,      1,            0,        0,        10,    1,        1,    5,          5       ));
+    Weapons.add(new WeaponType(WeaponNames.Guided,    50,       1,      1,            0,        0,        5,     0,        0,    5,          5       ));
+    Weapons.add(new WeaponType(WeaponNames.MultiShot, 0,        1,      1,            5,        2,        10,    45,       1,    20,         20      ));
+    Weapons.add(new WeaponType(WeaponNames.SlowShot,  50,       10,     5,            0,        0,        2,     0,        30,   20,         20      ));
+    Weapons.add(new WeaponType(WeaponNames.FastShot,  100,      4,      1,            0,        0,        50,    0,        15,   20,         20      ));
+    Weapons.add(new WeaponType(WeaponNames.Mine,      100,      100,    1,            0,        0,        0,     0,        0,    20,         20      ));
     
     return Weapons;
 }
@@ -185,8 +192,8 @@ class Weapon {
   void Draw() {
     if (ring) {
       fill(255);
-      text(eqquiped.toString(), tank.pos.x - tank.Width/2, tank.pos.y + tank.Height+5);
-      text(eqquiped.getAmmo(), tank.pos.x - tank.Width/2, tank.pos.y + tank.Height+15);
+      text(eqquiped.getName().toString(), tank.pos.x - tank.Width/2, tank.pos.y + tank.Height+5);
+      text(eqquiped.getAmmo(), tank.pos.x - tank.Width/2, tank.pos.y + tank.Height+25);
     }
   }
 }

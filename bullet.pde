@@ -12,15 +12,18 @@ class bullet implements GameObjects {
   bullet(Tank tank, WeaponType weapon) {
     this.tank = tank;
     this.weapon = weapon;
-    
-    pos = tank.barrelpos();
     vel = tank.barrel.copy();
     vel.setMag((int)-weapon.getSpeed());
+
+    pos = tank.barrelpos();
     
     this.r = weapon.bulletRadius();
     this.r *= it/16;
     
-    this.invFrame = (int)(5 / weapon.getSpeed() * r/2)+10;
+    if(weapon.getSpeed() == 0)
+      this.invFrame = (int)(r/2+10);
+    else
+      this.invFrame = (int)(5 / weapon.getSpeed() * r/2)+10;
 
   }
 
@@ -49,8 +52,9 @@ class bullet implements GameObjects {
   }
 
   boolean checkTankHit(Tank tank){
-    if (tank.player != this.tank.player || invFrame <= 0) {
-      if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)) {
+    if (tank != this.tank || invFrame <= 0) {
+      println(dist(pos.x, pos.y, tank.pos.x, tank.pos.y), tank.r, r);
+      if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)/2) {
         gameObjects.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
 
         tank.hit(weapon.getDamage());
