@@ -109,10 +109,10 @@ class bullet implements GameObjects {
         return true;
     }
     
-    for(int i=0; i<bullets.size(); i++){
-      if(checkBulletHit(bullets.get(i)))
-        return true;
-    }
+    //for(int i=0; i<bullets.size(); i++){
+    //  if(checkBulletHit(bullets.get(i)))
+    //    return true;
+    //}
     
     return false;
   }

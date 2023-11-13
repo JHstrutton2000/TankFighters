@@ -295,7 +295,6 @@ class MainMenu{
             
             playerTanks = new ArrayList<Tank>();
             tanks = new ArrayList<Tank>();
-            bullets = new ArrayList<bullet>();
             blocks = new ArrayList<Block>();
            
            //blocks.reset();

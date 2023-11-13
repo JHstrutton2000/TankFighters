@@ -1,5 +1,4 @@
 ArrayList<Tank> tanks;
-ArrayList<bullet> bullets;
 ArrayList<Block> blocks;
 ArrayList<String> Levels;
 
@@ -39,7 +38,6 @@ void setup() {
 
   tanks = new ArrayList<Tank>();
   playerTanks = new ArrayList<Tank>();
-  bullets = new ArrayList<bullet>();
   mainMenu = new MainMenu();
   blocks = new ArrayList<Block>();
 
@@ -58,13 +56,6 @@ void draw() {
       
       if (gameObjects.get(i).isDead() || gameObjects.get(i).checkhit())
         gameObjects.remove(i);
-    }
-
-    for (int i=0; i<bullets.size(); i++) {
-      bullets.get(i).update();
-      bullets.get(i).Draw();
-      if (bullets.get(i).checkhit())
-        bullets.remove(i);
     }
 
     for (int i=0; i<blocks.size(); i++) {
