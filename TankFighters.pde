@@ -17,6 +17,10 @@ ArrayList<GameObjects> gameObjects;
 void setup() {
 
   size(800, 800);
+  
+  XCount = (int)(width/it);
+  YCount = (int)(height/it);
+  
   //fullScreen();
   Levels = new ArrayList<String>();
   BufferedReader Reader = createReader("Levels/Levels.txt");
@@ -44,7 +48,7 @@ void setup() {
   gameObjects = new ArrayList<GameObjects>();
 }
 
-void draw() {
+void draw() {  
   if (mainMenu.open) {
     mainMenu.update();
   } else {

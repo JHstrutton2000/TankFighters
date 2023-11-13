@@ -20,6 +20,8 @@ class MainMenu{
   Menu SaveMenu = new Menu();
   Menu LoadMenu = new Menu();
   
+  ArrayList<UIButton> LVbtns;
+  
   MainMenu(){
     Writer = createWriter("Levels/Levels.txt");
     
@@ -34,9 +36,11 @@ class MainMenu{
     Main.addButton("Multiplayer",   100, 540, 600, 100); 
     Main.addButton("Options",       100, 660, 600, 100);
     
-    ArrayList<UIButton> LVbtns = new ArrayList<UIButton>();
-    
     LevelCreator.addText("Level Creator", 165, 160, 70);
+
+    //updateLVBtns();
+    
+    LVbtns = new ArrayList<UIButton>();
     
     for(int x=xoff; x<width/scale+xoff; x+=it/scale){
       for(int y=yoff; y<height/scale+yoff; y+=it/scale){
@@ -44,18 +48,14 @@ class MainMenu{
       }
     }
     
-    LevelCreator.addChooser(0, 0, 0, 0, 0, LVbtns, null);
+     LevelCreator.addChooser(0, 0, 0, 0, 0, LVbtns, null);
     
     LevelCreator.addButton("Back",      660, 660, 100, 100);
     LevelCreator.addButton("Save Stage", 40, 660, 250, 45);
     LevelCreator.addButton("Load Stage", 40, 660+55, 250, 45);
     
     LevelCreator.addColorEditor(25, yoff, 325, 240);
-    //int tSize = 20;
-    //int x = 125;
-    //int xdif = 80;
-    
-    
+
     ArrayList<UIButton> btns = new ArrayList<UIButton>();
     
     btns.add(new UIButton(loadImage("Icons/Player.png")));
@@ -110,6 +110,21 @@ class MainMenu{
     }
     
     LoadMenu.addChooser(100, 170, LMWidth, LMHeight, Constants.TabBackground, LMBstrs, maxButtons);
+  }
+  
+  void updateLVBtns(){
+    ArrayList<Integer> pages = new ArrayList<Integer>();
+    LVbtns = new ArrayList<UIButton>();
+    
+    for(int x=xoff; x<width/scale+xoff; x+=it/scale){
+      for(int y=yoff; y<height/scale+yoff; y+=it/scale){
+        LVbtns.add(new UIButton("", x, y, it/scale, it/scale));
+        pages.add(0);
+        
+      }
+    }
+    
+    LevelCreator.setChooser(0, LVbtns, pages);
   }
   
   void update(){
@@ -179,6 +194,8 @@ class MainMenu{
               y = sta - height*floor(sta/height)
               
            **/
+           
+           
          blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, RED, GREEN, BLUE, LevelCreator.getChooserState(1)));
        }
        else if(Hovering && mouseDown && lastMouseButton == RIGHT){
@@ -419,6 +436,13 @@ class Menu{
       
     Choosers.add(Chooser);
   }
+  
+  void setChooser(int index, ArrayList<UIButton> buttons, ArrayList<Integer> pages){
+    ButtonChooser Chooser = getChooser(index);
+    
+    Chooser.setButtons(buttons, pages);
+  }
+  
   
   void addButtonChooser(float x, float y, float w, float h, float background, ArrayList<UIButton> buttons){
     ButtonChooser Chooser = new ButtonChooser(x, y, w, h, background);
@@ -749,31 +773,8 @@ class UIColorEditor implements UIObject {
   private PVector   RedTextPos, GreenTextPos, BlueTextPos, ColorTextPos;
   private String    RedText,    GreenText,    BlueText,    ColorText;
   
-  
-  
   private PVector rectPos, rectSize;
-  private Float rectColor;
-  
-  
-  
-    //LevelCreator.addRect(25, yoff, 325, 240, Constants.TabBackground);
-    
-    //x = 125
-    //int xdif = 80;
-    
-    //LevelCreator.addText("Color", x+50,   yoff+30,  tSize); 175
-    //LevelCreator.addText("Red",   x-xdif, yoff+80,  tSize); 45
-    //LevelCreator.addText("Green", x-xdif, yoff+140, tSize); 45
-    //LevelCreator.addText("Blue",  x-xdif, yoff+200, tSize); 45
-    
-    //LevelCreator.addTextbox("150", x, yoff+50,  200, 50); 125
-    //LevelCreator.addTextbox("150", x, yoff+110, 200, 50); 125
-    //LevelCreator.addTextbox("150", x, yoff+170, 200, 50); 125
-    
-    //LevelCreator.setTextboxNumOnly(0, true);
-    //LevelCreator.setTextboxNumOnly(1, true);
-    //LevelCreator.setTextboxNumOnly(2, true);
-  
+  private Float rectColor;  
   
   UIColorEditor(float x, float y, float w, float h){//25, 220, 325, 240
     rectPos  = new PVector(x, y);
@@ -922,6 +923,11 @@ class ButtonChooser implements UIObject {
     }
   }
   
+  void setButtons(ArrayList<UIButton> buttons, ArrayList<Integer> buttonPaged){
+    this.buttons = buttons;
+    this.buttonPaged = buttonPaged;
+  }
+  
   void addButton(String str, float x, float y, float w, float h, int page){
     this.buttons.add(new UIButton(str, x, y, w, h));
     this.buttonPaged.add(page);
@@ -1030,7 +1036,8 @@ class ButtonChooser implements UIObject {
           
         }
       }
-      
+      if(state > buttons.size())
+        state = buttons.size()-1;
       UIButton btn = buttons.get(state);
       fill(Constants.ButtonPressed, 170);
       rect(btn.x, btn.y, btn.w, btn.h);

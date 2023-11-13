@@ -19,7 +19,17 @@ void mouseReleased() {
 
 void mouseWheel(MouseEvent event) {
   float e = event.getCount();
-  it += e;
+  
+  if(it+e > 25 && it+e < 120){
+    it += e;
+  
+    XCount = (int)(width/it);
+    YCount = (int)(height/it);
+    
+    mainMenu.updateLVBtns();
+  }
+  
+  println(it);
 }
 
 void keyPressed() {

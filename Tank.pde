@@ -202,8 +202,6 @@ class Tank {
     if (ring) {
       noFill();
       float val = map(Health, 0, maxHealth, 0, 1);
-      
-      println(Health, maxHealth, val);
 
       stroke(RED*val, GREEN*val, BLUE*val);
       strokeWeight(3);
