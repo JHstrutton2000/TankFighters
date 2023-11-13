@@ -291,10 +291,11 @@ class MainMenu{
          LoadMenu.setState(-1);
          
          if(chooser.getButtonCount() > 0){
+            gameObjects = new ArrayList<GameObjects>();
+            
             playerTanks = new ArrayList<Tank>();
             tanks = new ArrayList<Tank>();
             bullets = new ArrayList<bullet>();
-            particlesystem = new ArrayList<ParticleSystem>();
             blocks = new ArrayList<Block>();
            
            //blocks.reset();

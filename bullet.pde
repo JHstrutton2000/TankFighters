@@ -1,4 +1,4 @@
-class bullet {
+class bullet implements GameObjects {
   PVector pos = new PVector();
   PVector vel = new PVector();
   PVector acc = new PVector();
@@ -51,7 +51,7 @@ class bullet {
   boolean checkTankHit(Tank tank){
     if (tank.player != this.tank.player || invFrame <= 0) {
       if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)) {
-        particlesystem.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
+        gameObjects.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
 
         tank.hit(weapon.getDamage());
         tank.applyForce(vel.copy().setMag(2));
@@ -64,7 +64,7 @@ class bullet {
   
   boolean checkBlockHit(Block block){
     if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.pos.x*it && pos.x-r/2 <= (block.pos.x+block.w)*it && pos.y+r/2 >= block.pos.y*it && pos.y-r/2 <= (block.pos.y+block.h)*it)) {
-      particlesystem.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.RED, block.GREEN, block.BLUE, true));
+      gameObjects.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.RED, block.GREEN, block.BLUE, true));
       
       if(block.type == blockTypes.DamageBlock)
         block.damage(weapon.getDamage());
@@ -78,12 +78,16 @@ class bullet {
   
   boolean checkBulletHit(bullet b){
     if(b != this && dist(this.pos.x, this.pos.y, b.pos.x, b.pos.y) <= (b.r + this.r)){
-      particlesystem.add(new ParticleSystem(5, (int)(this.r/10), pos.copy(), vel.copy().mult(-2), 360, 255, 255, 255, true));
+      gameObjects.add(new ParticleSystem(5, (int)(this.r/10), pos.copy(), vel.copy().mult(-2), 360, 255, 255, 255, true));
       if(weapon.getDamage() < b.weapon.getDamage())
         return true;
     }
     
     return false;
+  }
+  
+  boolean isDead(){
+    return false; 
   }
 
   boolean checkhit() {

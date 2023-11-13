@@ -51,7 +51,7 @@ class Tank {
     
     trail = new ParticleSystem(0, 4, pos, vel, 180, 50, 50 , 50, false);
 
-    particlesystem.add(trail);
+    gameObjects.add(trail);
   }
 
 
@@ -241,7 +241,7 @@ class Tank {
 
   boolean isDead() {
     if (Health<=0) {
-      particlesystem.add(new ParticleSystem(50, 4, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE, true));
+      gameObjects.add(new ParticleSystem(50, 4, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE, true));
       return true;
     }
     return false;

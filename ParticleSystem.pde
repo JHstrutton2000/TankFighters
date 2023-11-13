@@ -1,4 +1,4 @@
-class ParticleSystem {
+class ParticleSystem implements GameObjects{
   PVector pos;
   PVector dir;
   ArrayList<Particle> particles;
@@ -41,6 +41,10 @@ class ParticleSystem {
     }
     return;
   }
+  
+  void Draw(){
+    
+  }
 
   void applyForce(PVector vec) {
     for (int i=0; i<particles.size(); i++)
@@ -71,6 +75,10 @@ class ParticleSystem {
         pass = false;
     }
     return pass;
+  }
+  
+  boolean checkhit(){
+    return false; 
   }
 
   void setLifeSpan(float lifeSpan) {
