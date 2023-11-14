@@ -24,9 +24,6 @@ class MainMenu{
   
   MainMenu(){
     Writer = createWriter("Levels/Levels.txt");
-    
-    for(int i=0; i<Levels.size(); i++)
-      Writer.println(Levels.get(i));
     Writer.flush();
     
     //int[] MainText = {210, 160};
@@ -118,9 +115,10 @@ class MainMenu{
       for(int y=yoff; y<height/scale+yoff; y+=it/scale){
         LVbtns.add(new UIButton("", x, y, it/scale, it/scale));
         pages.add(0);
-        
       }
     }
+    
+    XCount = YCount = (int)pow(LVbtns.size(), 0.5);
     
     LevelCreator.setChooser(0, LVbtns, pages);
   }
@@ -190,12 +188,19 @@ class MainMenu{
               4 04 10 16 22 28 34
               5 05 11 17 23 29 35
               
-              x = floor(sta/height)
-              y = sta - height*floor(sta/height)
+              x = sta / YCount
+              
+              
+              YCount = 9
               
            **/
            
-         println((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)));
+           //14, 14
+           
+         println(XCount,"=",width, "/", it);
+         println(sta, it);
+         
+         //println((int)(Math.floor( sta /(YCount+1))), (int)(sta - YCount*Math.floor(sta/YCount)));
          
          blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, RED, GREEN, BLUE, LevelCreator.getChooserState(1)));
        }

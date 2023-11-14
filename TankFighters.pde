@@ -8,7 +8,7 @@ int playerTankInstance =0;
 int count = 0;
 int pauseCount = 0;
 
-float it = 40;
+float it = 80;
 int XCount, YCount;
 MainMenu mainMenu;
 
@@ -18,8 +18,10 @@ void setup() {
 
   size(800, 800);
   
-  XCount = (int)(width/it);
-  YCount = (int)(height/it);
+  XCount = round(width/it);
+  YCount = round(height/it);
+  
+  println(XCount, YCount);
   
   //fullScreen();
   Levels = new ArrayList<String>();
