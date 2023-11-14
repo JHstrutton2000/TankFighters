@@ -3,7 +3,8 @@ enum blockTypes {
     Enemy,
     Block,
     MovableBlock,
-    DamageBlock
+    DamageBlock,
+    Flag
 }
 
 enum WeaponNames{

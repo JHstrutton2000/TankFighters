@@ -53,11 +53,17 @@ class MainMenu{
 
     ArrayList<UIButton> btns = new ArrayList<UIButton>();
     
-    btns.add(new UIButton(loadImage("Icons/Player.png")));
-    btns.add(new UIButton(loadImage("Icons/Enemy.png")));
-    btns.add(new UIButton(loadImage("Icons/Block.png")));
-    btns.add(new UIButton(loadImage("Icons/MovableBlock.png")));
-    btns.add(new UIButton(loadImage("Icons/DamageBlock.png")));
+    blockTypes[] blocksItems = blockTypes.values();
+    
+    for(int i=0; i<blocksItems.length; i++){
+      btns.add(new UIButton(loadImage("Icons/" + blocksItems[i] + ".png")));  
+    }
+    //btns.add(new UIButton(loadImage("Icons/Player.png")));
+    //btns.add(new UIButton(loadImage("Icons/Enemy.png")));
+    //btns.add(new UIButton(loadImage("Icons/Block.png")));
+    //btns.add(new UIButton(loadImage("Icons/MovableBlock.png")));
+    //btns.add(new UIButton(loadImage("Icons/DamageBlock.png")));
+    //btns.add(new UIButton(loadImage("Icons/Flag.png")));
     
     LevelCreator.addButtonChooser(25, 470, 325, 100, Constants.TabBackground, btns);
     
