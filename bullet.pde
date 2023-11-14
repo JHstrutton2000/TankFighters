@@ -1,4 +1,4 @@
-class bullet implements GameObjects {
+class bullet implements GameObjectsPhysics {
   PVector pos = new PVector();
   PVector vel = new PVector();
   PVector acc = new PVector();
@@ -52,9 +52,11 @@ class bullet implements GameObjects {
   }
 
   boolean checkTankHit(Tank tank){
+    //println("CheckTankHit:", dist(pos.x, pos.y, tank.pos.x, tank.pos.y));
+    
     if (tank != this.tank || invFrame <= 0) {
       if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)/2) {
-        gameObjects.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
+        gameObjectsPhysicsLists.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
 
         tank.hit(weapon.getDamage());
         tank.applyForce(vel.copy().setMag(2));
@@ -66,8 +68,10 @@ class bullet implements GameObjects {
   }
   
   boolean checkBlockHit(Block block){
+    //println("CheckBlockHit:", dist(pos.x, pos.y, block.pos.x, block.pos.y));
+    
     if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.pos.x*it && pos.x-r/2 <= (block.pos.x+block.w)*it && pos.y+r/2 >= block.pos.y*it && pos.y-r/2 <= (block.pos.y+block.h)*it)) {
-      gameObjects.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.RED, block.GREEN, block.BLUE, true));
+      gameObjectsPhysicsLists.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.RED, block.GREEN, block.BLUE, true));
       
       if(block.type == blockTypes.DamageBlock)
         block.damage(weapon.getDamage());
@@ -81,7 +85,7 @@ class bullet implements GameObjects {
   
   boolean checkBulletHit(bullet b){
     if(b != this && dist(this.pos.x, this.pos.y, b.pos.x, b.pos.y) <= (b.r + this.r)){
-      gameObjects.add(new ParticleSystem(5, (int)(this.r/10), pos.copy(), vel.copy().mult(-2), 360, 255, 255, 255, true));
+      gameObjectsPhysicsLists.add(new ParticleSystem(5, (int)(this.r/10), pos.copy(), vel.copy().mult(-2), 360, 255, 255, 255, true));
       if(weapon.getDamage() < b.weapon.getDamage())
         return true;
     }
@@ -89,27 +93,48 @@ class bullet implements GameObjects {
     return false;
   }
   
+  int drawPriority(){
+    return 5; 
+  }
+  
   boolean isDead(){
+    return checkhit(); 
+  }
+
+
+  boolean isColliding(GameObjectsPhysics gameObject){
     return false; 
+  }
+  
+  blockTypes getGameObjectType(){    
+    return null; 
+  }
+  
+  PVector pos(){
+    return pos;
+  }
+  PVector vel(){
+    return vel;
+  }
+  float r(){
+    return r;
   }
 
   boolean checkhit() {
     if (pos.x>width || pos.x<0 || pos.y>height || pos.y<0)//Out of bounds
       return true;
-
-    for (int i=0; i<tanks.size(); i++) {
-      if(checkTankHit(tanks.get(i)))
-        return true;
-    }
     
-    for (int i=0; i<playerTanks.size(); i++) {
-      if(checkTankHit(playerTanks.get(i)))
-        return true;
-    }
     
-    for (int i=0; i<blocks.size(); i++) {
-      if(checkBlockHit(blocks.get(i)))
-        return true;
+    for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
+      if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Player || gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Enemy){
+        if(checkTankHit((Tank)gameObjectsPhysicsLists.get(i)))
+          return true;
+      }
+      
+      else if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Block){
+        if(checkBlockHit((Block)gameObjectsPhysicsLists.get(i)))
+          return true;
+      }
     }
     
     //for(int i=0; i<bullets.size(); i++){

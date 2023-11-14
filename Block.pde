@@ -1,4 +1,4 @@
-class Block {
+class Block implements GameObjectsPhysics{
   PVector pos;
   PVector vel;
   PVector acc;
@@ -23,6 +23,8 @@ class Block {
     this.h = h;
     this.texture = texture;
     this.type = type;
+    
+    gameObjectsPhysicsLists.add(this);
   }
 
   Block(float x, float y, float w, float h, float RED, float GREEN, float BLUE, int type) {
@@ -35,6 +37,8 @@ class Block {
     this.GREEN = GREEN;
     this.BLUE = BLUE;
     this.type = blockTypes.values()[type];
+    
+    gameObjectsPhysicsLists.add(this);
   }
   
   void damage(int damage){
@@ -58,37 +62,70 @@ class Block {
     }
   }
   
-  boolean isAlive(){
-    return alive; 
+  int drawPriority(){
+    return 3; 
+  }
+  
+  boolean isDead(){
+    return !alive; 
   }
 
   blockTypes getType() {
     return type;
   }
-
-  void isColliding(Tank tank) {
-    
-    float offset = 2.5;
-    if (tank.pos.x+tank.r/2-offset >= pos.x*it && tank.pos.x-tank.r/2+offset <= (pos.x+w)*it && tank.pos.y+tank.r/2-offset >= pos.y*it && tank.pos.y-tank.r/2+offset <= (pos.y+h)*it) {
-      tank.pos.add(tank.pos.copy().sub((pos.x+w/2)*it, (pos.y+h/2)*it).setMag(1)).sub(tank.vel);
+  
+  boolean checkhit(){
+    return false;
+  }
+  
+  blockTypes getGameObjectType(){
+    if(type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag)
+      return null;
       
-      if (type == blockTypes.MovableBlock) {
-        acc = tank.vel.copy().div(Weight);
-        tank.vel.div(100/Weight);  
-      }
-      else{
-        tank.vel.div(100);
+    return type; 
+  }
+  PVector pos(){
+    return pos;
+  }
+  PVector vel(){
+    return vel;
+  }
+  float r(){
+    return (w+h)/2;
+  }
+  
+  boolean isColliding(GameObjectsPhysics gameObject){
+    //println(gameObject.getGameObjectType(), blockTypes.Player);
+    if(type == blockTypes.Player || type == blockTypes.Enemy)
+      return false;
+    
+    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+      float offset = 2.5;
+      if (gameObject.pos().x+gameObject.r()/2-offset >= pos.x*it && gameObject.pos().x-gameObject.r()/2+offset <= (pos.x+w)*it && gameObject.pos().y+gameObject.r()/2-offset >= pos.y*it && gameObject.pos().y-gameObject.r()/2+offset <= (pos.y+h)*it) {
+        gameObject.pos().add(gameObject.pos().copy().sub((pos.x+w/2)*it, (pos.y+h/2)*it).setMag(1)).sub(gameObject.vel());
+        
+        if (type == blockTypes.MovableBlock) {
+          acc = gameObject.vel().copy().div(Weight);
+          gameObject.vel().div(100/Weight);  
+        }
+        else{
+          gameObject.vel().div(100);
+        }
       }
     }
+      
+    return false; 
   }
 
   void Draw() {
-    if (texture == null) {
-      stroke(1);
-      fill(RED, GREEN, BLUE);
-      rect(pos.x*it, pos.y*it, w*it, h*it);
-    } else {
-      image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);
+    if(type != blockTypes.Player && type != blockTypes.Enemy && type != blockTypes.Flag){
+      if (texture == null) {
+        stroke(1);
+        fill(RED, GREEN, BLUE);
+        rect(pos.x*it, pos.y*it, w*it, h*it);
+      } else {
+        image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);
+      }
     }
   }
 }

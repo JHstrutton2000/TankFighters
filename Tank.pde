@@ -1,4 +1,4 @@
-class Tank {
+class Tank implements GameObjectsPhysics{
   PVector pos = new PVector(0, 0);
   PVector vel = new PVector(0, 0);
   PVector acc = new PVector(0, 0);
@@ -51,12 +51,34 @@ class Tank {
     
     trail = new ParticleSystem(0, 4, pos, vel, 180, 50, 50 , 50, false);
 
-    gameObjects.add(trail);
+    gameObjectsPhysicsLists.add(this);
+    gameObjectsPhysicsLists.add(trail);
   }
 
+  
+  int drawPriority(){
+    return 2; 
+  }
 
   Weapon getWeapon(){
     return weapon; 
+  }
+  
+  blockTypes getGameObjectType(){
+    if(player)
+      return blockTypes.Player;
+    else
+      return blockTypes.Enemy;
+  }
+
+  PVector pos(){
+    return pos;
+  }
+  PVector vel(){
+    return vel;
+  }
+  float r(){
+    return r;
   }
 
   float getWidth() {
@@ -74,9 +96,16 @@ class Tank {
   PVector barrelpos() {
     return pos.copy().sub(barrel.copy().setMag(Width));
   }
+  
+  boolean checkhit(){
+    return false;
+  }
 
   void update() {
-    if(!player)
+    
+    if(player)// && i == playerTankInstance)
+        controls();
+    else if(!player)
       AI();
       
     r = it*0.9375;
@@ -164,20 +193,22 @@ class Tank {
     }
     return;
   }
+  
+  
+  boolean isColliding(GameObjectsPhysics gameObject){
+    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+        PVector Dist = this.pos.copy().sub(gameObject.pos());
 
-  void isColliding(Tank tank) {
-    PVector Dist = this.pos.copy().sub(tank.pos);
-
-    if ((Dist.mag()) <= ((this.r/2 + tank.r/2) - (0.1 * (this.r + tank.r)))) {
-      this.colliding = true;
-      tank.colliding = true;
-
-      tank.vel.sub(Dist);
-      this.vel.sub(Dist.mult(-1));
-    } else if (this.colliding || tank.colliding) {
-      this.colliding = false;
-      tank.colliding = false;
+        if ((Dist.mag()) <= ((this.r/2 + gameObject.r()/2) - (0.1 * (this.r + gameObject.r())))) {
+          this.colliding = true;
+  
+        gameObject.vel().sub(Dist);
+        this.vel().sub(Dist.mult(-1));
+      } else if (this.colliding) { // || gameObject.colliding) {
+        this.colliding = false;
+      }
     }
+    return false; 
   }
 
   void hit(int damage) {
@@ -239,7 +270,7 @@ class Tank {
 
   boolean isDead() {
     if (Health<=0) {
-      gameObjects.add(new ParticleSystem(50, 4, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE, true));
+      gameObjectsPhysicsLists.add(new ParticleSystem(50, 4, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, RED, GREEN, BLUE, true));
       return true;
     }
     return false;

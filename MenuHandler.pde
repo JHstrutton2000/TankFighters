@@ -58,12 +58,6 @@ class MainMenu{
     for(int i=0; i<blocksItems.length; i++){
       btns.add(new UIButton(loadImage("Icons/" + blocksItems[i] + ".png")));  
     }
-    //btns.add(new UIButton(loadImage("Icons/Player.png")));
-    //btns.add(new UIButton(loadImage("Icons/Enemy.png")));
-    //btns.add(new UIButton(loadImage("Icons/Block.png")));
-    //btns.add(new UIButton(loadImage("Icons/MovableBlock.png")));
-    //btns.add(new UIButton(loadImage("Icons/DamageBlock.png")));
-    //btns.add(new UIButton(loadImage("Icons/Flag.png")));
     
     LevelCreator.addButtonChooser(25, 470, 325, 100, Constants.TabBackground, btns);
     
@@ -320,7 +314,7 @@ class MainMenu{
          LoadMenu.setState(-1);
          
          if(chooser.getButtonCount() > 0){
-            gameObjects = new ArrayList<GameObjects>();
+            gameObjectsPhysicsLists = new ArrayList<GameObjectsPhysics>();
             
             playerTanks = new ArrayList<Tank>();
             tanks = new ArrayList<Tank>();
