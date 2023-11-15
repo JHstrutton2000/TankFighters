@@ -43,6 +43,8 @@ void setup() {
   catch (IOException e) {
     e.printStackTrace();
   }
+  
+  println(Levels);
 
   tanks = new ArrayList<Tank>();
   playerTanks = new ArrayList<Tank>();
