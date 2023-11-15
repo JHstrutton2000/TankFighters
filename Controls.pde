@@ -18,9 +18,9 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent event) {
-  float e = event.getCount() * 10;
+  float e = event.getCount() * Constants.mouseScaler;
   
-  if(it+e > 25 && it+e < 120){
+  if(it+e > Constants.itMin && it+e < Constants.itMax){
     it += e;
   
     XCount = round(width/it);
@@ -72,12 +72,10 @@ void keyPressed() {
   else if(key=='S')
     down = true;
     
-
     
   if(key=='e')
     inventory = true;
   }
-  
   
   if(key==' ')
     boost = true;

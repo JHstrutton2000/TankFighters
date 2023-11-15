@@ -99,7 +99,6 @@ class MainMenu {
 
     ArrayList<String> LMBstrs = new ArrayList<String>();
 
-
     int maxButtons = (int)Math.ceil(LMHeight / Constants.loadButtonHeight);
 
     for (int i=0; i<Levels.size(); i++) {
@@ -124,6 +123,16 @@ class MainMenu {
 
     LevelCreator.setChooser(0, LVbtns, pages);
   }
+
+
+      // MenuStateClose = -2
+      // MenuStateNothing = -1
+      // MenuStateBack = 0
+      // MenuStateEditor = 1
+      // MenuStateMultiplayer = 2
+      // MenuStateOptions = 3
+      // MenuStateLoad = 4
+      // MenuStateSave = 5
 
   void update() {
     if (!open)
@@ -159,9 +168,6 @@ class MainMenu {
         if (blocks.get(i).pos.x == (int)Math.floor(sta/YCount) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/YCount)*YCount))
           pass = false;
       }
-
-      //println(Hovering, !buttonDown, pass, mouseDown, lastMouseButton);
-
       if (Hovering && !buttonDown && pass && mouseDown && lastMouseButton == LEFT) { //mouseButton == LEFT
         float RED, GREEN, BLUE;
 
@@ -187,19 +193,12 @@ class MainMenu {
          4 04 10 16 22 28 34
          5 05 11 17 23 29 35
          
-         x = sta / YCount
-         
-         
-         YCount = 9
-         
          **/
 
         //14, 14
 
         println(XCount, "=", width, "/", it);
         println(sta, it);
-
-        //println((int)(Math.floor( sta /(YCount+1))), (int)(sta - YCount*Math.floor(sta/YCount)));
 
         blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, RED, GREEN, BLUE, LevelCreator.getChooserState(1)));
       } else if (Hovering && mouseDown && lastMouseButton == RIGHT) {
@@ -308,12 +307,6 @@ class MainMenu {
           playerTanks = new ArrayList<Tank>();
           tanks = new ArrayList<Tank>();
           blocks = new ArrayList<Block>();
-
-          //blocks.reset();
-          //tanks.reset();
-          //particlesystem.reset();
-          //bullets.reset();
-
 
           String name = Levels.get(LoadMenu.getChooserState(0));
 
