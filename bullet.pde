@@ -28,7 +28,7 @@ class bullet implements GameObjectsPhysics {
   }
 
   void update() {
-    if(tank.getWeapon().eqquipedNum == 2){
+    if(weapon.getName() == WeaponNames.Guided){
       if(!mouseDown){
         vel.add(pos.copy().sub(new PVector(mouseX, mouseY)).mult(-0.01));
         vel.set(constrain(vel.x, -weapon.getSpeed(), weapon.getSpeed()), constrain(vel.y, -weapon.getSpeed(), weapon.getSpeed()));
@@ -107,7 +107,7 @@ class bullet implements GameObjectsPhysics {
   }
   
   blockTypes getGameObjectType(){    
-    return null; 
+    return blockTypes.bullet; 
   }
   
   PVector pos(){
@@ -136,20 +136,17 @@ class bullet implements GameObjectsPhysics {
           return true;
       }
     }
-    
-    //for(int i=0; i<bullets.size(); i++){
-    //  if(checkBulletHit(bullets.get(i)))
-    //    return true;
-    //}
-    
     return false;
   }
 
   void Draw() {
     fill(255);
-    strokeWeight(1);
     
-    ellipse(pos.x, pos.y, r, r); 
+    push();
+      strokeWeight(1);
+      ellipse(pos.x, pos.y, r, r);
+    pop();
+    
     return;
   }
 }

@@ -43,7 +43,7 @@ void setup() {
   catch (IOException e) {
     e.printStackTrace();
   }
-  
+
   println(Levels);
 
   tanks = new ArrayList<Tank>();
@@ -60,7 +60,23 @@ void draw() {
   } else {
     background(0);
 
-    while (drawCycle++ <= maxDrawCycle) {
+
+    for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
+      gameObjectsPhysicsLists.get(i).update();
+
+      for (int t=0; t<gameObjectsPhysicsLists.size(); t++) {
+        if (i!=t)
+          gameObjectsPhysicsLists.get(i).isColliding(gameObjectsPhysicsLists.get(t));
+      }
+
+      if (gameObjectsPhysicsLists.get(i).isDead())
+        gameObjectsPhysicsLists.remove(i);
+    }
+
+    for (drawCycle=0; drawCycle <= maxDrawCycle; drawCycle++) {
+      if (drawCycle==1)
+        background(0);
+
       for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
         if (gameObjectsPhysicsLists.get(i).drawPriority() > maxDrawCycle) {
           maxDrawCycle = gameObjectsPhysicsLists.get(i).drawPriority();
@@ -68,18 +84,10 @@ void draw() {
 
         if (drawCycle == gameObjectsPhysicsLists.get(i).drawPriority()) {
           gameObjectsPhysicsLists.get(i).Draw();
-          gameObjectsPhysicsLists.get(i).update();
-          for (int t=0; t<gameObjectsPhysicsLists.size(); t++) {
-            if (i!=t)
-              gameObjectsPhysicsLists.get(i).isColliding(gameObjectsPhysicsLists.get(t));
-          }
-
-          if (gameObjectsPhysicsLists.get(i).isDead())
-            gameObjectsPhysicsLists.remove(i);
         }
       }
     }
-    drawCycle = 0;
+
 
     count++;
   }

@@ -6,6 +6,8 @@ class ParticleSystem implements GameObjectsPhysics{
   Boolean canDie = true;
 
   ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
+    //println("initPS:", num, radius, pos, degrees(direction.heading()), angle, RED, GREEN, BLUE, canDie);
+    
     particles = new ArrayList<Particle>();
     this.pos = pos;
     this.dir = direction;
@@ -18,7 +20,7 @@ class ParticleSystem implements GameObjectsPhysics{
   }
   
   int drawPriority(){
-    return 0; 
+    return 1; 
   }
   
   PVector pos(){
@@ -34,7 +36,7 @@ class ParticleSystem implements GameObjectsPhysics{
   void addParticle(int number, int radius, float deviation, int lifetime) {
     PVector vec = dir.copy().sub(pos);
     
-    println("addParticle:", number, radius, deviation, lifetime);
+    //println("addParticle:", number, radius, deviation, lifetime);
 
     for (int i=0; i<number; i++) {
       float deg = dir.copy().mult(-1).heading() + radians(random(-deviation, deviation));
@@ -50,7 +52,7 @@ class ParticleSystem implements GameObjectsPhysics{
   
   
   blockTypes getGameObjectType(){    
-    return null; 
+    return blockTypes.particleSystem; 
   }
 
   void update() {
@@ -63,9 +65,11 @@ class ParticleSystem implements GameObjectsPhysics{
   }
   
   void Draw(){
-    for (int i=0; i<particles.size(); i++){
-      particles.get(i).Draw();
-    }
+    push();
+      for (int i=0; i<particles.size(); i++){
+        particles.get(i).Draw();
+      }
+    pop();
   }
 
   void applyForce(PVector vec) {
@@ -130,7 +134,7 @@ class Particle {
   private int radius = 4;
 
   Particle(PVector pos, PVector vel, float lifeSpan, int radius, float RED, float GREEN, float BLUE) {
-    println("init Particle");
+    //println("init Particle:", lifeSpan, radius, RED, GREEN, BLUE);
     this.pos = pos;
     this.vel = vel;
     this.acc = new PVector(0, 0);
@@ -149,8 +153,6 @@ class Particle {
   }
 
   void update() {
-    println("particle update");
-    
     vel.add(acc);
     pos.add(vel);
     acc.set(0, 0);
@@ -163,9 +165,6 @@ class Particle {
   }
 
   void Draw() {
-    
-    println("particle Draw");
-    
     noStroke();
     fill(RED, GREEN, BLUE, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
 

@@ -29,7 +29,6 @@ class MainMenu {
 
     Writer.flush();
 
-    //int[] MainText = {210, 160};
     Main.addText("TankFighters", 210, 160, 70);
     Main.addButton("Play", 100, 300, 600, 100);
     Main.addButton("Level Creator", 100, 420, 600, 100);

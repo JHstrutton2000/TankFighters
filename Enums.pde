@@ -4,7 +4,9 @@ enum blockTypes {
     Block,
     MovableBlock,
     DamageBlock,
-    Flag
+    Flag,
+    particleSystem,
+    bullet
 }
 
 enum WeaponNames{
