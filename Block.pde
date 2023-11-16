@@ -47,9 +47,6 @@ class Block implements GameObjectsPhysics{
 
   void update() {
     if(alive){
-      if (type == blockTypes.Block || type == blockTypes.MovableBlock || type == blockTypes.DamageBlock)
-        Draw();
-        
       if(type == blockTypes.MovableBlock){
         pos.add(vel);
         vel.add(acc).div(Weight);
@@ -117,14 +114,16 @@ class Block implements GameObjectsPhysics{
   }
 
   void Draw() {
-    if(type != blockTypes.Player && type != blockTypes.Enemy && type != blockTypes.Flag){
-      if (texture == null) {
-        stroke(1);
-        fill(RED, GREEN, BLUE);
-        rect(pos.x*it, pos.y*it, w*it, h*it);
-      } else {
-        image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);
+    push();
+      if(type != blockTypes.Player && type != blockTypes.Enemy && type != blockTypes.Flag){
+        if (texture == null) {
+          stroke(1);
+          fill(RED, GREEN, BLUE);
+          rect(pos.x*it, pos.y*it, w*it, h*it);
+        } else {
+          image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);
+        }
       }
-    }
+    pop();
   }
 }
