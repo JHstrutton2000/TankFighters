@@ -24,6 +24,8 @@ class MainMenu {
 
   MainMenu() {
     Writer = createWriter("Levels/Levels.txt");
+    for (int i=0; i<Levels.size(); i++)
+      Writer.println(Levels.get(i));
 
     Writer.flush();
 
