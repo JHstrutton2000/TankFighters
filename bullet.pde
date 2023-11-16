@@ -86,7 +86,7 @@ class bullet implements GameObjectsPhysics {
   boolean checkBulletHit(bullet b){
     if(b != this && dist(this.pos.x, this.pos.y, b.pos.x, b.pos.y) <= (b.r + this.r)){
       gameObjectsPhysicsLists.add(new ParticleSystem(5, (int)(this.r/10), pos.copy(), vel.copy().mult(-2), 360, 255, 255, 255, true));
-      if(weapon.getDamage() < b.weapon.getDamage())
+      if(weapon.getDamage() <= b.weapon.getDamage())
         return true;
     }
     
@@ -130,11 +130,15 @@ class bullet implements GameObjectsPhysics {
         if(checkTankHit((Tank)gameObjectsPhysicsLists.get(i)))
           return true;
       }
-      
       else if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Block){
         if(checkBlockHit((Block)gameObjectsPhysicsLists.get(i)))
           return true;
       }
+      else if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.bullet){
+        if(checkBulletHit((bullet)gameObjectsPhysicsLists.get(i)))
+          return true;
+      }
+      
     }
     return false;
   }
