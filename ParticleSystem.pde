@@ -6,8 +6,7 @@ class ParticleSystem implements GameObjectsPhysics{
   Boolean canDie = true;
 
   ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
-    //println("initPS:", num, radius, pos, degrees(direction.heading()), angle, RED, GREEN, BLUE, canDie);
-    
+    println(num, radius, canDie);
     particles = new ArrayList<Particle>();
     this.pos = pos;
     this.dir = direction;
@@ -35,8 +34,6 @@ class ParticleSystem implements GameObjectsPhysics{
 
   void addParticle(int number, int radius, float deviation, int lifetime) {
     PVector vec = dir.copy().sub(pos);
-    
-    //println("addParticle:", number, radius, deviation, lifetime);
 
     for (int i=0; i<number; i++) {
       float deg = dir.copy().mult(-1).heading() + radians(random(-deviation, deviation));
@@ -134,7 +131,6 @@ class Particle {
   private int radius = 4;
 
   Particle(PVector pos, PVector vel, float lifeSpan, int radius, float RED, float GREEN, float BLUE) {
-    //println("init Particle:", lifeSpan, radius, RED, GREEN, BLUE);
     this.pos = pos;
     this.vel = vel;
     this.acc = new PVector(0, 0);
@@ -143,8 +139,6 @@ class Particle {
     this.lifeSpan = lifeSpan;
     lifeSpanMax = lifeSpan;
 
-
-    //println(it/20, r);
     this.r = it/20;
 
     this.RED = RED;

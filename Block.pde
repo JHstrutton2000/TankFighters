@@ -95,7 +95,6 @@ class Block implements GameObjectsPhysics{
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){
-    //println(gameObject.getGameObjectType(), blockTypes.Player);
     if(type == blockTypes.Player || type == blockTypes.Enemy)
       return false;
     

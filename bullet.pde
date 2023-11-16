@@ -52,8 +52,6 @@ class bullet implements GameObjectsPhysics {
   }
 
   boolean checkTankHit(Tank tank){
-    //println("CheckTankHit:", dist(pos.x, pos.y, tank.pos.x, tank.pos.y));
-    
     if (tank != this.tank || invFrame <= 0) {
       if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)/2) {
         gameObjectsPhysicsLists.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
@@ -68,8 +66,6 @@ class bullet implements GameObjectsPhysics {
   }
   
   boolean checkBlockHit(Block block){
-    //println("CheckBlockHit:", dist(pos.x, pos.y, block.pos.x, block.pos.y));
-    
     if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.pos.x*it && pos.x-r/2 <= (block.pos.x+block.w)*it && pos.y+r/2 >= block.pos.y*it && pos.y-r/2 <= (block.pos.y+block.h)*it)) {
       gameObjectsPhysicsLists.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.RED, block.GREEN, block.BLUE, true));
       

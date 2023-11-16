@@ -24,8 +24,6 @@ class MainMenu {
 
   MainMenu() {
     Writer = createWriter("Levels/Levels.txt");
-    for (int i=0; i<Levels.size(); i++)
-      Writer.println(Levels.get(i));
 
     Writer.flush();
 
@@ -197,9 +195,6 @@ class MainMenu {
 
         //14, 14
 
-        println(XCount, "=", width, "/", it);
-        println(sta, it);
-
         blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, RED, GREEN, BLUE, LevelCreator.getChooserState(1)));
       } else if (Hovering && mouseDown && lastMouseButton == RIGHT) {
         for (int i=0; i<blocks.size(); i++) {
@@ -249,7 +244,6 @@ class MainMenu {
         boolean pass = true;
 
         for (int i=0; i<Levels.size(); i++) {
-          println(Levels.get(i), str);
           if (Levels.get(i).equals(str)) {
             pass = false;
             break;
@@ -273,7 +267,6 @@ class MainMenu {
         type.save("Levels/"+str+"-type.png");
 
         if (pass) {
-          Writer.println(str);
           Levels.add(str);
           LoadMenu.getChooser(0).addButton(str);
         }
@@ -348,8 +341,6 @@ class MainMenu {
             sketchFile(sketchPath(name+"-type.png")).delete();
             Levels.remove(index);
 
-            for (int i=0; i<Levels.size(); i++)
-              Writer.println(Levels.get(i));
             Writer.flush();
           }
           catch(Exception ext) {
@@ -712,7 +703,6 @@ class UITextbox implements UIObject {
         char c = key;
         if (numOnly) {
           for (int i=0; i<10; i++) {
-            //println(c, i, str(c).equals(str(i)));
             if (str(c).equals(str(i))) {
               text += c;
               keyDown = false;
@@ -966,7 +956,6 @@ class ButtonChooser implements UIObject {
 
   void update() {
     Draw();
-    //println(blocks.size());
     if (buttons.size() > 0) {
 
       MaxPage = 0;
@@ -1001,8 +990,6 @@ class ButtonChooser implements UIObject {
               this.DoubleClicked = true;
             }
 
-            //if(DoubleClicked)
-            //  println("Double");
           } else if (Drag && this.buttons.get(i).Hover() && mouseDown && !buttonDown) {
             state = i;
           }

@@ -24,8 +24,6 @@ void setup() {
   XCount = round(width/it);
   YCount = round(height/it);
 
-  println(XCount, YCount);
-
   //fullScreen();
   Levels = new ArrayList<String>();
   BufferedReader Reader = createReader("Levels/Levels.txt");
@@ -43,9 +41,7 @@ void setup() {
   catch (IOException e) {
     e.printStackTrace();
   }
-
-  println(Levels);
-
+  
   tanks = new ArrayList<Tank>();
   playerTanks = new ArrayList<Tank>();
   mainMenu = new MainMenu();
