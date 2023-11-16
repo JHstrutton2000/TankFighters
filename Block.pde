@@ -42,14 +42,6 @@ class Block implements GameObjectsPhysics{
   }
   
   boolean Clicked(){
-    PVector Dist = new PVector(mouseX, mouseY);
-    println(pos, Dist);
-    
-    Dist = this.pos.copy().sub(Dist);
-    
-    if ((Dist.mag()) <= (((this.w+this.h)/4) - (0.1 * (this.w+this.h)/4))) {
-      return true;
-    }
     return false;
   }
   

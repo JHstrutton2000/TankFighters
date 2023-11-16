@@ -82,8 +82,8 @@ class MainMenu {
 
 
     LoadMenu.addText("Load Menu", 215, 130, 70);
-    LoadMenu.addButton("Back", 75, 660, 300, 100);
-    LoadMenu.addButton("Load", 425, 660, 300, 100);
+    LoadMenu.addButton("Back",   425, 660, 300, 100);
+    LoadMenu.addButton("Load",    75, 660, 300, 100);
     LoadMenu.addButton("Delete", 655, 315, 100, 100);
 
     PImage Next = loadImage("Icons/Next.png");

@@ -119,7 +119,7 @@ class Tank implements GameObjectsPhysics {
     Height = 0.6*r;
 
     if (vel.mag() > 0)
-      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), 100);
+      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), 20);
 
     trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
 
@@ -201,13 +201,15 @@ class Tank implements GameObjectsPhysics {
   }
 
   boolean Clicked(){
-    PVector Dist = new PVector(mouseX, mouseY);    
-    Dist = this.pos.copy().sub(Dist);
-    
-    if ((Dist.mag()) <= ((this.r/2) - (0.1 * this.r))) {
-      SelectedTankInstance = this.TankInstance;
-      println(SelectedTankInstance);
-      return true;
+    if(player){
+      PVector Dist = new PVector(mouseX, mouseY);    
+      Dist = this.pos.copy().sub(Dist);
+      
+      if ((Dist.mag()) <= ((this.r/2) - (0.1 * this.r))) {
+        SelectedTankInstance = this.TankInstance;
+        println(SelectedTankInstance);
+        return true;
+      }
     }
     return false;
   }
@@ -243,43 +245,44 @@ class Tank implements GameObjectsPhysics {
 
   void Draw() {
     float theta = (vel.heading());
-
     push();
-    translate(pos.x, pos.y);
-
-    rotate(theta);
-    if (ring) {
-      noFill();
-      float val = map(Health, 0, maxHealth, 0, 1);
-
-      stroke(RED*val, GREEN*val, BLUE*val);
-      strokeWeight(3);
-      ellipse(0, 0, r, r);
-    }
-
-    stroke(0);
-    strokeWeight(1);
-    fill(RED, GREEN, BLUE);
-    rect(-Width/2, -Height/2, Width, Height); //-20, -25, 40, 50
-
-    pop();
-
-    push();
-    translate(pos.x, pos.y);
-
-    barrel = pos.copy().sub(target);
-
-    rotate(barrel.heading() + 2*PI/4);
-    strokeWeight(0);
-    stroke(0);
-
-    fill(40+RED, 40+GREEN, 40+BLUE);
-    ellipse(0, Width*13/40, Width/8, Width); //draw barrel
-
-    //30*26/30
-    ellipse(0, 0, Height*26/30, Height*26/30);//draw circle
-    pop();
-
+      translate(pos.x, pos.y);
+      
+      push();
+        rotate(theta);
+        if (ring) {
+          noFill();
+          float val = map(Health, 0, maxHealth, 0, 1);
+          
+          stroke(RED*val, GREEN*val, BLUE*val);
+          strokeWeight(3);
+          ellipse(0, 0, r, r);
+        }
+    
+        stroke(0);
+        strokeWeight(1);
+        fill(RED, GREEN, BLUE);
+        rect(-Width/2, -Height/2, Width, Height); //-20, -25, 40, 50
+  
+      pop();
+  
+      push();    
+        barrel = pos.copy().sub(target);
+    
+        rotate(barrel.heading() + 2*PI/4);
+        strokeWeight(0);
+        stroke(0);
+    
+        fill(40+RED, 40+GREEN, 40+BLUE);
+        ellipse(0, Width*13/40, Width/8, Width); //draw barrel
+        ellipse(0, 0, Height*26/30, Height*26/30);//draw circle
+      pop();
+      
+      if (player && ring) {
+          fill(255);
+          text("#"+TankInstance, r/2+2, -20);
+      }
+      pop();
 
     weapon.Draw();
 

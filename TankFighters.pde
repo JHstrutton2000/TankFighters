@@ -3,7 +3,7 @@ ArrayList<Block> blocks;
 ArrayList<String> Levels;
 
 ArrayList<Tank> playerTanks;
-int SelectedTankInstance =0;
+int SelectedTankInstance = 0;
 
 float it = 80;
 int XCount, YCount;
@@ -53,14 +53,11 @@ void draw() {
   } else {
     background(0);
 
-    //println(playerTankInstance);
-
     for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
       gameObjectsPhysicsLists.get(i).update();
       
-      if(mouseDown){
-        gameObjectsPhysicsLists.get(i).Clicked();
-      }
+      if(mouseDown && (lastMouseButton == 39) && gameObjectsPhysicsLists.get(i).Clicked())
+        mouseDown = false;
 
       for (int t=0; t<gameObjectsPhysicsLists.size(); t++) {
         if (i!=t)
