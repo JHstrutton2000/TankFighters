@@ -6,7 +6,7 @@ class Block implements GameObjectsPhysics{
   float Weight = 6.5;
   
   float w, h;
-  float RED, GREEN, BLUE;
+  PVector Color;
   color col;
   private PImage texture = null;
   
@@ -27,15 +27,13 @@ class Block implements GameObjectsPhysics{
     gameObjectsPhysicsLists.add(this);
   }
 
-  Block(float x, float y, float w, float h, float RED, float GREEN, float BLUE, int type) {
+  Block(float x, float y, float w, float h, PVector Color, int type) {
     this.pos = new PVector(x, y);
     this.vel = new PVector();
     this.acc = new PVector();
     this.w = w;
     this.h = h;
-    this.RED = RED;
-    this.GREEN = GREEN;
-    this.BLUE = BLUE;
+    this.Color = Color;
     this.type = blockTypes.values()[type];
     
     gameObjectsPhysicsLists.add(this);
@@ -122,7 +120,7 @@ class Block implements GameObjectsPhysics{
       if(type != blockTypes.Player && type != blockTypes.Enemy && type != blockTypes.Flag){
         if (texture == null) {
           stroke(1);
-          fill(RED, GREEN, BLUE);
+          fill(Color.x, Color.y, Color.z);
           rect(pos.x*it, pos.y*it, w*it, h*it);
         } else {
           image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);

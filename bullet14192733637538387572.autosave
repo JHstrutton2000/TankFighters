@@ -60,7 +60,7 @@ class bullet implements GameObjectsPhysics {
   boolean checkTankHit(Tank tank){
     if (tank != this.tank || invFrame <= 0) {
       if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)/2) {
-        gameObjectsPhysicsLists.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.Color, new PVector(), true));
+        gameObjectsPhysicsLists.add(new ParticleSystem(10, (int)(tank.r/5), pos.copy().add(tank.pos.copy().sub(pos).setMag(20)), vel.copy().mult(-tank.r), 45, tank.RED, tank.GREEN, tank.BLUE, true));
 
         tank.hit(weapon.getDamage() - damage);
         tank.applyForce(vel.copy().setMag(2));
@@ -73,7 +73,7 @@ class bullet implements GameObjectsPhysics {
   
   boolean checkBlockHit(Block block){
     if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.pos.x*it && pos.x-r/2 <= (block.pos.x+block.w)*it && pos.y+r/2 >= block.pos.y*it && pos.y-r/2 <= (block.pos.y+block.h)*it)) {
-      gameObjectsPhysicsLists.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.Color, new PVector(), true));
+      gameObjectsPhysicsLists.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.RED, block.GREEN, block.BLUE, true));
       
       if(block.type == blockTypes.DamageBlock)
         block.damage(weapon.getDamage() - damage);
@@ -102,7 +102,10 @@ class bullet implements GameObjectsPhysics {
       float radius = (int)Math.ceil(this.r/4)+1;
       float area = PI*pow(radius, 2);
       
-      gameObjectsPhysicsLists.add(new ParticleSystem((int)(area/radius), (int)radius, pos.copy(), vel.copy().mult(abs(r-radius)), map(vel.mag(), 0, maxVel, 360, 30), new PVector(255, 255, 255), new PVector(), true));
+      println(r, radius, area, area/radius);
+      
+      
+      gameObjectsPhysicsLists.add(new ParticleSystem((int)(area/radius), (int)radius, pos.copy(), vel.copy().mult(-1 * dist(r, 0,  radius)), 360, 255, 255, 255, true));
       
       return true;
     }

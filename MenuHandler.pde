@@ -152,7 +152,7 @@ class MainMenu {
 
       for (int i=0; i<blocks.size(); i++) {//populate with colored blocks
         Block block = blocks.get(i);
-        fill(block.RED, block.GREEN, block.BLUE);
+        fill(block.Color.x, block.Color.y, block.Color.z);
         rect(block.pos.x/2*it+xoff, block.pos.y/2*it+yoff, it/2, it/2);
       }
 
@@ -168,20 +168,23 @@ class MainMenu {
           pass = false;
       }
       if (Hovering && !buttonDown && pass && mouseDown && lastMouseButton == LEFT) { //mouseButton == LEFT
-        float RED, GREEN, BLUE;
+        PVector Color = new PVector();
 
         if (LevelCreator.getColorEditorRed(0) != "")
-          RED = Float.parseFloat(LevelCreator.getColorEditorRed(0));
+          Color.x = Float.parseFloat(LevelCreator.getColorEditorRed(0));
         else
-          RED = 0;
+          Color.x = 0;
+          
         if (LevelCreator.getColorEditorGreen(0) != "")
-          GREEN = Float.parseFloat(LevelCreator.getColorEditorGreen(0));
+          Color.y = Float.parseFloat(LevelCreator.getColorEditorGreen(0));
         else
-          GREEN = 0;
+          Color.y = 0;
+          
         if (LevelCreator.getColorEditorBlue(0) != "")
-          BLUE = Float.parseFloat(LevelCreator.getColorEditorBlue(0));
+          Color.z = Float.parseFloat(LevelCreator.getColorEditorBlue(0));
         else
-          BLUE = 0;
+          Color.z = 0;
+          
         /**
          
          0  1  2  3  4  5
@@ -196,7 +199,7 @@ class MainMenu {
 
         //14, 14
 
-        blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, RED, GREEN, BLUE, LevelCreator.getChooserState(1)));
+        blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, Color, LevelCreator.getChooserState(1)));
       } else if (Hovering && mouseDown && lastMouseButton == RIGHT) {
         for (int i=0; i<blocks.size(); i++) {
           if (blocks.get(i).pos.x == (int)Math.floor(sta/YCount) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/YCount)*YCount))
@@ -257,7 +260,7 @@ class MainMenu {
         for (int i=0; i<blocks.size(); i++) {
           Block block = blocks.get(i);
           int t = block.getType().ordinal();
-          col.set((int)block.pos.x, (int)block.pos.y, color(block.RED, block.GREEN, block.BLUE));
+          col.set((int)block.pos.x, (int)block.pos.y, color(block.Color.x, block.Color.y, block.Color.z));
           type.set((int)block.pos.x, (int)block.pos.y, color(t+1, t+1, t+1));
         }
 
@@ -315,12 +318,12 @@ class MainMenu {
               int t = (int)red(Ctype) - 1;
               
               if (t != -1) {
-                blocks.add(new Block(x, y, 1, 1, red(Ccol), green(Ccol), blue(Ccol), t));
+                blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), t));
                 if (t == blockTypes.Enemy.ordinal()){
-                  tanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol), 0));
+                  tanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0));
                 }
                 else if (t == blockTypes.Player.ordinal()){
-                  playerTanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol), SelectedTankInstance));
+                  playerTanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance));
                   SelectedTankInstance++;
                 }
               }

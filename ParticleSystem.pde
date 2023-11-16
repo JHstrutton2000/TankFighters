@@ -2,18 +2,16 @@ class ParticleSystem implements GameObjectsPhysics{
   PVector pos;
   PVector dir;
   ArrayList<Particle> particles;
-  float RED, GREEN, BLUE;
-  PVector colorVel = new PVector(1, 0, 0);
+  PVector Color, ColorVel;
   Boolean canDie = true;
 
-  ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
+  ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, PVector Color, PVector ColorVel, boolean canDie) {
     //println("PS:", num, radius, pos, direction, angle, canDie);
     particles = new ArrayList<Particle>();
     this.pos = pos;
     this.dir = direction;
-    this.RED   = RED;
-    this.GREEN = GREEN;
-    this.BLUE  = BLUE;
+    this.Color = Color;
+    this.ColorVel = ColorVel;
     this.canDie = canDie;
 
     addParticle(num, radius, angle, 300);
@@ -44,7 +42,7 @@ class ParticleSystem implements GameObjectsPhysics{
 
       vec.set(x, y).setMag(random(it/16));
 
-      particles.add(new Particle(pos.copy(), vec.copy(), lifetime, radius, new PVector(RED, GREEN, BLUE), new PVector()));
+      particles.add(new Particle(pos.copy(), vec.copy(), lifetime, radius, new PVector(Color.x, Color.y, Color.z), new PVector()));
     }
   }
   

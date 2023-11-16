@@ -163,7 +163,7 @@ class Weapon {
         vec.set(cos(deg), sin(deg));
         vec.mult(tank.barrelLength());//tank.pos.copy().sub(vec)
 
-        gameObjectsPhysicsLists.add(new ParticleSystem(20, 4, tank.barrelpos(), tank.barrel, 45, 100, 100, 100 ,true));
+        gameObjectsPhysicsLists.add(new ParticleSystem(20, 4, tank.barrelpos(), tank.barrel, 45, new PVector(100, 100, 100), new PVector() ,true));
         gameObjectsPhysicsLists.add(new bullet(tank, eqquiped));
 
         tank.applyRecoil(tank.barrel.copy().setMag(1).mult(eqquiped.getkick()));
