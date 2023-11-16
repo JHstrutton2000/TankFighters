@@ -1,7 +1,7 @@
 public class WeaponType {
   private WeaponNames name = WeaponNames.Default;//Name of the WeaponType
   private int coolDown  = 0;//coolDown is how long until you can fire again.
-  private int damage    = 0;//damage taken by tank when hit by bullet created by weapon.
+  private float damage    = 0;//damage taken by tank when hit by bullet created by weapon.
   private float bulletRadius = 0;//Radius of bullet(s) fired
   private int fireRate  = 0;//fireRate is how many bullets are created per fireTime
   private int fireTime  = 0;//refer to fireRate
@@ -12,7 +12,7 @@ public class WeaponType {
   private int ammoMax   = 0;//the most ammo that can be held by the Weapon
   private FireTypes fireType = FireTypes.Default;
 
-  private WeaponType(WeaponNames name, int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, float kick, int ammoCount, int ammoMax, FireTypes fireType) {
+  private WeaponType(WeaponNames name, int coolDown, float damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, float kick, int ammoCount, int ammoMax, FireTypes fireType) {
     this.name = name; 
     this.coolDown = coolDown;
     this.damage   = damage;
@@ -69,7 +69,7 @@ public class WeaponType {
     return this.coolDown;
   }
   
-  public int getDamage(){
+  public float getDamage(){
     return this.damage; 
   }
 
@@ -103,8 +103,8 @@ ArrayList<WeaponType> initialiseWeapons(ArrayList<WeaponType> Weapons){
     Weapons.add(new WeaponType(WeaponNames.Tracker,   5,        1,      1,            0,        0,        10,    1,        1,    5,          5,       FireTypes.Default));
     Weapons.add(new WeaponType(WeaponNames.Guided,    50,       1,      1,            0,        0,        5,     0,        0,    5,          5,       FireTypes.Default));
     Weapons.add(new WeaponType(WeaponNames.MultiShot, 0,        1,      1,            5,        2,        10,    45,       1,    20,         20,      FireTypes.Default));
-    Weapons.add(new WeaponType(WeaponNames.SlowShot,  50,       10,     5,            0,        0,        2,     0,        30,   20,         20,      FireTypes.Default));
-    Weapons.add(new WeaponType(WeaponNames.FastShot,  100,      4,      1,            0,        0,        50,    0,        15,   20,         20,      FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.SlowShot,  50,       10,     10,           0,        0,        0,     0,        30,   20,         20,      FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.FastShot,  100,      4,      1,            0,        0,        100,   0,        15,   20,         20,      FireTypes.Default));
     Weapons.add(new WeaponType(WeaponNames.Mine,      100,      100,    1,            0,        0,        0,     0,        0,    20,         20,      FireTypes.Default));
     
     return Weapons;

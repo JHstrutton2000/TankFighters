@@ -45,7 +45,7 @@ class Block implements GameObjectsPhysics{
     return false;
   }
   
-  void damage(int damage){
+  void damage(float damage){
     health -= damage;
   }
 

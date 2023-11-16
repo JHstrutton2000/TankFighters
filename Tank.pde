@@ -207,7 +207,6 @@ class Tank implements GameObjectsPhysics {
       
       if ((Dist.mag()) <= ((this.r/2) - (0.1 * this.r))) {
         SelectedTankInstance = this.TankInstance;
-        println(SelectedTankInstance);
         return true;
       }
     }
@@ -231,7 +230,7 @@ class Tank implements GameObjectsPhysics {
     return false;
   }
 
-  void hit(int damage) {
+  void hit(float damage) {
     if ((shield - damage) > 0) {
       shield -= damage;
     } else if (shield == 0) {

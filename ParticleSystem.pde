@@ -6,6 +6,7 @@ class ParticleSystem implements GameObjectsPhysics{
   Boolean canDie = true;
 
   ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
+    //println("PS:", num, radius, pos, direction, angle, canDie);
     particles = new ArrayList<Particle>();
     this.pos = pos;
     this.dir = direction;
