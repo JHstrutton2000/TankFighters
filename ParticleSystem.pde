@@ -3,6 +3,7 @@ class ParticleSystem implements GameObjectsPhysics{
   PVector dir;
   ArrayList<Particle> particles;
   float RED, GREEN, BLUE;
+  PVector colorVel = new PVector(1, 0, 0);
   Boolean canDie = true;
 
   ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
@@ -43,7 +44,7 @@ class ParticleSystem implements GameObjectsPhysics{
 
       vec.set(x, y).setMag(random(it/16));
 
-      particles.add(new Particle(pos.copy(), vec.copy(), lifetime, radius, RED, GREEN, BLUE));
+      particles.add(new Particle(pos.copy(), vec.copy(), lifetime, radius, new PVector(RED, GREEN, BLUE), new PVector()));
     }
   }
   
@@ -129,11 +130,11 @@ class Particle {
   float lt = 4;
   float r = 4;
 
-  float RED, GREEN, BLUE;
+  PVector ColorVel, Color;
   
   private int radius = 4;
 
-  Particle(PVector pos, PVector vel, float lifeSpan, int radius, float RED, float GREEN, float BLUE) {
+  Particle(PVector pos, PVector vel, float lifeSpan, int radius, PVector Color, PVector ColorVel) {
     this.pos = pos;
     this.vel = vel;
     this.acc = new PVector(0, 0);
@@ -143,10 +144,9 @@ class Particle {
     lifeSpanMax = lifeSpan;
 
     this.r = it/20;
-
-    this.RED = RED;
-    this.GREEN = GREEN;
-    this.BLUE = BLUE;
+    
+    this.Color = Color;
+    this.ColorVel = ColorVel;
   }
 
   void update() {
@@ -156,6 +156,8 @@ class Particle {
     lifeSpan -= lt;
 
     vel.mult(0.9);
+    
+    this.Color.add(ColorVel);
 
     Draw();
     return;
@@ -163,7 +165,7 @@ class Particle {
 
   void Draw() {
     noStroke();
-    fill(RED, GREEN, BLUE, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
+    fill(this.Color.x, this.Color.y, this.Color.z, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
 
     ellipse(pos.x, pos.y, radius, radius);
     return;
