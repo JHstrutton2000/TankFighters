@@ -94,7 +94,7 @@ class Tank implements GameObjectsPhysics{
   }
 
   PVector barrelpos() {
-    return pos.copy().sub(barrel.copy().setMag(Width));
+    return pos.copy().sub(barrel.copy().setMag(Width-10));
   }
   
   boolean checkhit(){

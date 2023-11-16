@@ -1,7 +1,5 @@
 class MainMenu {
-  //private ArrayList<UIButton> buttons;
   int state = -1;
-  //int state = 6;
   int loadTargetState, loadBackState;
   boolean open = true;
   PrintWriter Writer;
@@ -29,8 +27,6 @@ class MainMenu {
       Writer.println(Levels.get(i));
 
     Writer.flush();
-    
-    println(Levels);
 
     Main.addText("TankFighters", 210, 160, 70);
     Main.addButton("Play", 100, 300, 600, 100);

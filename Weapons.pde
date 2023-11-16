@@ -6,12 +6,12 @@ public class WeaponType {
   private int fireRate  = 0;//fireRate is how many bullets are created per fireTime
   private int fireTime  = 0;//refer to fireRate
   private int accuracy  = 0;//angle of deviation from heading
-  private int kick      = 0;//recoil force applied to tank. Tank can not move during this.
+  private float kick    = 0;//recoil force applied to tank. Tank can not move during this.
   private float speed   = 0;//speed the bullet created by weapon will travel
   private int ammoCount = 0;//Current ammoCount held by the Weapon
   private int ammoMax   = 0;//the most ammo that can be held by the Weapon
 
-  private WeaponType(WeaponNames name, int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, int kick, int ammoCount, int ammoMax) {
+  private WeaponType(WeaponNames name, int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, float kick, int ammoCount, int ammoMax) {
     this.name = name; 
     this.coolDown = coolDown;
     this.damage   = damage;
@@ -79,7 +79,7 @@ public class WeaponType {
     return this.accuracy;
   }
 
-  public int getkick() {
+  public float getkick() {
     return this.kick;
   }
 
@@ -92,7 +92,7 @@ ArrayList<WeaponType> initialiseWeapons(ArrayList<WeaponType> Weapons){
     Weapons = new ArrayList<WeaponType>();
     
     //                          Name                 cooldown  damage  bulletRadius  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax
-    Weapons.add(new WeaponType(WeaponNames.Default,   1,        1,      1,            0,        0,        10,    1,        1,    100,        100     ));
+    Weapons.add(new WeaponType(WeaponNames.Default,   1,        1,      1,            0,        0,        10,    1,        0.9,    100,        100     ));
     Weapons.add(new WeaponType(WeaponNames.Tracker,   5,        1,      1,            0,        0,        10,    1,        1,    5,          5       ));
     Weapons.add(new WeaponType(WeaponNames.Guided,    50,       1,      1,            0,        0,        5,     0,        0,    5,          5       ));
     Weapons.add(new WeaponType(WeaponNames.MultiShot, 0,        1,      1,            5,        2,        10,    45,       1,    20,         20      ));
@@ -154,12 +154,12 @@ class Weapon {
         float deg = vec.heading() + radians(random((int)-accuracy/2, (int)accuracy/2));
 
         vec.set(cos(deg), sin(deg));
-        vec.mult(tank.barrelLength());
+        vec.mult(tank.barrelLength());//tank.pos.copy().sub(vec)
 
-        gameObjectsPhysicsLists.add(new ParticleSystem(20, 4, tank.barrelpos(), tank.pos.copy().sub(vec), 45, 100, 100, 100 ,true));
+        gameObjectsPhysicsLists.add(new ParticleSystem(20, 4, tank.barrelpos(), tank.barrel, 45, 100, 100, 100 ,true));
         gameObjectsPhysicsLists.add(new bullet(tank, eqquiped));
 
-        tank.applyRecoil(tank.barrel.copy().setMag(eqquiped.getkick()));
+        tank.applyRecoil(tank.barrel.copy().setMag(1).mult(eqquiped.getkick()));
 
         fireRate--;
         fireTimer = masterfirerateTimer;
