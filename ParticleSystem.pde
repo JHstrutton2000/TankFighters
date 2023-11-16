@@ -6,7 +6,6 @@ class ParticleSystem implements GameObjectsPhysics{
   Boolean canDie = true;
 
   ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, float RED, float GREEN, float BLUE, boolean canDie) {
-    println(num, radius, canDie);
     particles = new ArrayList<Particle>();
     this.pos = pos;
     this.dir = direction;
@@ -67,6 +66,9 @@ class ParticleSystem implements GameObjectsPhysics{
         particles.get(i).Draw();
       }
     pop();
+  }
+  boolean Clicked(){
+    return false;
   }
 
   void applyForce(PVector vec) {

@@ -1,4 +1,4 @@
-class Tank implements GameObjectsPhysics{
+class Tank implements GameObjectsPhysics {
   PVector pos = new PVector(0, 0);
   PVector vel = new PVector(0, 0);
   PVector acc = new PVector(0, 0);
@@ -19,6 +19,8 @@ class Tank implements GameObjectsPhysics{
   private boolean player;
   private float RED, GREEN, BLUE;
 
+  private int TankInstance = 0;
+
 
   private boolean colliding;
 
@@ -27,17 +29,22 @@ class Tank implements GameObjectsPhysics{
   private Weapon weapon;
 
   Tank() {
-    this(true, new PVector(random(width), random(height)), 0, 1, 0);
+    this(true, new PVector(random(width), random(height)), 0, 1, 0, 0);
+  }
+
+  Tank(boolean player, float RED, float GREEN, float BLUE, int TankInstance) {
+    this(player, new PVector(random(width), random(height)), RED, GREEN, BLUE, TankInstance);
   }
 
   Tank(boolean player, float RED, float GREEN, float BLUE) {
-    this(player, new PVector(random(width), random(height)), RED, GREEN, BLUE);
+    this(player, new PVector(random(width), random(height)), RED, GREEN, BLUE, 0);
   }
-  
-  Tank(boolean player, PVector pos, float RED, float GREEN, float BLUE) {
+
+  Tank(boolean player, PVector pos, float RED, float GREEN, float BLUE, int TankInstance) {
     this.player = player;
     this.pos = pos;
-    
+    this.TankInstance = TankInstance;
+
     this.RED   = RED;
     this.GREEN = GREEN;
     this.BLUE  = BLUE;
@@ -46,38 +53,38 @@ class Tank implements GameObjectsPhysics{
     right = false;
     up = false;
     down = false;
-    
+
     weapon = new Weapon(this);
-    
-    trail = new ParticleSystem(0, 4, pos, vel, 180, 50, 50 , 50, false);
+
+    trail = new ParticleSystem(0, 4, pos, vel, 180, 50, 50, 50, false);
 
     gameObjectsPhysicsLists.add(this);
     gameObjectsPhysicsLists.add(trail);
   }
 
-  
-  int drawPriority(){
-    return 2; 
+
+  int drawPriority() {
+    return 2;
   }
 
-  Weapon getWeapon(){
-    return weapon; 
+  Weapon getWeapon() {
+    return weapon;
   }
-  
-  blockTypes getGameObjectType(){
-    if(player)
+
+  blockTypes getGameObjectType() {
+    if (player)
       return blockTypes.Player;
     else
       return blockTypes.Enemy;
   }
 
-  PVector pos(){
+  PVector pos() {
     return pos;
   }
-  PVector vel(){
+  PVector vel() {
     return vel;
   }
-  float r(){
+  float r() {
     return r;
   }
 
@@ -96,25 +103,24 @@ class Tank implements GameObjectsPhysics{
   PVector barrelpos() {
     return pos.copy().sub(barrel.copy().setMag(Width-10));
   }
-  
-  boolean checkhit(){
+
+  boolean checkhit() {
     return false;
   }
 
   void update() {
-    
-    if(player)// && i == playerTankInstance)
-        controls();
-    else if(!player)
+    if (player && (SelectedTankInstance == TankInstance)) {
+      controls();
+    } else if (!player)
       AI();
       
     r = it*0.9375;
     Width = 0.8*r;
     Height = 0.6*r;
-      
-    if(vel.mag() > 0)
+
+    if (vel.mag() > 0)
       trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), 100);
-    
+
     trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
 
     if (Health > maxHealth)
@@ -180,9 +186,9 @@ class Tank implements GameObjectsPhysics{
       weapon.NextWeapon();
       nextWeapon = false;
     }
-    
+
     target = new PVector(mouseX, mouseY);
-    
+
     return;
   }
 
@@ -193,22 +199,34 @@ class Tank implements GameObjectsPhysics{
     }
     return;
   }
-  
-  
-  boolean isColliding(GameObjectsPhysics gameObject){
-    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
-        PVector Dist = this.pos.copy().sub(gameObject.pos());
 
-        if ((Dist.mag()) <= ((this.r/2 + gameObject.r()/2) - (0.1 * (this.r + gameObject.r())))) {
-          this.colliding = true;
-  
+  boolean Clicked(){
+    PVector Dist = new PVector(mouseX, mouseY);    
+    Dist = this.pos.copy().sub(Dist);
+    
+    if ((Dist.mag()) <= ((this.r/2) - (0.1 * this.r))) {
+      SelectedTankInstance = this.TankInstance;
+      println(SelectedTankInstance);
+      return true;
+    }
+    return false;
+  }
+
+
+  boolean isColliding(GameObjectsPhysics gameObject) {
+    if (gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy) {
+      PVector Dist = this.pos.copy().sub(gameObject.pos());
+
+      if ((Dist.mag()) <= ((this.r/2 + gameObject.r()/2) - (0.1 * (this.r + gameObject.r())))) {
+        this.colliding = true;
+
         gameObject.vel().sub(Dist);
         this.vel().sub(Dist.mult(-1));
       } else if (this.colliding) { // || gameObject.colliding) {
         this.colliding = false;
       }
     }
-    return false; 
+    return false;
   }
 
   void hit(int damage) {

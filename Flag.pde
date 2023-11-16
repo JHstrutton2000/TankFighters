@@ -39,4 +39,8 @@ class Flag implements GameObjectsPhysics{
   float r(){
     return r;
   }
+  
+  boolean Clicked(){
+    return false;
+  }
 }

@@ -11,10 +11,16 @@ enum blockTypes {
 
 enum WeaponNames{
   Default,
+  Machine,
   Tracker,
   Guided,
   MultiShot,
   SlowShot,
   FastShot,
   Mine
+}
+
+enum FireTypes{
+  Default,
+  Automatic 
 }

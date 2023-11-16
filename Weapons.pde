@@ -10,8 +10,9 @@ public class WeaponType {
   private float speed   = 0;//speed the bullet created by weapon will travel
   private int ammoCount = 0;//Current ammoCount held by the Weapon
   private int ammoMax   = 0;//the most ammo that can be held by the Weapon
+  private FireTypes fireType = FireTypes.Default;
 
-  private WeaponType(WeaponNames name, int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, float kick, int ammoCount, int ammoMax) {
+  private WeaponType(WeaponNames name, int coolDown, int damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, float kick, int ammoCount, int ammoMax, FireTypes fireType) {
     this.name = name; 
     this.coolDown = coolDown;
     this.damage   = damage;
@@ -21,6 +22,7 @@ public class WeaponType {
     this.accuracy = accuracy;
     this.speed    = speed;
     this.kick     = kick;
+    this.fireType = fireType;
     
     this.ammoCount = ammoCount;
     this.ammoMax   = ammoMax;
@@ -49,6 +51,10 @@ public class WeaponType {
       this.ammoCount -= number;
       
     return result;
+  }
+  
+  FireTypes getFireType(){
+    return this.fireType;
   }
   
   public float bulletRadius(){
@@ -91,14 +97,15 @@ public class WeaponType {
 ArrayList<WeaponType> initialiseWeapons(ArrayList<WeaponType> Weapons){
     Weapons = new ArrayList<WeaponType>();
     
-    //                          Name                 cooldown  damage  bulletRadius  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax
-    Weapons.add(new WeaponType(WeaponNames.Default,   1,        1,      1,            0,        0,        10,    1,        0.9,    100,        100     ));
-    Weapons.add(new WeaponType(WeaponNames.Tracker,   5,        1,      1,            0,        0,        10,    1,        1,    5,          5       ));
-    Weapons.add(new WeaponType(WeaponNames.Guided,    50,       1,      1,            0,        0,        5,     0,        0,    5,          5       ));
-    Weapons.add(new WeaponType(WeaponNames.MultiShot, 0,        1,      1,            5,        2,        10,    45,       1,    20,         20      ));
-    Weapons.add(new WeaponType(WeaponNames.SlowShot,  50,       10,     5,            0,        0,        2,     0,        30,   20,         20      ));
-    Weapons.add(new WeaponType(WeaponNames.FastShot,  100,      4,      1,            0,        0,        50,    0,        15,   20,         20      ));
-    Weapons.add(new WeaponType(WeaponNames.Mine,      100,      100,    1,            0,        0,        0,     0,        0,    20,         20      ));
+    //                          Name                 cooldown  damage  bulletRadius  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax  FireTypes
+    Weapons.add(new WeaponType(WeaponNames.Default,   1,        1,      1,            0,        0,        10,    1,        1,    100,        100,     FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.Machine,   0,        1,      1,            0,        0,        10,    0,        0,    100,        100,     FireTypes.Automatic));
+    Weapons.add(new WeaponType(WeaponNames.Tracker,   5,        1,      1,            0,        0,        10,    1,        1,    5,          5,       FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.Guided,    50,       1,      1,            0,        0,        5,     0,        0,    5,          5,       FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.MultiShot, 0,        1,      1,            5,        2,        10,    45,       1,    20,         20,      FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.SlowShot,  50,       10,     5,            0,        0,        2,     0,        30,   20,         20,      FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.FastShot,  100,      4,      1,            0,        0,        50,    0,        15,   20,         20,      FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.Mine,      100,      100,    1,            0,        0,        0,     0,        0,    20,         20,      FireTypes.Default));
     
     return Weapons;
 }
@@ -135,8 +142,8 @@ class Weapon {
       accuracy = eqquiped.getAccuracy();
 
       masterfirerateTimer = fireTimer;
-
-      mouseDown = false;
+      if(eqquiped.getFireType() == FireTypes.Default)
+        mouseDown = false;
     } else
       mouseDown = false;
 

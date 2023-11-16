@@ -14,4 +14,5 @@ interface GameObjectsPhysics{
   float r();
   
   blockTypes getGameObjectType();
+  boolean Clicked();
 }

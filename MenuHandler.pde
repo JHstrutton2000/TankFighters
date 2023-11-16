@@ -313,16 +313,21 @@ class MainMenu {
               color Ccol = col.get(x, y);
               color Ctype = type.get(x, y);
               int t = (int)red(Ctype) - 1;
-
+              
               if (t != -1) {
                 blocks.add(new Block(x, y, 1, 1, red(Ccol), green(Ccol), blue(Ccol), t));
-                if (t == blockTypes.Enemy.ordinal())
-                  tanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol)));
-                else if (t == blockTypes.Player.ordinal())
-                  playerTanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol)));
+                if (t == blockTypes.Enemy.ordinal()){
+                  tanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol), 0));
+                }
+                else if (t == blockTypes.Player.ordinal()){
+                  playerTanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), red(Ccol), green(Ccol), blue(Ccol), SelectedTankInstance));
+                  SelectedTankInstance++;
+                }
               }
             }
           }
+          
+          SelectedTankInstance = 0;
 
           //debug
           state = loadTargetState;

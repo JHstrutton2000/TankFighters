@@ -8,7 +8,6 @@ int lastMouseButton;
 void mousePressed() {
   mouseDown = true;
   lastMouseButton = mouseButton;
-  
 }
 
 void mouseReleased() {
@@ -33,7 +32,6 @@ void mouseWheel(MouseEvent event) {
 void keyPressed() {
   if(!keyDown)
     keyPress = true;
-    
     
   if(keyPress){
     if (key=='t'){

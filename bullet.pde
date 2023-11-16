@@ -26,11 +26,15 @@ class bullet implements GameObjectsPhysics {
       this.invFrame = (int)(5 / weapon.getSpeed() * r/2)+10;
 
   }
+  
+  boolean Clicked(){
+    return false;
+  }
 
   void update() {
     if(weapon.getName() == WeaponNames.Guided){
       if(!mouseDown){
-        vel.add(pos.copy().sub(new PVector(mouseX, mouseY)).mult(-0.01));
+        vel.add(pos.copy().sub(tank.target.copy()).mult(-0.01));
         vel.set(constrain(vel.x, -weapon.getSpeed(), weapon.getSpeed()), constrain(vel.y, -weapon.getSpeed(), weapon.getSpeed()));
       }
       else
