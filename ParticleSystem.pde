@@ -14,7 +14,7 @@ class ParticleSystem implements GameObjectsPhysics{
     this.ColorVel = ColorVel;
     this.canDie = canDie;
 
-    addParticle(num, radius, angle, 300);
+    addParticle(num, radius, angle, Color, ColorVel, 300);
   }
   
   int drawPriority(){
@@ -31,7 +31,7 @@ class ParticleSystem implements GameObjectsPhysics{
     return -1;
   }
 
-  void addParticle(int number, int radius, float deviation, int lifetime) {
+  void addParticle(int number, int radius, float deviation, PVector Color, PVector ColorVel, int lifetime) {
     PVector vec = dir.copy().sub(pos);
 
     for (int i=0; i<number; i++) {
@@ -42,7 +42,7 @@ class ParticleSystem implements GameObjectsPhysics{
 
       vec.set(x, y).setMag(random(it/16));
 
-      particles.add(new Particle(pos.copy(), vec.copy(), lifetime, radius, new PVector(Color.x, Color.y, Color.z), new PVector()));
+      particles.add(new Particle(pos.copy(), vec.copy(), lifetime, radius, new PVector(Color.x, Color.y, Color.z), ColorVel));
     }
   }
   

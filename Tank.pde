@@ -17,8 +17,8 @@ class Tank implements GameObjectsPhysics {
   private float maxVel = 5;
   private float maxAcc = 1;
   private boolean player;
-  
   private PVector Color;
+  
   //private float RED, GREEN, BLUE;
 
   private int TankInstance = 0;
@@ -46,7 +46,6 @@ class Tank implements GameObjectsPhysics {
     this.player = player;
     this.pos = pos;
     this.TankInstance = TankInstance;
-
     this.Color = Color;
 
     left = false;
@@ -119,7 +118,7 @@ class Tank implements GameObjectsPhysics {
     Height = 0.6*r;
 
     if (vel.mag() > 0)
-      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), 20);
+      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), Color, new PVector(), 20);
 
     trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
 

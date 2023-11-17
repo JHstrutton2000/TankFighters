@@ -151,9 +151,8 @@ class bullet implements GameObjectsPhysics {
   }
 
   void Draw() {
-    fill(255);
-    
     push();
+      fill(255);
       strokeWeight(1);
       ellipse(pos.x, pos.y, r, r);
     pop();
