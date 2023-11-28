@@ -320,11 +320,14 @@ class MainMenu {
               if (t != -1) {
                 blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), t));
                 if (t == blockTypes.Enemy.ordinal()){
-                  tanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0));
+                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0));
                 }
                 else if (t == blockTypes.Player.ordinal()){
-                  playerTanks.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance));
+                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), new PVector(x*it+it/2, y*it+it/2), new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance));
                   SelectedTankInstance++;
+                }
+                else if(t == blockTypes.Flag.ordinal()){
+                  gameObjectsPhysicsLists.add(new Flag(new PVector(x*it+it/2, y*it+it/2), new PVector(red(Ccol), green(Ccol), blue(Ccol))));
                 }
               }
             }

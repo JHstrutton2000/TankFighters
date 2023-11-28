@@ -61,11 +61,9 @@ class ParticleSystem implements GameObjectsPhysics{
   }
   
   void Draw(){
-    push();
-      for (int i=0; i<particles.size(); i++){
-        particles.get(i).Draw();
-      }
-    pop();
+    for (int i=0; i<particles.size(); i++){
+      particles.get(i).Draw();
+    }
   }
   boolean Clicked(){
     return false;
@@ -162,10 +160,12 @@ class Particle {
   }
 
   void Draw() {
-    noStroke();
-    fill(this.Color.x, this.Color.y, this.Color.z, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
-
-    ellipse(pos.x, pos.y, radius, radius);
+    push();
+      noStroke();
+      fill(this.Color.x, this.Color.y, this.Color.z, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
+  
+      ellipse(pos.x, pos.y, radius, radius);
+    pop();
     return;
   }
 

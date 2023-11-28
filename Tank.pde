@@ -118,7 +118,7 @@ class Tank implements GameObjectsPhysics {
     Height = 0.6*r;
 
     if (vel.mag() > 0)
-      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), Color, new PVector(), 20);
+      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), new PVector(50, 50, 50), new PVector(), 20);
 
     trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
 

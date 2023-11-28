@@ -92,9 +92,12 @@ class Block implements GameObjectsPhysics{
   float r(){
     return (w+h)/2;
   }
+  boolean validBlockType(){
+   return (type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag);
+  }
   
   boolean isColliding(GameObjectsPhysics gameObject){
-    if(type == blockTypes.Player || type == blockTypes.Enemy)
+    if(validBlockType())
       return false;
     
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
@@ -116,15 +119,16 @@ class Block implements GameObjectsPhysics{
   }
 
   void Draw() {
+    if(validBlockType())
+      return;
+      
     push();
-      if(type != blockTypes.Player && type != blockTypes.Enemy && type != blockTypes.Flag){
-        if (texture == null) {
-          stroke(1);
-          fill(Color.x, Color.y, Color.z);
-          rect(pos.x*it, pos.y*it, w*it, h*it);
-        } else {
-          image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);
-        }
+      if (texture == null) {
+        stroke(1);
+        fill(Color.x, Color.y, Color.z);
+        rect(pos.x*it, pos.y*it, w*it, h*it);
+      } else {
+        image(texture, pos.x*it + (w*it)/2, pos.y*it + (h*it)/2);
       }
     pop();
   }
