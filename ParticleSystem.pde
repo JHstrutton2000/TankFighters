@@ -100,10 +100,6 @@ class ParticleSystem implements GameObjectsPhysics{
     return pass;
   }
   
-  boolean checkhit(){
-    return false; 
-  }
-  
   boolean isColliding(GameObjectsPhysics gameObject){
     return false; 
   }

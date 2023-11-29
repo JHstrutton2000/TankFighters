@@ -8,6 +8,7 @@ class bullet implements GameObjectsPhysics {
   WeaponType weapon;
   
   float damage = 0;
+  boolean dead = false;
   
   int invFrame;
 
@@ -64,6 +65,8 @@ class bullet implements GameObjectsPhysics {
 
         tank.hit(weapon.getDamage() - damage);
         tank.applyForce(vel.copy().setMag(2));
+        
+        dead = true;
         return true;
       }
     }
@@ -79,6 +82,8 @@ class bullet implements GameObjectsPhysics {
         block.damage(weapon.getDamage() - damage);
       else if(block.type == blockTypes.MovableBlock)
         tank.applyForce(vel.copy().setMag(2));
+        
+      dead = true;
       return true;
     }
     
@@ -97,7 +102,7 @@ class bullet implements GameObjectsPhysics {
   }
   
   boolean isDead(){
-    if(checkhit() || (damage >= weapon.getDamage())){
+    if(dead || (damage >= weapon.getDamage())){
       
       float radius = (int)Math.ceil(this.r/4)+1;
       float area = PI*pow(radius, 2);
@@ -111,7 +116,24 @@ class bullet implements GameObjectsPhysics {
 
 
   boolean isColliding(GameObjectsPhysics gameObject){
-    return false; 
+    if (pos.x>width || pos.x<0 || pos.y>height || pos.y<0)//Out of bounds
+      return true;
+    
+    
+    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+      if(checkTankHit((Tank)gameObject))
+        return true;
+    }
+    else if(gameObject.getGameObjectType() == blockTypes.Block || gameObject.getGameObjectType() == blockTypes.DamageBlock || gameObject.getGameObjectType() == blockTypes.MovableBlock){
+      if(checkBlockHit((Block)gameObject))
+        return true;
+    }
+    else if(gameObject.getGameObjectType() == blockTypes.bullet){
+      checkBulletHit((bullet)gameObject);
+    }
+      
+    
+    return false;
   }
   
   blockTypes getGameObjectType(){    
@@ -126,28 +148,6 @@ class bullet implements GameObjectsPhysics {
   }
   float r(){
     return r;
-  }
-
-  boolean checkhit() {
-    if (pos.x>width || pos.x<0 || pos.y>height || pos.y<0)//Out of bounds
-      return true;
-    
-    
-    for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
-      if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Player || gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Enemy){
-        if(checkTankHit((Tank)gameObjectsPhysicsLists.get(i)))
-          return true;
-      }
-      else if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Block || gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.DamageBlock || gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.MovableBlock){
-        if(checkBlockHit((Block)gameObjectsPhysicsLists.get(i)))
-          return true;
-      }
-      else if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.bullet){
-        checkBulletHit((bullet)gameObjectsPhysicsLists.get(i));
-      }
-      
-    }
-    return false;
   }
 
   void Draw() {
