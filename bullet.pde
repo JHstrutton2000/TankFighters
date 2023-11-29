@@ -138,7 +138,7 @@ class bullet implements GameObjectsPhysics {
         if(checkTankHit((Tank)gameObjectsPhysicsLists.get(i)))
           return true;
       }
-      else if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Block){
+      else if(gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.Block || gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.DamageBlock || gameObjectsPhysicsLists.get(i).getGameObjectType() == blockTypes.MovableBlock){
         if(checkBlockHit((Block)gameObjectsPhysicsLists.get(i)))
           return true;
       }

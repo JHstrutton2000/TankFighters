@@ -1,8 +1,6 @@
-ArrayList<Tank> tanks;
 ArrayList<Block> blocks;
 ArrayList<String> Levels;
 
-ArrayList<Tank> playerTanks;
 int SelectedTankInstance = 0;
 
 float it = 80;
@@ -39,8 +37,6 @@ void setup() {
     e.printStackTrace();
   }
   
-  tanks = new ArrayList<Tank>();
-  playerTanks = new ArrayList<Tank>();
   mainMenu = new MainMenu();
   blocks = new ArrayList<Block>();
 

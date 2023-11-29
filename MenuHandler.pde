@@ -302,8 +302,6 @@ class MainMenu {
         if (chooser.getButtonCount() > 0) {
           gameObjectsPhysicsLists = new ArrayList<GameObjectsPhysics>();
 
-          playerTanks = new ArrayList<Tank>();
-          tanks = new ArrayList<Tank>();
           blocks = new ArrayList<Block>();
 
           String name = Levels.get(LoadMenu.getChooserState(0));

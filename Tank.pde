@@ -192,10 +192,10 @@ class Tank implements GameObjectsPhysics {
   }
 
   void AI() {
-    for (int i=0; i<tanks.size(); i++) {
-      if (tanks.get(i).player)
-        target = tanks.get(i).pos;
-    }
+    //for (int i=0; i<tanks.size(); i++) {
+    //  if (tanks.get(i).player)
+    //    target = tanks.get(i).pos;
+    //}
     return;
   }
 

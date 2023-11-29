@@ -65,8 +65,12 @@ class Block implements GameObjectsPhysics{
     return 3; 
   }
   
-  boolean isDead(){
-    return !alive; 
+  boolean isDead() {
+    if (health <= 0) {
+      gameObjectsPhysicsLists.add(new ParticleSystem(50, 4, pos.copy().add(pos.copy().sub(pos).setMag(20)), vel.copy().mult(-1), 360, Color, new PVector(0, 0, 0), true));
+      return true;
+    }
+    return false;
   }
 
   blockTypes getType() {
@@ -92,15 +96,15 @@ class Block implements GameObjectsPhysics{
   float r(){
     return (w+h)/2;
   }
-  boolean validBlockType(){
+  boolean invalidBlockType(){
    return (type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag);
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){
-    if(validBlockType())
+    if(invalidBlockType())
       return false;
     
-    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy || gameObject.getGameObjectType() == blockTypes.MovableBlock){
       float offset = 2.5;
       if (gameObject.pos().x+gameObject.r()/2-offset >= pos.x*it && gameObject.pos().x-gameObject.r()/2+offset <= (pos.x+w)*it && gameObject.pos().y+gameObject.r()/2-offset >= pos.y*it && gameObject.pos().y-gameObject.r()/2+offset <= (pos.y+h)*it) {
         gameObject.pos().add(gameObject.pos().copy().sub((pos.x+w/2)*it, (pos.y+h/2)*it).setMag(1)).sub(gameObject.vel());
@@ -119,7 +123,7 @@ class Block implements GameObjectsPhysics{
   }
 
   void Draw() {
-    if(validBlockType())
+    if(invalidBlockType())
       return;
       
     push();

@@ -6,7 +6,9 @@ enum blockTypes {
     DamageBlock,
     Flag,
     particleSystem,
-    bullet
+    bullet,
+    Health,
+    Shield
 }
 
 enum WeaponNames{

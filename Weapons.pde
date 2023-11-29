@@ -99,12 +99,12 @@ ArrayList<WeaponType> initialiseWeapons(ArrayList<WeaponType> Weapons){
     
     //                          Name                 cooldown  damage  bulletRadius  fireRate  fireTime  speed  accuracy  kick  ammmoCount  ammoMax  FireTypes
     Weapons.add(new WeaponType(WeaponNames.Default,   1,        1,      1,            0,        0,        10,    1,        1,    100,        100,     FireTypes.Default));
-    Weapons.add(new WeaponType(WeaponNames.Machine,   0,        1,      1,            3,        0,        10,    15,       0,    100,        100,     FireTypes.Automatic));
+    Weapons.add(new WeaponType(WeaponNames.Machine,   0,        1,      1,            3,        0,        10,    15,       0,    1000,       1000,    FireTypes.Automatic));
     Weapons.add(new WeaponType(WeaponNames.Tracker,   5,        1,      1,            0,        0,        10,    1,        1,    5,          5,       FireTypes.Default));
     Weapons.add(new WeaponType(WeaponNames.Guided,    50,       1,      1,            0,        0,        5,     0,        0,    5,          5,       FireTypes.Default));
     Weapons.add(new WeaponType(WeaponNames.MultiShot, 0,        1,      1,            5,        2,        10,    45,       1,    20,         20,      FireTypes.Default));
-    Weapons.add(new WeaponType(WeaponNames.SlowShot,  50,       10,     10,           0,        0,        0,     0,        30,   20,         20,      FireTypes.Default));
-    Weapons.add(new WeaponType(WeaponNames.FastShot,  100,      4,      1,            0,        0,        100,   0,        15,   20,         20,      FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.SlowShot,  50,       10,     3,            0,        0,        2,     0,        30,   20,         20,      FireTypes.Default));
+    Weapons.add(new WeaponType(WeaponNames.FastShot,  100,      4,      1,            0,        0,        20,    0,        15,   20,         20,      FireTypes.Default));
     Weapons.add(new WeaponType(WeaponNames.Mine,      100,      100,    1,            0,        0,        0,     0,        0,    20,         20,      FireTypes.Default));
     
     return Weapons;
