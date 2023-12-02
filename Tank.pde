@@ -145,20 +145,24 @@ class Tank implements GameObjectsPhysics {
     weapon.update();
   }
   
-  boolean pickup(GameObjectsPhysics pickup, float value){
+  int pickup(GameObjectsPhysics pickup, float value, float weaponIndex){
     if(pickup.getGameObjectType() == blockTypes.Health){
       if(Health+value < maxHealth){
         Health += value;
-        return true;
       }
+      return (int)(Health+value - maxHealth);
     }
     else if(pickup.getGameObjectType() == blockTypes.Shield){
       if(shield+value < maxShield){
         shield += value;
-        return true;
+        
       }
+      return (int)(shield+value - maxShield);
     }
-    return false; 
+    else if(pickup.getGameObjectType() == blockTypes.Ammo){
+      return weapon.addAmmo((int)weaponIndex, (int)value);
+    }
+    return (int)value; 
   }
   
   void applyForce(PVector force) {

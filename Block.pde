@@ -39,8 +39,8 @@ class Block implements GameObjectsPhysics{
     gameObjectsPhysicsLists.add(this);
   }
   
-  boolean pickup(GameObjectsPhysics pickup, float value){
-    return false; 
+  int pickup(GameObjectsPhysics pickup, float value, float value2){
+    return (int)value; 
   }
   
   void applyForce(PVector force){
@@ -101,7 +101,7 @@ class Block implements GameObjectsPhysics{
     return (w+h)/2;
   }
   boolean invalidBlockType(){
-   return (type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag || type == blockTypes.Health || type == blockTypes.Shield);
+   return (type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag || type == blockTypes.Health || type == blockTypes.Shield || type == blockTypes.Ammo);
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){

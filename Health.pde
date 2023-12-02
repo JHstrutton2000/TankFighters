@@ -15,10 +15,12 @@ class Health implements GameObjectsPhysics{
   boolean isColliding(GameObjectsPhysics gameObject){
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
       if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
-        if(gameObject.pickup(this, val)){
+        val = gameObject.pickup(this, val, 0);
+        if(val <= 0){
           dead = true;
-          return true;
         }
+        
+        return true;
       } 
     }
     return false;
@@ -28,14 +30,19 @@ class Health implements GameObjectsPhysics{
     return 2;
   }
   
-  boolean pickup(GameObjectsPhysics pickup, float value){
-    return false; 
+  int pickup(GameObjectsPhysics pickup, float value, float value2){
+    return (int)value; 
   }
   
   void Draw(){
     push();
       fill(150, 20, 20);
       ellipse(pos.x, pos.y, r, r);
+      
+      if(ring){
+        fill(255);
+        text("+"+val, pos.x - 2.5*r, pos.y + 3*r);  
+      }
     pop();
   }
   void update(){

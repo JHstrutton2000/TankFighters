@@ -335,6 +335,9 @@ class MainMenu {
                 else if(t == blockTypes.Shield.ordinal()){
                    gameObjectsPhysicsLists.add(new Shield(pos, 1));
                 }
+                else if(t == blockTypes.Ammo.ordinal()){
+                  gameObjectsPhysicsLists.add(new Ammo(pos, WeaponNames.Default, 1));
+                }
               }
             }
           }

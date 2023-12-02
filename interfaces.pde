@@ -6,7 +6,7 @@ interface GameObjectsPhysics{
   boolean isColliding(GameObjectsPhysics gameObject);
   int drawPriority();
   
-  boolean pickup(GameObjectsPhysics pickup, float value);
+  int pickup(GameObjectsPhysics pickup, float value, float value2);
   
   void applyForce(PVector force);
   void Draw();

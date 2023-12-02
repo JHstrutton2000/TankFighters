@@ -1,26 +1,23 @@
-class Shield implements GameObjectsPhysics{
+class Ammo implements GameObjectsPhysics{
   PVector pos;
   boolean dead;
-  float r;
-  float val;
+  WeaponNames weapon;
+  float r, val;
   
-  Shield(PVector pos, float val){
+  Ammo(PVector pos, WeaponNames weapon, float val){
     this.pos = pos;
     this.val = val;
+    this.weapon = weapon;
   }
   
   boolean isDead(){
     return dead;
   }
   
-  int pickup(GameObjectsPhysics pickup, float value, float value2){
-    return (int)value; 
-  }
-  
   boolean isColliding(GameObjectsPhysics gameObject){
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
       if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
-        val = gameObject.pickup(this, val, 0);
+        val = gameObject.pickup(this, val, weapon.ordinal());
         if(val <= 0){
           dead = true;
         }
@@ -35,19 +32,21 @@ class Shield implements GameObjectsPhysics{
     return 2;
   }
   
+  int pickup(GameObjectsPhysics pickup, float value, float value2){
+    return (int)value; 
+  }
+  
   void Draw(){
     push();
-      fill(20, 150, 20);
+      fill(180, 180, 180);
       ellipse(pos.x, pos.y, r, r);
-      
-      if(ring){
-        fill(255);
-        text("+"+val, pos.x - 2.5*r, pos.y + 3*r);  
-      }
+      if(ring)
+        text(weapon.toString(), pos.x - 2.5*r, pos.y + 2*r);
     pop();
   }
+  
   void update(){
-    r = val * it/10;
+    r = val/5 * it/10 +3;
   }
   
   void applyForce(PVector force){
@@ -65,7 +64,7 @@ class Shield implements GameObjectsPhysics{
   }
   
   blockTypes getGameObjectType(){
-    return blockTypes.Shield;
+    return blockTypes.Ammo;
   }
   
   boolean Clicked(){

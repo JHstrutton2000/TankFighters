@@ -78,8 +78,8 @@ class bullet implements GameObjectsPhysics {
     return false;
   }
   
-  boolean pickup(GameObjectsPhysics pickup, float value){
-    return false; 
+  int pickup(GameObjectsPhysics pickup, float value, float value2){
+    return (int)value; 
   }
   
   

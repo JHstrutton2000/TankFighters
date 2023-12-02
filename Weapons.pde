@@ -45,10 +45,14 @@ public class WeaponType {
   
   public int ammoAdded(int number){
     int result = this.ammoCount;
-    if(this.ammoCount + number >= this.ammoMax)
-      this.ammoCount = 0;
-    else  
-      this.ammoCount -= number;
+    if(this.ammoCount + number > this.ammoMax){
+      this.ammoCount = this.ammoMax;
+      result = this.ammoCount+number - this.ammoMax;
+    }
+    else{
+      this.ammoCount += number;
+      result = 0;
+    }
       
     return result;
   }
@@ -173,6 +177,10 @@ class Weapon {
       } else if (fireRate < 0 || eqquiped.getAmmo() == 0)
         fired = false;
     }
+  }
+  
+  int addAmmo(int WeaponIndex, int count){
+    return Weapons.get(WeaponIndex).ammoAdded(count);
   }
 
   void NextWeapon() {

@@ -8,7 +8,8 @@ enum blockTypes {
     particleSystem,
     bullet,
     Health,
-    Shield
+    Shield,
+    Ammo
 }
 
 enum WeaponNames{

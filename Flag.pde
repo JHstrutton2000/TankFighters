@@ -40,8 +40,8 @@ class Flag implements GameObjectsPhysics{
     return;
   }
   
-  boolean pickup(GameObjectsPhysics pickup, float value){
-    return false; 
+  int pickup(GameObjectsPhysics pickup, float value, float value2){
+    return (int)value; 
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){

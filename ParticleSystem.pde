@@ -31,8 +31,8 @@ class ParticleSystem implements GameObjectsPhysics{
     return -1;
   }
   
-  boolean pickup(GameObjectsPhysics pickup, float value){
-    return false; 
+  int pickup(GameObjectsPhysics pickup, float value, float value2){
+    return (int)value; 
   }
 
   void addParticle(int number, int radius, float deviation, PVector Color, PVector ColorVel, int lifetime) {
