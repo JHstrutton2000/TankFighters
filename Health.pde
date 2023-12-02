@@ -1,11 +1,11 @@
 class Health implements GameObjectsPhysics{
   PVector pos;
   boolean dead;
-  float r;
+  float r, val;
   
-  Health(PVector pos){
+  Health(PVector pos, float val){
     this.pos = pos;
-    r = it;
+    this.val = val;
   }
   
   boolean isDead(){
@@ -13,10 +13,23 @@ class Health implements GameObjectsPhysics{
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){
+    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+      if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
+        if(gameObject.pickup(this, val)){
+          dead = true;
+          return true;
+        }
+      } 
+    }
     return false;
   }
+  
   int drawPriority(){
-    return 5;
+    return 2;
+  }
+  
+  boolean pickup(GameObjectsPhysics pickup, float value){
+    return false; 
   }
   
   void Draw(){
@@ -26,7 +39,11 @@ class Health implements GameObjectsPhysics{
     pop();
   }
   void update(){
-    
+    r = val * it/10;
+  }
+  
+  void applyForce(PVector force){
+    return;
   }
   
   PVector pos(){

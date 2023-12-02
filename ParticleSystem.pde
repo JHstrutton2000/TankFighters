@@ -30,6 +30,10 @@ class ParticleSystem implements GameObjectsPhysics{
   float r(){
     return -1;
   }
+  
+  boolean pickup(GameObjectsPhysics pickup, float value){
+    return false; 
+  }
 
   void addParticle(int number, int radius, float deviation, PVector Color, PVector ColorVel, int lifetime) {
     PVector vec = dir.copy().sub(pos);
@@ -69,9 +73,9 @@ class ParticleSystem implements GameObjectsPhysics{
     return false;
   }
 
-  void applyForce(PVector vec) {
+  void applyForce(PVector force) {
     for (int i=0; i<particles.size(); i++)
-      particles.get(i).applyForce(vec);
+      particles.get(i).applyForce(force);
     return;
   }
 

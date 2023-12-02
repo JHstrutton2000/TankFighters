@@ -36,6 +36,14 @@ class Flag implements GameObjectsPhysics{
     return false; 
   }
   
+  void applyForce(PVector force){
+    return;
+  }
+  
+  boolean pickup(GameObjectsPhysics pickup, float value){
+    return false; 
+  }
+  
   boolean isColliding(GameObjectsPhysics gameObject){
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
       return true; 

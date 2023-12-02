@@ -2,21 +2,35 @@ class Shield implements GameObjectsPhysics{
   PVector pos;
   boolean dead;
   float r;
+  float val;
   
-  Shield(PVector pos){
+  Shield(PVector pos, float val){
     this.pos = pos;
-    r = it;
+    this.val = val;
   }
   
   boolean isDead(){
     return dead;
   }
   
+  boolean pickup(GameObjectsPhysics pickup, float value){
+    return false; 
+  }
+  
   boolean isColliding(GameObjectsPhysics gameObject){
+    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+      if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
+        if(gameObject.pickup(this, val)){
+          dead = true;
+          return true;
+        }
+      } 
+    }
     return false;
   }
+  
   int drawPriority(){
-    return 5;
+    return 2;
   }
   
   void Draw(){
@@ -26,7 +40,11 @@ class Shield implements GameObjectsPhysics{
     pop();
   }
   void update(){
-    
+    r = val * it/10;
+  }
+  
+  void applyForce(PVector force){
+    return;
   }
   
   PVector pos(){
@@ -40,7 +58,7 @@ class Shield implements GameObjectsPhysics{
   }
   
   blockTypes getGameObjectType(){
-    return blockTypes.Health;
+    return blockTypes.Shield;
   }
   
   boolean Clicked(){

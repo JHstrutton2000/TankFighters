@@ -39,6 +39,14 @@ class Block implements GameObjectsPhysics{
     gameObjectsPhysicsLists.add(this);
   }
   
+  boolean pickup(GameObjectsPhysics pickup, float value){
+    return false; 
+  }
+  
+  void applyForce(PVector force){
+    acc.set(force);
+  }
+  
   boolean Clicked(){
     return false;
   }

@@ -9,8 +9,9 @@ class Tank implements GameObjectsPhysics {
   private PVector barrel = new PVector(0, 0);
 
   private float Health    = 10;
-  private float shield    = 0;
   private float maxHealth = 10;
+  private float shield    = 0;
+  private float maxShield = 10;
 
   private float Width = 40;
   private float Height = 30;
@@ -143,9 +144,25 @@ class Tank implements GameObjectsPhysics {
 
     weapon.update();
   }
-
-  void applyForce(PVector vec) {
-    acc.set(vec);
+  
+  boolean pickup(GameObjectsPhysics pickup, float value){
+    if(pickup.getGameObjectType() == blockTypes.Health){
+      if(Health+value < maxHealth){
+        Health += value;
+        return true;
+      }
+    }
+    else if(pickup.getGameObjectType() == blockTypes.Shield){
+      if(shield+value < maxShield){
+        shield += value;
+        return true;
+      }
+    }
+    return false; 
+  }
+  
+  void applyForce(PVector force) {
+    acc.set(force);
     return;
   }
 
@@ -259,9 +276,14 @@ class Tank implements GameObjectsPhysics {
           noFill();
           float val = map(Health, 0, maxHealth, 0, 1);
           
-          stroke(Color.x*val, Color.y*val, Color.z*val);
+          stroke(255*val, 0, 0);
           strokeWeight(3);
           ellipse(0, 0, r, r);
+          
+          val = map(shield, 0, maxShield, 0, 1);
+          stroke(0, 255*val, 255*val);
+          strokeWeight(1);
+          ellipse(0, 0, r+5, r+5);
         }
     
         stroke(0);

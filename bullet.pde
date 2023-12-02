@@ -58,6 +58,10 @@ class bullet implements GameObjectsPhysics {
     return this.r; 
   }
 
+  void applyForce(PVector force){
+    acc.set(force);
+  }
+  
   boolean checkTankHit(Tank tank){
     if (tank != this.tank || invFrame <= 0) {
       if (dist(pos.x, pos.y, tank.pos.x, tank.pos.y) <= (r+tank.r)/2) {
@@ -74,14 +78,20 @@ class bullet implements GameObjectsPhysics {
     return false;
   }
   
+  boolean pickup(GameObjectsPhysics pickup, float value){
+    return false; 
+  }
+  
+  
   boolean checkBlockHit(Block block){
     if ((block.type != blockTypes.Enemy && block.type != blockTypes.Player) && (pos.x+r/2 >= block.pos.x*it && pos.x-r/2 <= (block.pos.x+block.w)*it && pos.y+r/2 >= block.pos.y*it && pos.y-r/2 <= (block.pos.y+block.h)*it)) {
       gameObjectsPhysicsLists.add(new ParticleSystem(20, (int)(this.r), pos.copy(), vel.copy().mult(-2*this.r), 360, block.Color, new PVector(), true));
       
       if(block.type == blockTypes.DamageBlock)
         block.damage(weapon.getDamage() - damage);
-      else if(block.type == blockTypes.MovableBlock)
-        tank.applyForce(vel.copy().setMag(2));
+      else if(block.type == blockTypes.MovableBlock){
+        block.applyForce(vel.copy().setMag(round(weapon.getDamage()/10)+0.5));
+      }
         
       dead = true;
       return true;

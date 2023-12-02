@@ -330,10 +330,10 @@ class MainMenu {
                   gameObjectsPhysicsLists.add(new Flag(pos, new PVector(red(Ccol), green(Ccol), blue(Ccol))));
                 }
                 else if(t == blockTypes.Health.ordinal()){
-                  gameObjectsPhysicsLists.add(new Health(pos));
+                  gameObjectsPhysicsLists.add(new Health(pos, 1));
                 }
                 else if(t == blockTypes.Shield.ordinal()){
-                   gameObjectsPhysicsLists.add(new Shield(pos));
+                   gameObjectsPhysicsLists.add(new Shield(pos, 1));
                 }
               }
             }
