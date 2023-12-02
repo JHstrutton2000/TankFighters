@@ -113,10 +113,10 @@ class Block implements GameObjectsPhysics{
       }
       
       if(abs(dist.x) <= minDist && abs(dist.y) <= minDist) {
-        gameObject.pos().add(gameObject.vel().copy().mult(-2.5));
-        
+        gameObject.pos().add(dist.copy().setMag(1.5));
         if (type == blockTypes.MovableBlock) {
-          acc = gameObject.vel().copy().div(Weight);
+          
+          acc = dist.copy().setMag(-1);
           gameObject.vel().mult(Weight).mult(Constants.tankBlockCollisionScaler);
         }
         else{

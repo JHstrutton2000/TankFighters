@@ -98,7 +98,7 @@ class bullet implements GameObjectsPhysics {
   }
   
   int drawPriority(){
-    return 5; 
+    return 4; 
   }
   
   boolean isDead(){
