@@ -52,21 +52,25 @@ void draw() {
     for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
       gameObjectsPhysicsLists.get(i).update();
       
-      if(mouseDown && (lastMouseButton == 39) && gameObjectsPhysicsLists.get(i).Clicked())
+      if(mouseDown && (lastMouseButton == 39) && gameObjectsPhysicsLists.get(i).Clicked()){
         mouseDown = false;
-
-      for (int t=0; t<gameObjectsPhysicsLists.size(); t++) {
-        if (i!=t)
-          gameObjectsPhysicsLists.get(i).isColliding(gameObjectsPhysicsLists.get(t));
       }
 
-      if (gameObjectsPhysicsLists.get(i).isDead())
+      for (int t=0; t<gameObjectsPhysicsLists.size(); t++) {
+        if (i != t){
+          gameObjectsPhysicsLists.get(i).isColliding(gameObjectsPhysicsLists.get(t));
+        }
+      }
+
+      if (gameObjectsPhysicsLists.get(i).isDead()){
         gameObjectsPhysicsLists.remove(i);
+      }
     }
 
     for (drawCycle=0; drawCycle <= maxDrawCycle; drawCycle++) {
-      if (drawCycle==1)
+      if (drawCycle==1){
         background(0);
+      }
 
       for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
         if (gameObjectsPhysicsLists.get(i).drawPriority() > maxDrawCycle) {

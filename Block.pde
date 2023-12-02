@@ -105,9 +105,19 @@ class Block implements GameObjectsPhysics{
       return false;
     
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy || gameObject.getGameObjectType() == blockTypes.MovableBlock){
-      float offset = 2.5;
-      if (gameObject.pos().x+gameObject.r()/2-offset >= pos.x*it && gameObject.pos().x-gameObject.r()/2+offset <= (pos.x+w)*it && gameObject.pos().y+gameObject.r()/2-offset >= pos.y*it && gameObject.pos().y-gameObject.r()/2+offset <= (pos.y+h)*it) {
-        gameObject.pos().add(gameObject.pos().copy().sub((pos.x+w/2)*it, (pos.y+h/2)*it).setMag(1)).sub(gameObject.vel());
+      PVector dist;
+      float minDist;
+      if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+        dist = gameObject.pos().copy().sub(pos.copy().add(new PVector(w/2, h/2)).mult(it));
+        minDist = (r()+gameObject.r());
+      }
+      else{
+        dist = gameObject.pos().copy().sub(pos.copy());
+        minDist = (r()+gameObject.r())/2;
+      }
+      
+      if(abs(dist.x) <= minDist && abs(dist.y) <= minDist) {
+        gameObject.pos().add(dist.setMag(1.75).mult(gameObject.vel().mag()));
         
         if (type == blockTypes.MovableBlock) {
           acc = gameObject.vel().copy().div(Weight);

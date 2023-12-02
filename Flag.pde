@@ -1,7 +1,7 @@
 class Flag implements GameObjectsPhysics{
   PVector pos, vel, Color;
   int teamID = 0;
-  float r;
+  float r = 1;
   void update(){
     
   }
@@ -9,9 +9,6 @@ class Flag implements GameObjectsPhysics{
   Flag(PVector pos, PVector Color){
     this.pos = pos;
     this.Color = Color;
-    
-    this.r = 1;
-    
   }
   
   int drawPriority(){
