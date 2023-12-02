@@ -58,6 +58,9 @@ class MainMenu {
 
     for (int i=0; i<blocksItems.length; i++) {
       btns.add(new UIButton(loadImage("Icons/" + blocksItems[i] + ".png")));
+      if(!btns.get(btns.size()-1).active){
+        btns.remove(btns.size()-1); 
+      }
     }
 
     LevelCreator.addButtonChooser(25, 470, 325, 100, Constants.TabBackground, btns);
@@ -462,9 +465,6 @@ class Menu {
       if (buttons.get(i).y == -1)
         buttons.get(i).y = buttons.get(i).h*((int)Math.floor(i/wc))+y;
 
-      //i/wc
-
-
       /**
        0 1 2
        0 0 1 2
@@ -628,6 +628,7 @@ class UIButton implements UIObject {
   PImage img = null;
 
   float background = 220;
+  boolean active = true;
 
   UIButton(String text, float x, float y, float w, float h) {
     this.x = x;
@@ -645,8 +646,13 @@ class UIButton implements UIObject {
     this.img = img;
     this.x = x;
     this.y = y;
-    this.w = img.width;
-    this.h = img.height;
+    if(img != null){
+      this.w = img.width;
+      this.h = img.height;
+    }
+    else{
+      active = false;
+    }
     this.text = null;
   }
 
@@ -655,7 +661,8 @@ class UIButton implements UIObject {
   }
 
   void update() {
-    display();
+    if(active)
+      display();
   }
 
   void display() {
@@ -671,6 +678,9 @@ class UIButton implements UIObject {
   }
 
   boolean Hover() {
+    if(!active)
+      return false;
+      
     return(mouseX >= x && mouseX <= x+w && mouseY >= y && mouseY <= y+h);
   }
 }
