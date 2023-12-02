@@ -93,7 +93,7 @@ class Block implements GameObjectsPhysics{
     return (w+h)/2;
   }
   boolean invalidBlockType(){
-   return (type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag);
+   return (type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag || type == blockTypes.Health || type == blockTypes.Shield);
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){
@@ -113,7 +113,7 @@ class Block implements GameObjectsPhysics{
       }
       
       if(abs(dist.x) <= minDist && abs(dist.y) <= minDist) {
-        gameObject.pos().add(dist.setMag(1.75).mult(gameObject.vel().mag()));
+        gameObject.pos().add(gameObject.vel().copy().mult(-2.5));
         
         if (type == blockTypes.MovableBlock) {
           acc = gameObject.vel().copy().div(Weight);

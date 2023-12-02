@@ -106,20 +106,24 @@ class Tank implements GameObjectsPhysics {
   void update() {
     if (player && (SelectedTankInstance == TankInstance)) {
       controls();
-    } else if (!player)
+    } else if (!player){
       AI();
+    }
       
     r = it*0.9375;
     Width = 0.8*r;
     Height = 0.6*r;
-
-    if (vel.mag() > 0)
-      trail.addParticle(round(vel.mag()), 2*round(vel.mag()), 60*vel.mag(), new PVector(50, 50, 50), new PVector(), 20);
+    
+    //int number, int radius, float deviation, PVector Color, PVector ColorVel, int lifetime
+    if (vel.mag() > 0){
+      trail.addParticle(ceil(vel.mag()/5), round(20*atan(vel.mag())), 30*vel.mag(), new PVector(50, 50, 50), new PVector(), 20);
+    }
 
     trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
 
-    if (Health > maxHealth)
+    if (Health > maxHealth){
       Health = maxHealth;
+    }
 
     if (recoil.mag() < 0.01) {
       acc.set(constrain(acc.x, -maxAcc, maxAcc), constrain(acc.y, -maxAcc, maxAcc));
@@ -166,16 +170,21 @@ class Tank implements GameObjectsPhysics {
       this.maxVel = it/16;
     }
 
-    if (up)
+    if (up){
       acc.set(acc.x, -num);
-    if (down)
+    }
+    if (down){
       acc.set(acc.x, num);
-    if (left)
+    }
+    if (left){
       acc.set(-num, acc.y);
-    if (right)
+    }
+    if (right){
       acc.set(num, acc.y);
-    if (mouseDown && lastMouseButton==LEFT)
+    }
+    if (mouseDown && lastMouseButton==LEFT){
       fire();
+    }
 
     if (nextWeapon) {
       weapon.NextWeapon();
@@ -218,7 +227,9 @@ class Tank implements GameObjectsPhysics {
 
         gameObject.vel().sub(Dist);
         this.vel().sub(Dist.mult(-1));
-      } else if (this.colliding) { // || gameObject.colliding) {
+        
+        return true;
+      } else if (this.colliding) {
         this.colliding = false;
       }
     }
@@ -276,7 +287,7 @@ class Tank implements GameObjectsPhysics {
           fill(255);
           text("#"+TankInstance, r/2+2, -20);
       }
-      pop();
+    pop();
 
     weapon.Draw();
 
