@@ -36,11 +36,16 @@ class Flag implements GameObjectsPhysics{
     return false; 
   }
   
-  boolean checkhit(){
-    return false;
-  }
-  
   boolean isColliding(GameObjectsPhysics gameObject){
+    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+      
+      if (dist(pos.x, pos.y, gameObject.pos().x, gameObject.pos().y) <= (r+gameObject.r())/2) {
+        
+        println("tset");
+      }
+      return true; 
+    }
+    
     return false; 
   }
   

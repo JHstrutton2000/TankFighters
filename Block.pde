@@ -77,10 +77,6 @@ class Block implements GameObjectsPhysics{
     return type;
   }
   
-  boolean checkhit(){
-    return false;
-  }
-  
   blockTypes getGameObjectType(){
     if(type == blockTypes.Player || type == blockTypes.Enemy || type == blockTypes.Flag)
       return null;

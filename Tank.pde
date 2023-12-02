@@ -103,10 +103,6 @@ class Tank implements GameObjectsPhysics {
     return pos.copy().sub(barrel.copy().setMag(Width-10));
   }
 
-  boolean checkhit() {
-    return false;
-  }
-
   void update() {
     if (player && (SelectedTankInstance == TankInstance)) {
       controls();
