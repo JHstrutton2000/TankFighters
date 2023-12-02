@@ -58,7 +58,7 @@ class MainMenu {
 
     for (int i=0; i<blocksItems.length; i++) {
       btns.add(new UIButton(loadImage("Icons/" + blocksItems[i] + ".png")));
-      if(!btns.get(btns.size()-1).active){
+      if(btns.get(btns.size()-1).delete){
         btns.remove(btns.size()-1); 
       }
     }
@@ -628,7 +628,7 @@ class UIButton implements UIObject {
   PImage img = null;
 
   float background = 220;
-  boolean active = true;
+  boolean delete = false;
 
   UIButton(String text, float x, float y, float w, float h) {
     this.x = x;
@@ -651,7 +651,7 @@ class UIButton implements UIObject {
       this.h = img.height;
     }
     else{
-      active = false;
+      delete = true;
     }
     this.text = null;
   }
@@ -661,8 +661,7 @@ class UIButton implements UIObject {
   }
 
   void update() {
-    if(active)
-      display();
+    display();
   }
 
   void display() {
@@ -678,9 +677,6 @@ class UIButton implements UIObject {
   }
 
   boolean Hover() {
-    if(!active)
-      return false;
-      
     return(mouseX >= x && mouseX <= x+w && mouseY >= y && mouseY <= y+h);
   }
 }
