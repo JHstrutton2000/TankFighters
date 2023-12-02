@@ -60,6 +60,10 @@ class Tank implements GameObjectsPhysics {
 
     gameObjectsPhysicsLists.add(this);
     gameObjectsPhysicsLists.add(trail);
+    
+    if(TankInstance == SelectedTankInstance){
+      center = this.pos; 
+    }
   }
 
 
@@ -102,47 +106,6 @@ class Tank implements GameObjectsPhysics {
 
   PVector barrelpos() {
     return pos.copy().sub(barrel.copy().setMag(Width-10));
-  }
-
-  void update() {
-    if (player && (SelectedTankInstance == TankInstance)) {
-      controls();
-    } else if (!player){
-      AI();
-    }
-      
-    r = it*0.9375;
-    Width = 0.8*r;
-    Height = 0.6*r;
-    
-    //int number, int radius, float deviation, PVector Color, PVector ColorVel, int lifetime
-    if (vel.mag() > 0){
-      trail.addParticle(ceil(vel.mag()/5), round(20*atan(vel.mag())), 30*vel.mag(), new PVector(50, 50, 50), new PVector(), 20);
-    }
-
-    trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
-
-    if (Health > maxHealth){
-      Health = maxHealth;
-    }
-
-    if (recoil.mag() < 0.01) {
-      acc.set(constrain(acc.x, -maxAcc, maxAcc), constrain(acc.y, -maxAcc, maxAcc));
-
-      vel.add(acc);
-      vel.set(constrain(vel.x, -maxVel, maxVel), constrain(vel.y, -maxVel, maxVel));
-    } else {
-      vel.add(recoil);
-      vel.set(constrain(vel.x, -maxVel, maxVel), constrain(vel.y, -maxVel, maxVel));
-      recoil.mult(0.5);
-    }
-
-    pos.add(vel);
-    acc.set(0, 0);
-
-    vel.mult(0.9);
-
-    weapon.update();
   }
   
   int pickup(GameObjectsPhysics pickup, float value, float weaponIndex){
@@ -232,6 +195,7 @@ class Tank implements GameObjectsPhysics {
       
       if ((Dist.mag()) <= ((this.r/2) - (0.1 * this.r))) {
         SelectedTankInstance = this.TankInstance;
+        center = this.pos;
         return true;
       }
     }
@@ -267,55 +231,99 @@ class Tank implements GameObjectsPhysics {
     }
 
     return;
-  }
+ }
+  
+ void update() {
+    if (player && (SelectedTankInstance == TankInstance)) {
+      controls();
+    } else if (!player){
+      AI();
+    }
+      
+    r = it*0.9375;
+    Width = 0.8*r;
+    Height = 0.6*r;
+    
+    //int number, int radius, float deviation, PVector Color, PVector ColorVel, int lifetime
+    if (vel.mag() > 0){
+      trail.addParticle(ceil(vel.mag()/5), round(20*atan(vel.mag())), 30*vel.mag(), new PVector(50, 50, 50), new PVector(), 20);
+    }
 
+    trail.pos = pos.copy().add(vel.copy().setMag(-2*Width/Height));
+
+    if (Health > maxHealth){
+      Health = maxHealth;
+    }
+
+    if (recoil.mag() < 0.01) {
+      acc.set(constrain(acc.x, -maxAcc, maxAcc), constrain(acc.y, -maxAcc, maxAcc));
+
+      vel.add(acc);
+      vel.set(constrain(vel.x, -maxVel, maxVel), constrain(vel.y, -maxVel, maxVel));
+    } else {
+      vel.add(recoil);
+      vel.set(constrain(vel.x, -maxVel, maxVel), constrain(vel.y, -maxVel, maxVel));
+      recoil.mult(0.5);
+    }
+
+    pos.add(vel);
+    acc.set(0, 0);
+
+    vel.mult(0.9);
+
+    weapon.update();
+  }
+  
   void Draw() {
     float theta = (vel.heading());
-    push();
-      translate(pos.x, pos.y);
-      
+    
+    if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + r)) {
       push();
-        rotate(theta);
-        if (ring) {
-          noFill();
-          float val = map(Health, 0, maxHealth, 0, 1);
-          
-          stroke(255*val, 0, 0);
-          strokeWeight(3);
-          ellipse(0, 0, r, r);
-          
-          val = map(shield, 0, maxShield, 0, 1);
-          stroke(0, 255*val, 255*val);
-          strokeWeight(1);
-          ellipse(0, 0, r+5, r+5);
-        }
-    
-        stroke(0);
-        strokeWeight(1);
-        fill(Color.x, Color.y, Color.z);
-        rect(-Width/2, -Height/2, Width, Height); //-20, -25, 40, 50
-  
-      pop();
-  
-      push();    
-        barrel = pos.copy().sub(target);
-    
-        rotate(barrel.heading() + 2*PI/4);
-        strokeWeight(0);
-        stroke(0);
-    
-        fill(40+Color.x, 40+Color.y, 40+Color.z);
-        ellipse(0, Width*13/40, Width/8, Width); //draw barrel
-        ellipse(0, 0, Height*26/30, Height*26/30);//draw circle
-      pop();
+        translate(pos.x, pos.y);
+        
+        push();
+          rotate(theta);
+          if (ring) {
+            noFill();
+            float val = map(Health, 0, maxHealth, 0, 1);
+            
+            stroke(255*val, 0, 0);
+            strokeWeight(3);
+            ellipse(0, 0, r, r);
+            
+            val = map(shield, 0, maxShield, 0, 1);
+            stroke(0, 255*val, 255*val);
+            strokeWeight(1);
+            ellipse(0, 0, r+5, r+5);
+          }
       
-      if (player && ring) {
-          fill(255);
-          text("#"+TankInstance, r/2+2, -20);
-      }
-    pop();
-
-    weapon.Draw();
+          stroke(0);
+          strokeWeight(1);
+          fill(Color.x, Color.y, Color.z);
+          rect(-Width/2, -Height/2, Width, Height); //-20, -25, 40, 50
+    
+        pop();
+    
+        push();    
+          barrel = pos.copy().sub(target);
+      
+          rotate(barrel.heading() + 2*PI/4);
+          strokeWeight(0);
+          stroke(0);
+      
+          fill(40+Color.x, 40+Color.y, 40+Color.z);
+          ellipse(0, Width*13/40, Width/8, Width); //draw barrel
+          ellipse(0, 0, Height*26/30, Height*26/30);//draw circle
+        pop();
+        
+        if (player && ring) {
+            fill(255);
+            text("#"+TankInstance, r/2+2, -20);
+        }
+      pop();
+  
+      weapon.Draw();
+    }
 
     return;
   }

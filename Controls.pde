@@ -21,6 +21,8 @@ void mouseWheel(MouseEvent event) {
   
   if(it+e > Constants.itMin && it+e < Constants.itMax){
     it += e;
+    
+    drawRadius = it*3.75;
   
     XCount = round(width/it);
     YCount = round(height/it);
@@ -37,13 +39,18 @@ void keyPressed() {
     if (key=='t'){
       nextWeapon = true;
     }
-    else if (key=='q')
+    else if (key=='q'){
       ring = !ring;
-    
+    }
     else if(key=='Q'){
       mainMenu.open = true;
       mainMenu.state = -1;
       menuWasUp = true;
+    }
+    
+    else if(key=='r'){
+      backgroundEnabled = !backgroundEnabled; 
+    }
     
     keyPress = false;
   }
@@ -73,7 +80,6 @@ void keyPressed() {
     
   if(key=='e')
     inventory = true;
-  }
   
   if(key==' ')
     boost = true;

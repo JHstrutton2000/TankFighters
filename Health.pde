@@ -27,7 +27,7 @@ class Health implements GameObjectsPhysics{
   }
   
   int drawPriority(){
-    return 2;
+    return 1;
   }
   
   int pickup(GameObjectsPhysics pickup, float value, float value2){
@@ -35,15 +35,17 @@ class Health implements GameObjectsPhysics{
   }
   
   void Draw(){
-    push();
-      fill(150, 20, 20);
-      ellipse(pos.x, pos.y, r, r);
-      
-      if(ring){
-        fill(255);
-        text("+"+val, pos.x - 2.5*r, pos.y + 3*r);  
-      }
-    pop();
+    if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + r)) {
+      push();
+        fill(150, 20, 20);
+        ellipse(pos.x, pos.y, r, r);
+        
+        if(ring){
+          fill(255);
+          text("+"+val, pos.x - 2.5*r, pos.y + 3*r);  
+        }
+      pop();
+    }
   }
   void update(){
     r = val * it/10;

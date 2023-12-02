@@ -32,19 +32,21 @@ class Shield implements GameObjectsPhysics{
   }
   
   int drawPriority(){
-    return 2;
+    return 1;
   }
   
   void Draw(){
-    push();
-      fill(20, 150, 20);
-      ellipse(pos.x, pos.y, r, r);
-      
-      if(ring){
-        fill(255);
-        text("+"+val, pos.x - 2.5*r, pos.y + 3*r);  
-      }
-    pop();
+    if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + r)) {
+      push();
+        fill(20, 150, 20);
+        ellipse(pos.x, pos.y, r, r);
+        
+        if(ring){
+          fill(255);
+          text("+"+val, pos.x - 2.5*r, pos.y + 3*r);  
+        }
+      pop();
+    }
   }
   void update(){
     r = val * it/10;

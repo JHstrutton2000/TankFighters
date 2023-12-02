@@ -6,14 +6,14 @@ class ParticleSystem implements GameObjectsPhysics{
   Boolean canDie = true;
 
   ParticleSystem(int num, int radius, PVector pos, PVector direction, float angle, PVector Color, PVector ColorVel, boolean canDie) {
-    //println("PS:", num, radius, pos, direction, angle, canDie);
     particles = new ArrayList<Particle>();
     this.pos = pos;
     this.dir = direction;
     this.Color = Color;
     this.ColorVel = ColorVel;
     this.canDie = canDie;
-
+    
+    
     addParticle(num, radius, angle, Color, ColorVel, 300);
   }
   
@@ -36,6 +36,10 @@ class ParticleSystem implements GameObjectsPhysics{
   }
 
   void addParticle(int number, int radius, float deviation, PVector Color, PVector ColorVel, int lifetime) {
+    if (backgroundEnabled && center != null && center.copy().sub(pos.copy()).mag() > (drawRadius/2 + radius + dir.mag())) {
+      return;
+    }
+    
     PVector vec = dir.copy().sub(pos);
 
     for (int i=0; i<number; i++) {
@@ -160,12 +164,14 @@ class Particle {
   }
 
   void Draw() {
-    push();
-      noStroke();
-      fill(this.Color.x, this.Color.y, this.Color.z, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
-  
-      ellipse(pos.x, pos.y, radius, radius);
-    pop();
+    if (!backgroundEnabled || (center != null && center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + radius/2))) {
+      push();
+        noStroke();
+        fill(this.Color.x, this.Color.y, this.Color.z, map(lifeSpan, 0, lifeSpanMax, 0, it*12.75));
+    
+        ellipse(pos.x, pos.y, radius, radius);
+      pop();
+    }
     return;
   }
 

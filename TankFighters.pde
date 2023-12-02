@@ -7,14 +7,23 @@ float it = 80;
 int XCount, YCount;
 MainMenu mainMenu;
 
+PVector center;
+float drawRadius = 400;
+
 ArrayList<GameObjectsPhysics> gameObjectsPhysicsLists;
+
+PImage back;
 
 int drawCycle    = 0;
 int maxDrawCycle = 0;
 
+boolean backgroundEnabled = true;
+
 void setup() {
 
   size(800, 800);
+  
+  back = loadImage("Icons/Background.png");
 
   XCount = round(width/it);
   YCount = round(height/it);
@@ -47,7 +56,6 @@ void draw() {
   if (mainMenu.open) {
     mainMenu.update();
   } else {
-    background(0);
 
     for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
       gameObjectsPhysicsLists.get(i).update();
@@ -70,17 +78,31 @@ void draw() {
     for (drawCycle=0; drawCycle <= maxDrawCycle; drawCycle++) {
       if (drawCycle==1){
         background(0);
+        if(backgroundEnabled){
+          push();
+            fill(20);
+            noStroke();
+            ellipse(center.x, center.y, drawRadius, drawRadius);
+          pop();
+        }
       }
-
+      
+      
       for (int i=0; i<gameObjectsPhysicsLists.size(); i++) {
         if (gameObjectsPhysicsLists.get(i).drawPriority() > maxDrawCycle) {
           maxDrawCycle = gameObjectsPhysicsLists.get(i).drawPriority();
         }
-
-        if (drawCycle == gameObjectsPhysicsLists.get(i).drawPriority()) {
-          gameObjectsPhysicsLists.get(i).Draw();
+        
+        if(center != null){
+          if (drawCycle == gameObjectsPhysicsLists.get(i).drawPriority()) {
+            gameObjectsPhysicsLists.get(i).Draw();
+          }
         }
       }
     }
+    
+    if(backgroundEnabled)
+      image(back, center.x-500, center.y-500);
+    
   }
 }

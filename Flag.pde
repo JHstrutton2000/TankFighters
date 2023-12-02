@@ -3,7 +3,7 @@ class Flag implements GameObjectsPhysics{
   int teamID = 0;
   float r = 1;
   void update(){
-    
+    r = it/25;
   }
   
   Flag(PVector pos, PVector Color){
@@ -16,20 +16,20 @@ class Flag implements GameObjectsPhysics{
   }
   
   void Draw(){
-    //r = it*0.9375;
-    r = it/25;
-    push();
-      rect(this.pos.x, this.pos.y, r, 10*r);
-      
-      fill(Color.x, Color.y, Color.z);
-      triangle(this.pos.x+(r)+0.1, this.pos.y, this.pos.x+(r)+0.1, this.pos.y+(5*r), this.pos.x+(5*r), this.pos.y+(2.5*r));
-      
-    if (ring) {
-        fill(255);
-        text("#"+teamID, pos.x, pos.y+15*r);
+    if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + 20*r)) {
+      push();
+        rect(this.pos.x, this.pos.y, r, 10*r);
+        
+        fill(Color.x, Color.y, Color.z);
+        triangle(this.pos.x+(r)+0.1, this.pos.y, this.pos.x+(r)+0.1, this.pos.y+(5*r), this.pos.x+(5*r), this.pos.y+(2.5*r));
+        
+      if (ring) {
+          fill(255);
+          text("#"+teamID, pos.x, pos.y+15*r);
+      }
+        
+      pop();
     }
-      
-    pop();
   }
   
   boolean isDead(){

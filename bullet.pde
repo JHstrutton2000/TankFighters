@@ -161,11 +161,14 @@ class bullet implements GameObjectsPhysics {
   }
 
   void Draw() {
-    push();
-      fill(255);
-      strokeWeight(1);
-      ellipse(pos.x, pos.y, r, r);
-    pop();
+    
+    if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + r)) {
+      push();
+        fill(255);
+        strokeWeight(1);
+        ellipse(pos.x, pos.y, r, r);
+      pop();
+    }
     
     return;
   }
