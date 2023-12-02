@@ -101,8 +101,8 @@ void draw() {
       }
     }
     
-    if(backgroundEnabled)
+    if(backgroundEnabled){
       image(back, center.x-500, center.y-500);
-    
+    }
   }
 }

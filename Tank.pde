@@ -60,10 +60,6 @@ class Tank implements GameObjectsPhysics {
 
     gameObjectsPhysicsLists.add(this);
     gameObjectsPhysicsLists.add(trail);
-    
-    if(TankInstance == SelectedTankInstance){
-      center = this.pos; 
-    }
   }
 
 
@@ -238,6 +234,12 @@ class Tank implements GameObjectsPhysics {
       controls();
     } else if (!player){
       AI();
+    }
+    
+    
+    if(center != pos && TankInstance == SelectedTankInstance){
+      println(SelectedTankInstance, TankInstance);
+      center = pos;
     }
       
     r = it*0.9375;
