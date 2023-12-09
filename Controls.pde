@@ -17,9 +17,9 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent event) {
-  float e = event.getCount() * Constants.mouseScaler;
+  float e = event.getCount() * mouseScaler;
   
-  if(it+e > Constants.itMin && it+e < Constants.itMax){
+  if(it+e > itMin && it+e < itMax){
     it += e;
     
     drawRadius = it*3.75;

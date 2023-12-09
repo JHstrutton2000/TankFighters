@@ -124,9 +124,9 @@ class Block implements GameObjectsPhysics {
         if (type == blockTypes.MovableBlock) {
 
           acc = dist.copy().setMag(-1);
-          gameObject.vel().mult(Weight).mult(Constants.tankBlockCollisionScaler);
+          gameObject.vel().mult(Weight).mult(tankBlockCollisionScaler);
         } else {
-          gameObject.vel().mult(Constants.tankBlockCollisionScaler);
+          gameObject.vel().mult(tankBlockCollisionScaler);
         }
       }
     }
