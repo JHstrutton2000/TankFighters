@@ -34,8 +34,19 @@ class mutltiplayerHandler {
   int requestCountdown;
   mutltiplayerHandler() {
     requestCountdown = UDPRequestDelay;
+    try {
+      InetAddress localhost = InetAddress.getLocalHost();
+      ipAddress = localhost.getHostAddress();
+      
+      networked = true;
+    }
+    catch (UnknownHostException e) {
+      e.printStackTrace();
+      networked = false;
+    }
+  
   }
-
+ 
   void update() {
     if(requestCountdown-- < 0){
       if (networked) {

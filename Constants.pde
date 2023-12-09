@@ -23,9 +23,12 @@ final int UDPRequestDelay = 100;
 final char UDPActive     = 0x00;
 final char UDPGameObject = 0x01;
 
-//UDP Settings
+//UDP 
 final char UDPRequest = 0x01;
 final char UDPSend    = 0x02;
+
+
+final String UDPDestination = "224.0.0.1";
 
 
 //MenuStates

@@ -24,21 +24,13 @@ void setup() {
 
   size(800, 800);
   servers = new ArrayList<String>();
-  
-  try {
-    InetAddress localhost = InetAddress.getLocalHost();
-    ipAddress = localhost.getHostAddress();
-    
-    udp = new UDP( this, UDPport );
-    udp.listen( true );
-    networked = true;
-  }
-  catch (UnknownHostException e) {
-    e.printStackTrace();
-    networked = false;
-  }
-  
+   
   multiPlayer = new mutltiplayerHandler();
+  
+  if(networked){
+    udp = new UDP( this, UDPport, UDPDestination );
+    udp.listen( true );
+  }
   
   back = loadImage("Icons/Background.png");
 
