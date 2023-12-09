@@ -6,7 +6,7 @@ int SelectedTankInstance = 0;
 float it = 80;
 int XCount, YCount;
 MainMenu mainMenu;
-mutltiplayerHandler multiPlayer;
+//mutltiplayerHandler multiPlayer;
 
 PVector center;
 float drawRadius = 400;
@@ -18,7 +18,7 @@ PImage back;
 int drawCycle    = 0;
 int maxDrawCycle = 0;
 
-boolean backgroundEnabled = true;
+boolean backgroundEnabled = false;
 
 void setup() {
 
@@ -47,7 +47,7 @@ void setup() {
     e.printStackTrace();
   }
 
-  multiPlayer = new mutltiplayerHandler();
+  //multiPlayer = new mutltiplayerHandler();
   mainMenu = new MainMenu();
   blocks = new ArrayList<Block>();
 
@@ -55,6 +55,7 @@ void setup() {
 }
 
 void draw() {
+  //multiPlayer.update();
   if (mainMenu.open) {
     mainMenu.update();
   } else {

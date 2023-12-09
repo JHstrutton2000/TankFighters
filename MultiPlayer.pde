@@ -1,65 +1,59 @@
-boolean multiplayer = false;
-import hypermedia.net.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+//import hypermedia.net.*;
+//import java.net.InetAddress;
+//import java.net.UnknownHostException;
 
-class mutltiplayerHandler {
-  UDP udp;  // define the UDP object
-  String ipAddress;
-  boolean networked;
 
-  ArrayList<String> servers;
+//UDP udp;
+//String ipAddress;
+//boolean networked;
+//boolean multiplayer = false;
 
-  mutltiplayerHandler() {
+//ArrayList<String> servers;
 
-    size(800, 800);
-    servers = new ArrayList<String>();
 
-    try {
-      InetAddress localhost = InetAddress.getLocalHost();
-      ipAddress = localhost.getHostAddress();
+//void receive( byte[] data, String ip, int port ) {  // <-- extended handler
+//  println("test receive");
+//  switch (data[0]){
+//    case UDPRequestActive:
+//      udp.send(""+UDPSendActive, ipAddress, UDPport);
+//      break;
+//    case UDPSendActive:
+//      boolean pass = true;
+//      for(int i=0; i<servers.size(); i++){
+//        if(servers.get(i).equals(ip)){
+//          pass = false;
+//          break;
+//        }
+//      }
+      
+//      if(pass){
+//        servers.add(ip);
+//      }
+//      break;
+//  }
+//}
 
-      udp = new UDP( this, UDPport );
-      udp.listen( true );
-      networked = true;
-    }
-    catch (UnknownHostException e) {
-      e.printStackTrace();
-      networked = false;
-    }
-  }
-
-  void requestActiveServers(){
-    if (networked) {
-      udp.send(""+UDPRequestActive, ipAddress, UDPport);
-    }
-  }
-
-//  void update() {
-//    delay(1000);
-//    if (networked) {
-//      udp.send(""+UDPRequestActive, ipAddress, UDPport);
+//class mutltiplayerHandler {
+//  mutltiplayerHandler() {
+//    servers = new ArrayList<String>();
+//    try {
+//      InetAddress localhost = InetAddress.getLocalHost();
+//      ipAddress = localhost.getHostAddress();
+      
+//      udp = new UDP( this, UDPport );
+//      udp.listen( true );
+//      networked = true;
+//    }
+//    catch (UnknownHostException e) {
+//      e.printStackTrace();
+//      networked = false;
 //    }
 //  }
 
-  void receive( byte[] data, String ip, int port ) {  // <-- extended handler
-    switch (data[0]) {
-    case UDPRequestActive:
-      udp.send(""+UDPSendActive, ipAddress, UDPport);
-      break;
-    case UDPSendActive:
-      boolean pass = true;
-      for (int i=0; i<servers.size(); i++) {
-        if (servers.get(i).equals(ip)) {
-          pass = false;
-          break;
-        }
-      }
-
-      if (pass) {
-        servers.add(ip);
-      }
-      break;
-    }
-  }
-}
+//  void update(){
+//    delay(100);
+//    if(networked) {
+//      udp.send(""+UDPRequestActive, ipAddress, UDPport);
+//    }
+//  }
+//}

@@ -17,8 +17,19 @@ final float tankBlockCollisionScaler = 1/100;
 
 //UDP OpCodes
 final int  UDPport = 7200;
+
+final char UDPActive     = 0x00;
+final char UDPGameObject = 0x01;
+
+final char UDPRequest = 0x01;
+final char UDPSend    = 0x02;
+
 final char UDPRequestActive = 0x00;
 final char UDPSendActive    = 0x01;
+
+
+
+//opCode instance action
 
 
 final int MenuNullState = -1;

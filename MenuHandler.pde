@@ -87,7 +87,7 @@ class MainMenu {
     LoadMenu.addText("Load Menu", 215, 130, 70);
     LoadMenu.addButton("Back", 425, 660, 300, 100);
     LoadMenu.addButton("Load", 75, 660, 300, 45);
-    LoadMenu.addButton("Load MultiPlayer", 75, 710, 300, 45);
+    LoadMenu.addButton("Host Level", 75, 710, 300, 45);
     LoadMenu.addButton("Delete", 655, 315, 100, 100);
 
     PImage Next = loadImage("Icons/Next.png");
@@ -126,16 +126,6 @@ class MainMenu {
 
     LevelCreator.setChooser(0, LVbtns, pages);
   }
-
-
-  // MenuStateClose = -2
-  // MenuStateNothing = -1
-  // MenuStateBack = 0
-  // MenuStateEditor = 1
-  // MenuStateMultiplayer = 2
-  // MenuStateOptions = 3
-  // MenuStateLoad = 4
-  // MenuStateSave = 5
 
   void update() {
     if (!open)
@@ -200,9 +190,7 @@ class MainMenu {
          5 05 11 17 23 29 35
          
          **/
-
-        //14, 14
-
+         
         blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, Color, LevelCreator.getChooserState(1)));
       } else if (Hovering && mouseDown && lastMouseButton == RIGHT) {
         for (int i=0; i<blocks.size(); i++) {
@@ -298,9 +286,11 @@ class MainMenu {
       }
 
       if (LoadMenu.getState() == LoadMenuLoadMultiPlayer) {//Load Multiplayer
-        //start multiplayer!!!
-        //Load!!!
+        //multiPlayer.setHosting(true);
         LoadMenu.setState(LoadMenuLoad);
+      }
+      else if(LoadMenu.getState() == LoadMenuLoad){
+         //multiPlayer.setHosting(false);
       }
 
 
