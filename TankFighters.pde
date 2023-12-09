@@ -6,7 +6,7 @@ int SelectedTankInstance = 0;
 float it = 80;
 int XCount, YCount;
 MainMenu mainMenu;
-//mutltiplayerHandler multiPlayer;
+mutltiplayerHandler multiPlayer;
 
 PVector center;
 float drawRadius = 400;
@@ -23,7 +23,23 @@ boolean backgroundEnabled = false;
 void setup() {
 
   size(800, 800);
-
+  servers = new ArrayList<String>();
+  
+  try {
+    InetAddress localhost = InetAddress.getLocalHost();
+    ipAddress = localhost.getHostAddress();
+    
+    udp = new UDP( this, UDPport );
+    udp.listen( true );
+    networked = true;
+  }
+  catch (UnknownHostException e) {
+    e.printStackTrace();
+    networked = false;
+  }
+  
+  multiPlayer = new mutltiplayerHandler();
+  
   back = loadImage("Icons/Background.png");
 
   XCount = round(width/it);
@@ -54,8 +70,8 @@ void setup() {
   gameObjectsPhysicsLists = new ArrayList<GameObjectsPhysics>();
 }
 
-void draw() {
-  //multiPlayer.update();
+void draw() {  
+  multiPlayer.update();
   if (mainMenu.open) {
     mainMenu.update();
   } else {
