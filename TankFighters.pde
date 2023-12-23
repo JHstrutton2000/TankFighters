@@ -67,6 +67,7 @@ void draw() {
   if(networked){
     multiPlayer.update();
   }
+  
   if (mainMenu.open) {
     mainMenu.update();
   } else {
@@ -90,7 +91,7 @@ void draw() {
     }
 
     for (drawCycle=0; drawCycle <= maxDrawCycle; drawCycle++) {
-      if (drawCycle==1) {
+      if (drawCycle==0) {
         background(0);
         if (backgroundEnabled) {
           push();
@@ -106,11 +107,9 @@ void draw() {
         if (gameObjectsPhysicsLists.get(i).drawPriority() > maxDrawCycle) {
           maxDrawCycle = gameObjectsPhysicsLists.get(i).drawPriority();
         }
-
-        if (center != null) {
-          if (drawCycle == gameObjectsPhysicsLists.get(i).drawPriority()) {
-            gameObjectsPhysicsLists.get(i).Draw();
-          }
+        
+        if (drawCycle == gameObjectsPhysicsLists.get(i).drawPriority()) {
+          gameObjectsPhysicsLists.get(i).Draw();
         }
       }
     }

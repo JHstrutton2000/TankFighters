@@ -139,7 +139,7 @@ class bullet implements GameObjectsPhysics {
         return true;
     }
     else if(gameObject.getGameObjectType() == blockTypes.bullet){
-      checkBulletHit((bullet)gameObject);
+      //checkBulletHit((bullet)gameObject);
     }
       
     

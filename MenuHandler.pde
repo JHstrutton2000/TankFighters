@@ -342,6 +342,8 @@ class MainMenu {
               PVector pos = new PVector(x*it+it/2, y*it+it/2);
 
               if (t != -1) {
+                println(t);
+                
                 blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), new PVector(red(Cparms), green(Cparms), blue(Cparms)), t));
                 if (t == blockTypes.Enemy.ordinal()) {
                   gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0));
@@ -355,7 +357,7 @@ class MainMenu {
                 } else if (t == blockTypes.Shield.ordinal()) {
                   gameObjectsPhysicsLists.add(new Shield(pos, red(Cparms)));
                 } else if (t == blockTypes.Ammo.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Ammo(pos, WeaponNames.Default, red(Cparms)));
+                  gameObjectsPhysicsLists.add(new Ammo(pos, WeaponNames.values()[(int)red(Cparms)], green(Cparms)));
                 }
               }
             }

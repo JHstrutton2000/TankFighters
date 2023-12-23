@@ -37,8 +37,6 @@ class Block implements GameObjectsPhysics {
     this.Color = Color;
     this.Params = Params;
     this.type = blockTypes.values()[type];
-    
-    println(this.Params);
 
     gameObjectsPhysicsLists.add(this);
   }

@@ -35,6 +35,7 @@ class Health implements GameObjectsPhysics{
   }
   
   void Draw(){
+    println("test");
     if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + r)) {
       push();
         fill(150, 20, 20);
