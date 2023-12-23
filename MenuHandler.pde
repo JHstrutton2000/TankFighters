@@ -163,7 +163,6 @@ class MainMenu {
       }
       if (Hovering && !buttonDown && pass && mouseDown && lastMouseButton == LEFT) { //mouseButton == LEFT
         PVector Color = new PVector();
-
         if (LevelCreator.getColorEditorRed(0) != "")
           Color.x = Float.parseFloat(LevelCreator.getColorEditorRed(0));
         else
@@ -178,6 +177,23 @@ class MainMenu {
           Color.z = Float.parseFloat(LevelCreator.getColorEditorBlue(0));
         else
           Color.z = 0;
+          
+        PVector Params = new PVector();
+        if (LevelCreator.getColorEditorParam1(0) != "")
+          Params.x = Float.parseFloat(LevelCreator.getColorEditorParam1(0));
+        else
+          Params.x = 0;
+          
+        if (LevelCreator.getColorEditorParam2(0) != "")
+          Params.y = Float.parseFloat(LevelCreator.getColorEditorParam2(0));
+        else
+          Params.y = 0;
+          
+        if (LevelCreator.getColorEditorParam3(0) != "")
+          Params.z = Float.parseFloat(LevelCreator.getColorEditorParam3(0));
+        else
+          Params.z = 0;
+        
 
         /**
          
@@ -191,7 +207,7 @@ class MainMenu {
          
          **/
          
-        blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, Color, LevelCreator.getChooserState(1)));
+        blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, Color, Params, LevelCreator.getChooserState(1)));
       } else if (Hovering && mouseDown && lastMouseButton == RIGHT) {
         for (int i=0; i<blocks.size(); i++) {
           if (blocks.get(i).pos.x == (int)Math.floor(sta/YCount) && blocks.get(i).pos.y == (int)(sta - Math.floor(sta/YCount)*YCount))
@@ -248,12 +264,15 @@ class MainMenu {
 
         PImage col  = createImage(int(width/it), int(height/it), RGB);
         PImage type  = createImage(int(width/it), int(height/it), RGB);
+        PImage params  = createImage(int(width/it), int(height/it), RGB);
 
         for (int i=0; i<blocks.size(); i++) {
           Block block = blocks.get(i);
           int t = block.getType().ordinal();
+          
           col.set((int)block.pos.x, (int)block.pos.y, color(block.Color.x, block.Color.y, block.Color.z));
           type.set((int)block.pos.x, (int)block.pos.y, color(t+1, t+1, t+1));
+          params.set((int)block.pos.x, (int)block.pos.y, color(block.Params.x, block.Params.y, block.Params.z));
         }
 
         if (str == "")
@@ -261,6 +280,7 @@ class MainMenu {
 
         col.save("Levels/"+str+"-color.png");
         type.save("Levels/"+str+"-type.png");
+        params.save("Levels/"+str+"-params.png");
 
         if (pass) {
           Levels.add(str);
@@ -310,17 +330,19 @@ class MainMenu {
 
           PImage col = loadImage("Levels/"+name+"-color.png");
           PImage type = loadImage("Levels/"+name+"-type.png");
+          PImage params = loadImage("Levels/"+name+"-params.png");
 
           for (int x=0; x<col.width; x++) {
             for (int y=0; y<col.height; y++) {
               color Ccol = col.get(x, y);
               color Ctype = type.get(x, y);
+              color Cparms = params.get(x, y);
               int t = (int)red(Ctype) - 1;
 
               PVector pos = new PVector(x*it+it/2, y*it+it/2);
 
               if (t != -1) {
-                blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), t));
+                blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), new PVector(red(Cparms), green(Cparms), blue(Cparms)), t));
                 if (t == blockTypes.Enemy.ordinal()) {
                   gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0));
                 } else if (t == blockTypes.Player.ordinal()) {
@@ -329,11 +351,11 @@ class MainMenu {
                 } else if (t == blockTypes.Flag.ordinal()) {
                   gameObjectsPhysicsLists.add(new Flag(pos, new PVector(red(Ccol), green(Ccol), blue(Ccol))));
                 } else if (t == blockTypes.Health.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Health(pos, 1));
+                  gameObjectsPhysicsLists.add(new Health(pos, red(Cparms)));
                 } else if (t == blockTypes.Shield.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Shield(pos, 1));
+                  gameObjectsPhysicsLists.add(new Shield(pos, red(Cparms)));
                 } else if (t == blockTypes.Ammo.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Ammo(pos, WeaponNames.Default, 1));
+                  gameObjectsPhysicsLists.add(new Ammo(pos, WeaponNames.Default, red(Cparms)));
                 }
               }
             }
@@ -532,7 +554,16 @@ class Menu {
   String getColorEditorBlue(int index) {
     return paramEditors.get(index).getBlue();
   }
-
+  
+  String getColorEditorParam1(int index) {
+    return paramEditors.get(index).getParam1();
+  }
+  String getColorEditorParam2(int index) {
+    return paramEditors.get(index).getParam2();
+  }
+  String getColorEditorParam3(int index) {
+    return paramEditors.get(index).getParam3();
+  }
   String getTextBoxValue(int index) {
     return textboxs.get(index).text;
   }
@@ -759,7 +790,7 @@ class UITextbox implements UIObject {
 class UIParamEditor implements UIObject {
   private float x, y, w, h;
 
-  private UITextbox RedTextBox, GreenTextBox, BlueTextBox, Param1, Param2, Param3, Param4;
+  private UITextbox RedTextBox, GreenTextBox, BlueTextBox, Param1, Param2, Param3;
   private PVector   RedTextPos, GreenTextPos, BlueTextPos, ColorTextPos;
   private String    RedText, GreenText, BlueText, ColorText;
 
@@ -785,14 +816,16 @@ class UIParamEditor implements UIObject {
     GreenTextBox = new UITextbox("150", x+100, y+80, 200, 25);
     BlueTextBox  = new UITextbox("150", x+100, y+110, 200, 25);
     
-    Param1   = new UITextbox("0", x+70, y+150, 50, 25);
-    Param2   = new UITextbox("0", x+130, y+150, 50, 25);
-    Param3   = new UITextbox("0", x+190, y+150, 50, 25);
-    Param4   = new UITextbox("0", x+250, y+150, 50, 25);
+    Param1   = new UITextbox("0", x+110, y+150, 50, 25);
+    Param2   = new UITextbox("0", x+170, y+150, 50, 25);
+    Param3   = new UITextbox("0", x+230, y+150, 50, 25);
 
     RedTextBox.numOnly   = true;
     GreenTextBox.numOnly = true;
     BlueTextBox.numOnly  = true;
+    Param1.numOnly       = true;
+    Param2.numOnly       = true;
+    Param3.numOnly       = true;
   }
 
   String getRed() {
@@ -813,9 +846,6 @@ class UIParamEditor implements UIObject {
   String getParam3(){
     return Param3.text; 
   }
-  String getParam4(){
-    return Param4.text; 
-  }
 
   void update() {
     display();
@@ -826,7 +856,6 @@ class UIParamEditor implements UIObject {
     Param1.update();
     Param2.update();
     Param3.update();
-    Param4.update();
   }
   void display() {
     fill(rectColor);

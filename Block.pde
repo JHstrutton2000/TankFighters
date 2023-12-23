@@ -7,6 +7,7 @@ class Block implements GameObjectsPhysics {
 
   float w, h;
   PVector Color;
+  PVector Params;
   color col;
   private PImage texture = null;
 
@@ -27,14 +28,17 @@ class Block implements GameObjectsPhysics {
     gameObjectsPhysicsLists.add(this);
   }
 
-  Block(float x, float y, float w, float h, PVector Color, int type) {
+  Block(float x, float y, float w, float h, PVector Color, PVector Params, int type) {
     this.pos = new PVector(x, y);
     this.vel = new PVector();
     this.acc = new PVector();
     this.w = w;
     this.h = h;
     this.Color = Color;
+    this.Params = Params;
     this.type = blockTypes.values()[type];
+    
+    println(this.Params);
 
     gameObjectsPhysicsLists.add(this);
   }
