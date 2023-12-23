@@ -63,7 +63,7 @@ class MainMenu {
       }
     }
 
-    LevelCreator.addButtonChooser(25, 470, 325, 100, Constants.TabBackground, btns);
+    LevelCreator.addButtonChooser(25, 470, 325, 100, TabBackground, btns);
 
     LevelCreator.getChooser(0).setState(blockTypes.Block.ordinal());
     LevelCreator.getChooser(0).setClickMode(true);
@@ -86,7 +86,8 @@ class MainMenu {
 
     LoadMenu.addText("Load Menu", 215, 130, 70);
     LoadMenu.addButton("Back", 425, 660, 300, 100);
-    LoadMenu.addButton("Load", 75, 660, 300, 100);
+    LoadMenu.addButton("Load", 75, 660, 300, 45);
+    LoadMenu.addButton("Host Level", 75, 710, 300, 45);
     LoadMenu.addButton("Delete", 655, 315, 100, 100);
 
     PImage Next = loadImage("Icons/Next.png");
@@ -101,13 +102,13 @@ class MainMenu {
 
     ArrayList<String> LMBstrs = new ArrayList<String>();
 
-    int maxButtons = (int)Math.ceil(LMHeight / Constants.loadButtonHeight);
+    int maxButtons = (int)Math.ceil(LMHeight / loadButtonHeight);
 
     for (int i=0; i<Levels.size(); i++) {
       LMBstrs.add(Levels.get(i));
     }
 
-    LoadMenu.addChooser(100, 170, LMWidth, LMHeight, Constants.TabBackground, LMBstrs, maxButtons);
+    LoadMenu.addChooser(100, 170, LMWidth, LMHeight, TabBackground, LMBstrs, maxButtons);
   }
 
   void updateLVBtns() {
@@ -126,30 +127,20 @@ class MainMenu {
     LevelCreator.setChooser(0, LVbtns, pages);
   }
 
-
-  // MenuStateClose = -2
-  // MenuStateNothing = -1
-  // MenuStateBack = 0
-  // MenuStateEditor = 1
-  // MenuStateMultiplayer = 2
-  // MenuStateOptions = 3
-  // MenuStateLoad = 4
-  // MenuStateSave = 5
-
   void update() {
     if (!open)
       return;
-    if (state == -2) {
+    if (state == MenuLoadingState) {
       this.open = false;
-      Main.setState(-1);
-    } else if (state == -1) {
+      Main.setState(MenuMainState);
+    } else if (state == MenuMainState) {
       Main.update();
       state = Main.getState();
-    } else if (state == 0) {
-      loadBackState = -1;
-      loadTargetState = -2;
-      state = 6;
-    } else if (state == 1) {//Level Editor/Creator
+    } else if (state == MainMenuLoadState) {
+      loadBackState = MenuMainState;
+      loadTargetState = MenuLoadingState;
+      state = MenuLoadState;
+    } else if (state == MenuEditorState) {//Level Editor/Creator
       LevelCreator.update();
       ButtonChooser editor = LevelCreator.getChooser(0);
 
@@ -199,9 +190,7 @@ class MainMenu {
          5 05 11 17 23 29 35
          
          **/
-
-        //14, 14
-
+         
         blocks.add(new Block((int)(Math.floor(sta/YCount)), (int)(sta - YCount*Math.floor(sta/YCount)), 1, 1, Color, LevelCreator.getChooserState(1)));
       } else if (Hovering && mouseDown && lastMouseButton == RIGHT) {
         for (int i=0; i<blocks.size(); i++) {
@@ -210,41 +199,41 @@ class MainMenu {
         }
       }
 
-      if (st != -1) {
+      if (st != MenuNullState) {
         if (st == 0) {
-          state = -1;
+          state = MenuNullState;
         } else if (st == 1) {//Save
-          st = -1;
+          st = MenuNullState;
           state = 5;
         } else if (st == 2) {//Load
-          st = -1;
-          loadBackState = 1;
-          loadTargetState = 1;
-          state = 6;
+          st = MenuNullState;
+          loadBackState = MenuEditorState;
+          loadTargetState = MenuEditorState;
+          state = MenuLoadState;
         }
-        LevelCreator.setState(-1);
+        LevelCreator.setState(MenuNullState);
       }
 
-      Main.setState(-1);
-    } else if (state == 2) {
+      Main.setState(MenuMainState);
+    } else if (state == MenuMultiplayerState) {
       MultiPlayer.update();
-      if (MultiPlayer.getState() != -1) {
+      if (MultiPlayer.getState() != MenuNullState) {
         state = MultiPlayer.getState() + 4 + LevelCreator.buttons.size() + MultiPlayer.buttons.size();
-        MultiPlayer.setState(-1);
+        MultiPlayer.setState(MenuNullState);
       }
-      Main.setState(-1);
-    } else if (state == 3) {
+      Main.setState(MenuMainState);
+    } else if (state == MenuOptionsState) {
       Options.update();
-      if (Options.getState() != -1) {
+      if (Options.getState() != MenuNullState) {
         state = Options.getState() + 4 + LevelCreator.buttons.size() + MultiPlayer.buttons.size() + Options.buttons.size();
-        Options.setState(-1);
+        Options.setState(MenuNullState);
       }
-      Main.setState(-1);
-    } else if (state == 4) {
+      Main.setState(MenuMainState);
+    } else if (state == MenuPlayState) {
       PlayMenu.update();
       if (mouseDown && !buttonDown)
         this.open = false;
-    } else if (state == 5) {//Save Menu
+    } else if (state == MenuSaveState) {//Save Menu
       SaveMenu.update();
       if (SaveMenu.getState() == 1) {
         String str = SaveMenu.getTextBoxValue(0);
@@ -281,26 +270,36 @@ class MainMenu {
 
         Writer.flush();
       }
-      if (SaveMenu.getState() != -1) {
+      if (SaveMenu.getState() != MenuNullState) {
         state = 1;
-        SaveMenu.setState(-1);
+        SaveMenu.setState(MenuNullState);
       }
-    } else if (state == 6) {//Load Menu
+    } else if (state == MenuLoadState) {//Load Menu
       LoadMenu.update();
-      Main.setState(-1);//fix prob
+      Main.setState(MenuNullState);//fix prob
 
       ButtonChooser chooser = LoadMenu.getChooser(0);
 
 
       if (LoadMenu.getChooser(0).DoubleClicked()) {
-        LoadMenu.setState(1);
+        LoadMenu.setState(LoadMenuLoad);
       }
 
-      if (LoadMenu.getState() == 0) {//back
+      if (LoadMenu.getState() == LoadMenuLoadMultiPlayer) {//Load Multiplayer
+        //multiPlayer.setHosting(true);
+        LoadMenu.setState(LoadMenuLoad);
+      }
+      else if(LoadMenu.getState() == LoadMenuLoad){
+         //multiPlayer.setHosting(false);
+      }
+
+
+
+      if (LoadMenu.getState() == LoadMenuBack) {//back
         state = loadBackState;
-        LoadMenu.setState(-1);
-      } else if (LoadMenu.getState() == 1) {//Loading in Level!!!!
-        LoadMenu.setState(-1);
+        LoadMenu.setState(MenuNullState);
+      } else if (LoadMenu.getState() == LoadMenuLoad) {//Loading in Level!!!!
+        LoadMenu.setState(MenuNullState);
 
         if (chooser.getButtonCount() > 0) {
           gameObjectsPhysicsLists = new ArrayList<GameObjectsPhysics>();
@@ -345,8 +344,8 @@ class MainMenu {
           //debug
           state = loadTargetState;
         }
-      } else if (LoadMenu.getState() == 2) {//delete
-        LoadMenu.setState(-1);
+      } else if (LoadMenu.getState() == LoadMenuDelete) {//delete
+        LoadMenu.setState(MenuNullState);
 
         if (chooser.getButtonCount() > 0) {
           try {
@@ -369,24 +368,24 @@ class MainMenu {
 
           chooser.Rebuild();
         }
-      } else if (LoadMenu.getState() == 3) {//Prev
+      } else if (LoadMenu.getState() == LoadMenuPrev) {//Prev
         chooser.prevPage();
-        LoadMenu.setState(-1);
-      } else if (LoadMenu.getState() == 4) {//Next
+        LoadMenu.setState(MenuNullState);
+      } else if (LoadMenu.getState() == LoadMenuNext) {//Next
         chooser.nextPage();
-        LoadMenu.setState(-1);
+        LoadMenu.setState(MenuNullState);
       }
 
-      if (LoadMenu.getState() == 1 || LoadMenu.getState() == 0)
-        LoadMenu.setState(-1);
+      if (LoadMenu.getState() == LoadMenuLoad || LoadMenu.getState() == LoadMenuBack)
+        LoadMenu.setState(MenuNullState);
     } else {
-      state = -1;
+      state = MenuNullState;
     }
   }
 }
 
 class Menu {
-  private int state = -1;
+  private int state = MenuNullState;
   private ArrayList<String> text = new ArrayList<String>();
   private ArrayList<int[]> textpos = new ArrayList<int[]>();
   private ArrayList<Float> fontSize = new ArrayList<Float>();
@@ -574,13 +573,13 @@ class Menu {
     for (int i=0; i<buttons.size(); i++) {
 
       if (buttons.get(i).Hover()) {
-        buttons.get(i).background  = Constants.ButtonPressed;// 190;
+        buttons.get(i).background  = ButtonPressed;// 190;
         if (mouseDown && !buttonDown) {
           state = i;
           buttonDown = true;
         }
       } else
-        buttons.get(i).background  = Constants.ButtonReleased; //220;
+        buttons.get(i).background  = ButtonReleased; //220;
 
       buttons.get(i).update();
     }
@@ -738,9 +737,9 @@ class UITextbox implements UIObject {
     }
 
     if (change)
-      background = Constants.TextActive; //220;
+      background = TextActive; //220;
     else
-      background = Constants.TextInactive; //255;
+      background = TextInactive; //255;
   }
 
   void display() {
@@ -770,7 +769,7 @@ class UIParamEditor implements UIObject {
   UIParamEditor(float x, float y, float w, float h) {//25, 220, 325, 240
     rectPos  = new PVector(x, y);
     rectSize = new PVector(w, h);
-    rectColor = Constants.TabBackground;
+    rectColor = TabBackground;
 
     ColorText = "Color";
     RedText   = "Red";
@@ -955,7 +954,7 @@ class ButtonChooser implements UIObject {
 
   void addButton(String str) {
     int page = (int)Math.floor((buttons.size())/maxButtonsPerPage);
-    this.buttons.add(new UIButton(str, x, y + Constants.loadButtonHeight*(buttons.size() - maxButtonsPerPage*(page-1))-400, w, Constants.loadButtonHeight));
+    this.buttons.add(new UIButton(str, x, y + loadButtonHeight*(buttons.size() - maxButtonsPerPage*(page-1))-400, w, loadButtonHeight));
     this.buttonPaged.add(page);
 
     return;
@@ -1040,7 +1039,7 @@ class ButtonChooser implements UIObject {
       if (state > buttons.size())
         state = buttons.size()-1;
       UIButton btn = buttons.get(state);
-      fill(Constants.ButtonPressed, 170);
+      fill(ButtonPressed, 170);
       rect(btn.x, btn.y, btn.w, btn.h);
     }
   }
