@@ -22,7 +22,7 @@ class MainMenu {
 
   MainMenu() {
     Writer = createWriter("Levels/Levels.txt");
-    
+
     for (int i=0; i<Levels.size(); i++)
       Writer.println(Levels.get(i));
 
@@ -50,7 +50,7 @@ class MainMenu {
     LevelCreator.addButton("Save Stage", 40, 660, 250, 45);
     LevelCreator.addButton("Load Stage", 40, 660+55, 250, 45);
 
-    LevelCreator.addColorEditor(25, yoff, 325, 240);
+    LevelCreator.addParamEditor(25, yoff, 325, 240);
 
     ArrayList<UIButton> btns = new ArrayList<UIButton>();
 
@@ -58,8 +58,8 @@ class MainMenu {
 
     for (int i=0; i<blocksItems.length; i++) {
       btns.add(new UIButton(loadImage("Icons/" + blocksItems[i] + ".png")));
-      if(btns.get(btns.size()-1).delete){
-        btns.remove(btns.size()-1); 
+      if (btns.get(btns.size()-1).delete) {
+        btns.remove(btns.size()-1);
       }
     }
 
@@ -85,8 +85,8 @@ class MainMenu {
 
 
     LoadMenu.addText("Load Menu", 215, 130, 70);
-    LoadMenu.addButton("Back",   425, 660, 300, 100);
-    LoadMenu.addButton("Load",    75, 660, 300, 100);
+    LoadMenu.addButton("Back", 425, 660, 300, 100);
+    LoadMenu.addButton("Load", 75, 660, 300, 100);
     LoadMenu.addButton("Delete", 655, 315, 100, 100);
 
     PImage Next = loadImage("Icons/Next.png");
@@ -127,14 +127,14 @@ class MainMenu {
   }
 
 
-      // MenuStateClose = -2
-      // MenuStateNothing = -1
-      // MenuStateBack = 0
-      // MenuStateEditor = 1
-      // MenuStateMultiplayer = 2
-      // MenuStateOptions = 3
-      // MenuStateLoad = 4
-      // MenuStateSave = 5
+  // MenuStateClose = -2
+  // MenuStateNothing = -1
+  // MenuStateBack = 0
+  // MenuStateEditor = 1
+  // MenuStateMultiplayer = 2
+  // MenuStateOptions = 3
+  // MenuStateLoad = 4
+  // MenuStateSave = 5
 
   void update() {
     if (!open)
@@ -177,17 +177,17 @@ class MainMenu {
           Color.x = Float.parseFloat(LevelCreator.getColorEditorRed(0));
         else
           Color.x = 0;
-          
+
         if (LevelCreator.getColorEditorGreen(0) != "")
           Color.y = Float.parseFloat(LevelCreator.getColorEditorGreen(0));
         else
           Color.y = 0;
-          
+
         if (LevelCreator.getColorEditorBlue(0) != "")
           Color.z = Float.parseFloat(LevelCreator.getColorEditorBlue(0));
         else
           Color.z = 0;
-          
+
         /**
          
          0  1  2  3  4  5
@@ -317,34 +317,29 @@ class MainMenu {
               color Ccol = col.get(x, y);
               color Ctype = type.get(x, y);
               int t = (int)red(Ctype) - 1;
-              
+
               PVector pos = new PVector(x*it+it/2, y*it+it/2);
-              
+
               if (t != -1) {
                 blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), t));
-                if (t == blockTypes.Enemy.ordinal()){
+                if (t == blockTypes.Enemy.ordinal()) {
                   gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0));
-                }
-                else if (t == blockTypes.Player.ordinal()){
+                } else if (t == blockTypes.Player.ordinal()) {
                   gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance));
                   SelectedTankInstance++;
-                }
-                else if(t == blockTypes.Flag.ordinal()){
+                } else if (t == blockTypes.Flag.ordinal()) {
                   gameObjectsPhysicsLists.add(new Flag(pos, new PVector(red(Ccol), green(Ccol), blue(Ccol))));
-                }
-                else if(t == blockTypes.Health.ordinal()){
+                } else if (t == blockTypes.Health.ordinal()) {
                   gameObjectsPhysicsLists.add(new Health(pos, 1));
-                }
-                else if(t == blockTypes.Shield.ordinal()){
-                   gameObjectsPhysicsLists.add(new Shield(pos, 1));
-                }
-                else if(t == blockTypes.Ammo.ordinal()){
+                } else if (t == blockTypes.Shield.ordinal()) {
+                  gameObjectsPhysicsLists.add(new Shield(pos, 1));
+                } else if (t == blockTypes.Ammo.ordinal()) {
                   gameObjectsPhysicsLists.add(new Ammo(pos, WeaponNames.Default, 1));
                 }
               }
             }
           }
-          
+
           SelectedTankInstance = 0;
 
           //debug
@@ -407,7 +402,7 @@ class Menu {
   private ArrayList<UITextbox> textboxs = new ArrayList<UITextbox>();
 
   private ArrayList<ButtonChooser> Choosers = new ArrayList<ButtonChooser>();
-  private ArrayList<UIColorEditor> colorEditors = new ArrayList<UIColorEditor>();
+  private ArrayList<UIParamEditor> paramEditors = new ArrayList<UIParamEditor>();
 
   private color col = color(165);
 
@@ -419,8 +414,8 @@ class Menu {
     }
   }
 
-  void addColorEditor(float x, float y, float w, float h) {
-    colorEditors.add(new UIColorEditor(x, y, w, h));
+  void addParamEditor(float x, float y, float w, float h) {
+    paramEditors.add(new UIParamEditor(x, y, w, h));
   }
 
   void addChooser(float x, float y, float w, float h, float background, ArrayList<UIButton> buttons, ArrayList<Integer> pages) {
@@ -530,13 +525,13 @@ class Menu {
   }
 
   String getColorEditorRed(int index) {
-    return colorEditors.get(index).getRed();
+    return paramEditors.get(index).getRed();
   }
   String getColorEditorGreen(int index) {
-    return colorEditors.get(index).getGreen();
+    return paramEditors.get(index).getGreen();
   }
   String getColorEditorBlue(int index) {
-    return colorEditors.get(index).getBlue();
+    return paramEditors.get(index).getBlue();
   }
 
   String getTextBoxValue(int index) {
@@ -590,8 +585,8 @@ class Menu {
       buttons.get(i).update();
     }
 
-    for (int i=0; i<colorEditors.size(); i++)
-      colorEditors.get(i).update();
+    for (int i=0; i<paramEditors.size(); i++)
+      paramEditors.get(i).update();
 
     for (int i=0; i<textboxs.size(); i++)
       textboxs.get(i).update();
@@ -646,11 +641,10 @@ class UIButton implements UIObject {
     this.img = img;
     this.x = x;
     this.y = y;
-    if(img != null){
+    if (img != null) {
       this.w = img.width;
       this.h = img.height;
-    }
-    else{
+    } else {
       delete = true;
     }
     this.text = null;
@@ -763,17 +757,17 @@ class UITextbox implements UIObject {
   }
 }
 
-class UIColorEditor implements UIObject {
+class UIParamEditor implements UIObject {
   private float x, y, w, h;
 
-  private UITextbox RedTextBox, GreenTextBox, BlueTextBox;
+  private UITextbox RedTextBox, GreenTextBox, BlueTextBox, Param1, Param2, Param3, Param4;
   private PVector   RedTextPos, GreenTextPos, BlueTextPos, ColorTextPos;
   private String    RedText, GreenText, BlueText, ColorText;
 
   private PVector rectPos, rectSize;
   private Float rectColor;
 
-  UIColorEditor(float x, float y, float w, float h) {//25, 220, 325, 240
+  UIParamEditor(float x, float y, float w, float h) {//25, 220, 325, 240
     rectPos  = new PVector(x, y);
     rectSize = new PVector(w, h);
     rectColor = Constants.TabBackground;
@@ -784,13 +778,18 @@ class UIColorEditor implements UIObject {
     BlueText  = "Blue";
 
     ColorTextPos = new PVector(x+150, y+30);
-    RedTextPos   = new PVector(x+20, y+80);
-    GreenTextPos = new PVector(x+20, y+140);
-    BlueTextPos  = new PVector(x+20, y+200);
+    RedTextPos   = new PVector(x+20, y+70);
+    GreenTextPos = new PVector(x+20, y+97);
+    BlueTextPos  = new PVector(x+20, y+125);
 
-    RedTextBox   = new UITextbox("150", x+100, y+50, 200, 50);
-    GreenTextBox = new UITextbox("150", x+100, y+110, 200, 50);
-    BlueTextBox  = new UITextbox("150", x+100, y+170, 200, 50);
+    RedTextBox   = new UITextbox("150", x+100, y+50, 200, 25);
+    GreenTextBox = new UITextbox("150", x+100, y+80, 200, 25);
+    BlueTextBox  = new UITextbox("150", x+100, y+110, 200, 25);
+    
+    Param1   = new UITextbox("0", x+70, y+150, 50, 25);
+    Param2   = new UITextbox("0", x+130, y+150, 50, 25);
+    Param3   = new UITextbox("0", x+190, y+150, 50, 25);
+    Param4   = new UITextbox("0", x+250, y+150, 50, 25);
 
     RedTextBox.numOnly   = true;
     GreenTextBox.numOnly = true;
@@ -806,15 +805,31 @@ class UIColorEditor implements UIObject {
   String getBlue() {
     return BlueTextBox.text;
   }
+  String getParam1(){
+    return Param1.text; 
+  }
+  String getParam2(){
+    return Param2.text; 
+  }
+  String getParam3(){
+    return Param3.text; 
+  }
+  String getParam4(){
+    return Param4.text; 
+  }
 
   void update() {
-    Draw();
+    display();
 
     RedTextBox.update();
     GreenTextBox.update();
     BlueTextBox.update();
+    Param1.update();
+    Param2.update();
+    Param3.update();
+    Param4.update();
   }
-  void Draw() {
+  void display() {
     fill(rectColor);
     rect(rectPos.x, rectPos.y, rectSize.x, rectSize.y);
 
@@ -983,7 +998,7 @@ class ButtonChooser implements UIObject {
   }
 
   void update() {
-    Draw();
+    display();
     if (buttons.size() > 0) {
 
       MaxPage = 0;
@@ -1017,7 +1032,6 @@ class ButtonChooser implements UIObject {
             } else {
               this.DoubleClicked = true;
             }
-
           } else if (Drag && this.buttons.get(i).Hover() && mouseDown && !buttonDown) {
             state = i;
           }
@@ -1031,7 +1045,7 @@ class ButtonChooser implements UIObject {
     }
   }
 
-  void Draw() {
+  void display() {
     fill(background);
     rect(x, y, w, h);
   }

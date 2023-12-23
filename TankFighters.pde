@@ -17,7 +17,7 @@ PImage back;
 int drawCycle    = 0;
 int maxDrawCycle = 0;
 
-boolean backgroundEnabled = true;
+boolean backgroundEnabled = false;
 
 void setup() {
 

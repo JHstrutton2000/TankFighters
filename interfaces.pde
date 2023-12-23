@@ -1,4 +1,6 @@
 interface UIObject {
+  void display();
+  void update();
 }
 
 interface GameObjectsPhysics{
