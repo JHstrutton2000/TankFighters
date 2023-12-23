@@ -24,8 +24,9 @@ void setup() {
 
   size(800, 800);
   servers = new ArrayList<String>();
-   
-  multiPlayer = new mutltiplayerHandler();
+  if(networked){
+    multiPlayer = new mutltiplayerHandler();
+  }
   
   if(networked){
     udp = new UDP( this, UDPport, UDPDestination );
@@ -63,7 +64,9 @@ void setup() {
 }
 
 void draw() {  
-  multiPlayer.update();
+  if(networked){
+    multiPlayer.update();
+  }
   if (mainMenu.open) {
     mainMenu.update();
   } else {

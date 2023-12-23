@@ -4,11 +4,10 @@ import java.net.UnknownHostException;
 
 UDP udp;  // define the UDP object
 String ipAddress;
-boolean networked;
+boolean networked = false;
 ArrayList<String> servers;
 
 void receive( byte[] data, String ip, int port ) {  // <-- extended handler
-  println("test");
   switch (data[0]) {
   case UDPActive:
     if (data[1] == UDPSend) {
