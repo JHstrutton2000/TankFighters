@@ -341,14 +341,12 @@ class MainMenu {
 
               PVector pos = new PVector(x*it+it/2, y*it+it/2);
 
-              if (t != -1) {
-                println(t);
-                
+              if (t != -1) {                
                 blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), new PVector(red(Cparms), green(Cparms), blue(Cparms)), t));
                 if (t == blockTypes.Enemy.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0));
+                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0, (int)red(Cparms), (int)green(Cparms)));
                 } else if (t == blockTypes.Player.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance));
+                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance, (int)red(Cparms), (int)green(Cparms)));
                   SelectedTankInstance++;
                 } else if (t == blockTypes.Flag.ordinal()) {
                   gameObjectsPhysicsLists.add(new Flag(pos, new PVector(red(Ccol), green(Ccol), blue(Ccol))));
@@ -356,7 +354,7 @@ class MainMenu {
                   gameObjectsPhysicsLists.add(new Health(pos, red(Cparms)));
                 } else if (t == blockTypes.Shield.ordinal()) {
                   gameObjectsPhysicsLists.add(new Shield(pos, red(Cparms)));
-                } else if (t == blockTypes.Ammo.ordinal()) {
+                } else if (t == blockTypes.Ammo.ordinal() && (int)red(Cparms) == WeaponNames.values().length) {
                   gameObjectsPhysicsLists.add(new Ammo(pos, WeaponNames.values()[(int)red(Cparms)], green(Cparms)));
                 }
               }
@@ -804,12 +802,12 @@ class UIParamEditor implements UIObject {
     rectSize = new PVector(w, h);
     rectColor = TabBackground;
 
-    ColorText = "Color";
+    ColorText = "Parameters";
     RedText   = "Red";
     GreenText = "Green";
     BlueText  = "Blue";
 
-    ColorTextPos = new PVector(x+150, y+30);
+    ColorTextPos = new PVector(x+115, y+30);
     RedTextPos   = new PVector(x+20, y+70);
     GreenTextPos = new PVector(x+20, y+97);
     BlueTextPos  = new PVector(x+20, y+125);

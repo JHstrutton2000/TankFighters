@@ -8,10 +8,10 @@ class Tank implements GameObjectsPhysics {
   private PVector target = new PVector(0, 0);
   private PVector barrel = new PVector(0, 0);
 
-  private float Health    = 10;
-  private float maxHealth = 10;
-  private float shield    = 0;
-  private float maxShield = 10;
+  private float Health;
+  private float maxHealth;
+  private float shield;
+  private float maxShield;
 
   private float Width = 40;
   private float Height = 30;
@@ -32,22 +32,28 @@ class Tank implements GameObjectsPhysics {
   private Weapon weapon;
 
   Tank() {
-    this(true, new PVector(random(width), random(height)), new PVector(0, 1, 0), 0);
+    this(true, new PVector(random(width), random(height)), new PVector(0, 1, 0), 0, 10, 0);
   }
 
   Tank(boolean player, PVector Color, int TankInstance) {
-    this(player, new PVector(random(width), random(height)), Color, TankInstance);
+    this(player, new PVector(random(width), random(height)), Color, TankInstance, 10, 0);
   }
 
   Tank(boolean player, PVector Color) {
-    this(player, new PVector(random(width), random(height)), Color, 0);
+    this(player, new PVector(random(width), random(height)), Color, 0, 10, 0);
   }
 
-  Tank(boolean player, PVector pos, PVector Color, int TankInstance) {
+  Tank(boolean player, PVector pos, PVector Color, int TankInstance, int maxHealth, int maxShield) {
     this.player = player;
     this.pos = pos;
     this.TankInstance = TankInstance;
     this.Color = Color;
+    
+    this.maxHealth = maxHealth;
+    this.maxShield = maxShield;
+    
+    this.Health = this.maxHealth;
+    this.shield = this.maxShield;
 
     left = false;
     right = false;

@@ -18,6 +18,7 @@ final float tankBlockCollisionScaler = 1/100;
 //UDP Settings
 final int UDPport = 7200;
 final int UDPRequestDelay = 100;
+final String UDPDestination = "0.0.0.0";
 
 //UDP OpCodes
 final char UDPActive     = 0x00;
@@ -28,7 +29,6 @@ final char UDPRequest = 0x01;
 final char UDPSend    = 0x02;
 
 
-final String UDPDestination = "224.0.0.1";
 
 
 //MenuStates

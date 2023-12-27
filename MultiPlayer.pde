@@ -4,10 +4,11 @@ import java.net.UnknownHostException;
 
 UDP udp;  // define the UDP object
 String ipAddress;
-boolean networked = false;
+boolean networked = true;
 ArrayList<String> servers;
 
 void receive( byte[] data, String ip, int port ) {  // <-- extended handler
+println(data, ip, port);
   switch (data[0]) {
   case UDPActive:
     if (data[1] == UDPSend) {
@@ -31,6 +32,7 @@ void receive( byte[] data, String ip, int port ) {  // <-- extended handler
 
 class mutltiplayerHandler {
   int requestCountdown;
+  
   mutltiplayerHandler() {
     requestCountdown = UDPRequestDelay;
     try {
@@ -49,7 +51,7 @@ class mutltiplayerHandler {
   void update() {
     if(requestCountdown-- < 0){
       if (networked) {
-        udp.send(""+UDPActive+UDPRequest, ipAddress, UDPport);
+        //udp.send(""+UDPActive+UDPRequest, ipAddress, UDPport);
       }
       requestCountdown = UDPRequestDelay;
     }
