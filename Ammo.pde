@@ -42,7 +42,7 @@ class Ammo implements GameObjectsPhysics{
         fill(180, 180, 180);
         ellipse(pos.x, pos.y, r, r);
         if(ring)
-          text(weapon.toString(), pos.x - 2.5*r, pos.y + 2*r);
+          text(weapon.toString(), pos.x, pos.y);
       pop();
     }
   }

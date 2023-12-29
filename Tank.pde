@@ -276,7 +276,7 @@ class Tank implements GameObjectsPhysics {
     
     
     if(center != pos && player && TankInstance == SelectedTankInstance){
-      println(SelectedTankInstance, TankInstance);
+      //println(SelectedTankInstance, TankInstance);
       center = pos;
     }
       

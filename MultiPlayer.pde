@@ -8,7 +8,7 @@ boolean networked = true;
 ArrayList<String> servers;
 
 void receive( byte[] data, String ip, int port ) {  // <-- extended handler
-println(data, ip, port);
+println("received:", data, ip, port);
   switch (data[0]) {
   case UDPActive:
     if (data[1] == UDPSend) {

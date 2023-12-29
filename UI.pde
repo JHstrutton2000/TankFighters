@@ -2,7 +2,7 @@ class UIHandler{
   int h = 50;
   int w = width;
   
-  int BarStart = 95;
+  int BarStart = 70;
   int BarHeight = 15;
   int BarWidth = 300;
   
@@ -20,19 +20,21 @@ class UIHandler{
       fill(100); //background
       rect(0, height-h, w, h);
       
-      HealthBar();
-      ShieldBar();
-      
-      TankInstance();
-      
-      WeaponType();
-      AmmoCount();
+      if(SelectedTank != null){
+        HealthBar();
+        ShieldBar();
+        
+        TankInstance();
+        
+        WeaponType();
+        AmmoCount();
+      }
     pop();
   }
   
   void TankInstance(){
-      fill(150); //backEllipse
-      ellipse(h, height-h/2, 2*h, h * 0.8);
+      //fill(150); //backEllipse
+      //ellipse(h, height-h/2, 2*h, h * 0.8);
       
       
       textSize(20);
@@ -63,10 +65,14 @@ class UIHandler{
   }
   
   void WeaponType(){
-    
+    textSize(20);
+    fill(0);
+    text(SelectedTank.weapon.eqquiped.name.toString(), BarWidth+100, height-h/2 - BarHeight+15);
   }
   
   void AmmoCount(){
-    
+    textSize(20);
+    fill(0);
+    text(SelectedTank.weapon.eqquiped.ammoCount + "/"+ SelectedTank.weapon.eqquiped.ammoMax, BarWidth+100, height-h/2 - BarHeight+30);
   }
 }

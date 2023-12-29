@@ -15,7 +15,6 @@ class Health implements GameObjectsPhysics{
   boolean isColliding(GameObjectsPhysics gameObject){
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
       if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
-        println("picking up?", val);
         val = gameObject.pickup(this, val, 0);
         if(val <= 0){
           dead = true;
