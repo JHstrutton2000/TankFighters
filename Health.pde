@@ -15,6 +15,7 @@ class Health implements GameObjectsPhysics{
   boolean isColliding(GameObjectsPhysics gameObject){
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
       if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
+        println("picking up?", val);
         val = gameObject.pickup(this, val, 0);
         if(val <= 0){
           dead = true;
@@ -35,15 +36,15 @@ class Health implements GameObjectsPhysics{
   }
   
   void Draw(){
-    println("test");
     if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + r)) {
       push();
+        translate(pos.x, pos.y);
         fill(150, 20, 20);
-        ellipse(pos.x, pos.y, r, r);
+        ellipse(0, 0, r, r);
         
         if(ring){
           fill(255);
-          text("+"+val, pos.x - 2.5*r, pos.y + 3*r);  
+          text("+"+val, 0, 0);  
         }
       pop();
     }

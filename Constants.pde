@@ -14,6 +14,9 @@ final int itMax = 150;
 
 final float tankBlockCollisionScaler = 1/100;
 
+final float defaultShield  = 10;
+final float defaultHealth  = 10;
+
 
 //UDP Settings
 final int UDPport = 7200;

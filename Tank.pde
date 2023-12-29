@@ -49,11 +49,19 @@ class Tank implements GameObjectsPhysics {
     this.TankInstance = TankInstance;
     this.Color = Color;
     
+    if(maxHealth == 0){
+      this.maxHealth = defaultHealth; 
+    }
+    
     this.maxHealth = maxHealth;
     this.maxShield = maxShield;
     
     this.Health = this.maxHealth;
     this.shield = this.maxShield;
+
+    if(maxShield == 0){
+      this.maxShield = defaultShield; 
+    }
 
     left = false;
     right = false;
@@ -63,6 +71,10 @@ class Tank implements GameObjectsPhysics {
     weapon = new Weapon(this);
 
     trail = new ParticleSystem(0, 4, pos, vel, 180, new PVector(50, 50, 50), new PVector(), false);
+    
+    if(player && SelectedTank == null){
+      SelectedTank = this; 
+    }
 
     gameObjectsPhysicsLists.add(this);
     gameObjectsPhysicsLists.add(trail);
@@ -110,19 +122,38 @@ class Tank implements GameObjectsPhysics {
     return pos.copy().sub(barrel.copy().setMag(Width-10));
   }
   
-  int pickup(GameObjectsPhysics pickup, float value, float weaponIndex){
+  int pickup(GameObjectsPhysics pickup, float value, float weaponIndex){ //there is a bug, Future me should fix that. Current me way to lazy... The value can be lower than zero.
     if(pickup.getGameObjectType() == blockTypes.Health){
-      if(Health+value < maxHealth){
-        Health += value;
+      int returnedVal = (int)(Health+value-maxHealth); // 1 + 10 - 50 = -39
+      
+      if(value < 0){
+        return (int)value;  
       }
-      return (int)(Health+value - maxHealth);
+      
+      if(Health+value <= maxHealth){ 
+        Health += value; 
+      }
+      else{
+        Health = maxHealth; 
+      }
+      
+      return returnedVal;
     }
     else if(pickup.getGameObjectType() == blockTypes.Shield){
-      if(shield+value < maxShield){
-        shield += value;
-        
+      int returnedVal = (int)(shield+value-maxShield); // 1 + 10 - 50 = -39
+      
+      if(value < 0){
+        return (int)value;  
       }
-      return (int)(shield+value - maxShield);
+      
+      if(shield+value <= maxShield){ 
+        shield += value; 
+      }
+      else{
+        shield = maxShield; 
+      }
+      
+      return returnedVal;
     }
     else if(pickup.getGameObjectType() == blockTypes.Ammo){
       return weapon.addAmmo((int)weaponIndex, (int)value);
@@ -196,6 +227,7 @@ class Tank implements GameObjectsPhysics {
       Dist = this.pos.copy().sub(Dist);
       
       if ((Dist.mag()) <= ((this.r/2) - (0.1 * this.r))) {
+        SelectedTank = this;
         SelectedTankInstance = this.TankInstance;
         center = this.pos;
         return true;

@@ -2,11 +2,13 @@ ArrayList<Block> blocks;
 ArrayList<String> Levels;
 
 int SelectedTankInstance = 0;
+Tank SelectedTank;
 
 float it = 80;
 int XCount, YCount;
 MainMenu mainMenu;
 mutltiplayerHandler multiPlayer;
+UIHandler ui;
 
 PVector center;
 float drawRadius = 400;
@@ -23,6 +25,8 @@ boolean backgroundEnabled = false;
 void setup() {
 
   size(800, 800);
+  ui = new UIHandler();
+  
   servers = new ArrayList<String>();
   if(networked){
     multiPlayer = new mutltiplayerHandler();
@@ -117,5 +121,8 @@ void draw() {
     if (backgroundEnabled) {
       image(back, center.x-500, center.y-500);
     }
+    
+    ui.update();
+    ui.Draw();
   }
 }

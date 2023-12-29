@@ -1,16 +1,16 @@
 public class WeaponType {
-  private WeaponNames name = WeaponNames.Default;//Name of the WeaponType
-  private int coolDown  = 0;//coolDown is how long until you can fire again.
-  private float damage    = 0;//damage taken by tank when hit by bullet created by weapon.
-  private float bulletRadius = 0;//Radius of bullet(s) fired
-  private int fireRate  = 0;//fireRate is how many bullets are created per fireTime
-  private int fireTime  = 0;//refer to fireRate
-  private int accuracy  = 0;//angle of deviation from heading
-  private float kick    = 0;//recoil force applied to tank. Tank can not move during this.
-  private float speed   = 0;//speed the bullet created by weapon will travel
-  private int ammoCount = 0;//Current ammoCount held by the Weapon
-  private int ammoMax   = 0;//the most ammo that can be held by the Weapon
-  private FireTypes fireType = FireTypes.Default;
+  private WeaponNames name = WeaponNames.Default; //Name of the WeaponType
+  private int coolDown  = 0; //coolDown is how long until you can fire again.
+  private float damage    = 0; //damage taken by tank when hit by bullet created by weapon.
+  private float bulletRadius = 0; //Radius of bullet(s) fired
+  private int fireRate  = 0; //fireRate is how many bullets are created per fireTime
+  private int fireTime  = 0; //refer to fireRate
+  private int accuracy  = 0; //angle of deviation from heading
+  private float kick    = 0; //recoil force applied to tank. Tank can not move during this.
+  private float speed   = 0; //speed the bullet created by weapon will travel
+  private int ammoCount = 0; //Current ammoCount held by the Weapon
+  private int ammoMax   = 0; //the most ammo that can be held by the Weapon
+  private FireTypes fireType = FireTypes.Default; //The firebehavior.
 
   private WeaponType(WeaponNames name, int coolDown, float damage, float bulletRadius, int fireRate, int fireTime, float speed, int accuracy, float kick, int ammoCount, int ammoMax, FireTypes fireType) {
     this.name = name; 
