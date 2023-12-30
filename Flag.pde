@@ -21,10 +21,12 @@ class Flag implements GameObjectsPhysics{
   void Draw(){
     if (!backgroundEnabled || center.copy().sub(pos.copy()).mag() <= (drawRadius/2 + 20*r)) {
       push();
-        rect(this.pos.x, this.pos.y, r, 10*r);
-        
-        fill(Color.x, Color.y, Color.z);
-        triangle(this.pos.x+(r)+0.1, this.pos.y, this.pos.x+(r)+0.1, this.pos.y+(5*r), this.pos.x+(5*r), this.pos.y+(2.5*r));
+        if(!pickedup){
+          rect(this.pos.x, this.pos.y, r, 10*r);
+          
+          fill(Color.x, Color.y, Color.z);
+          triangle(this.pos.x+(r)+0.1, this.pos.y, this.pos.x+(r)+0.1, this.pos.y+(5*r), this.pos.x+(5*r), this.pos.y+(2.5*r));
+        }
         
       if (ring) {
           fill(255);
@@ -36,7 +38,7 @@ class Flag implements GameObjectsPhysics{
   }
   
   boolean isDead(){
-    return pickedup; 
+    return false; 
   }
   
   void applyForce(PVector force){
@@ -44,16 +46,18 @@ class Flag implements GameObjectsPhysics{
   }
   
   int pickup(GameObjectsPhysics pickup, float value, float value2){
-    pickedup = true;
     return (int)value; 
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){
-    if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+    if(pickedup){
+      return false;
+    }
+    else if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
       if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
         int val = gameObject.pickup(this, 1, 0);
-        if(val == 0){
-          pickedup = true;
+        if(val == 0){  
+            pickedup = true;
         }
         
         return true;

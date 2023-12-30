@@ -36,15 +36,15 @@ class UIHandler{
   }
   
   void TankInstance(){
-      textSize(20);
+      textSize(18);
       fill(0);
-      text("Inst: " + SelectedTankInstance, h/2+1, height-h*0.4+7.5);
+      text("Team: " + SelectedTankInstance, h/5, height-h*0.4+6);
   }
   
   void TeamID(){
-      textSize(20);
+      textSize(18);
       fill(0);
-      text("ID:" + SelectedTank.teamID, h/2+1, height-h*0.4-7.5);
+      text("ID: " + SelectedTank.teamID, h/5, height-h*0.4-8);
   }
   
   void HealthBar(){
@@ -83,7 +83,7 @@ class UIHandler{
   
   void FlagDisplay(){
     if(SelectedTank.holdingFlag){
-      float x = BarWidth+250;
+      float x = BarWidth+200;
       float y = height-h/2 - BarHeight-3;
       float r = 3;
       

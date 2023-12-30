@@ -32,6 +32,7 @@ class Tank implements GameObjectsPhysics {
   private ParticleSystem trail;
 
   private Weapon weapon;
+  private Flag carriedFlag;
 
   Tank() {
     this(true, new PVector(random(width), random(height)), new PVector(0, 1, 0), 0, 10, 0, 0);
@@ -163,10 +164,18 @@ class Tank implements GameObjectsPhysics {
     }
     else if(pickup.getGameObjectType() == blockTypes.Flag){
       Flag flag = (Flag)pickup;
-      if(teamID == flag.teamID){
-        holdingFlag = true;
-        return 0; 
+      if(teamID == flag.teamID && carriedFlag != null){
+        holdingFlag = false;
+        carriedFlag.pickedup = false;
+        carriedFlag = null;
+        return 1; 
       }
+      else{
+        holdingFlag = true;
+        carriedFlag = (Flag)pickup;
+        return 0;
+      }
+      
     }
     return (int)value; 
   }
