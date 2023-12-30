@@ -2,13 +2,16 @@ class Flag implements GameObjectsPhysics{
   PVector pos, vel, Color;
   int teamID = 0;
   float r = 1;
+  boolean pickedup = false;
+  
   void update(){
-    r = it/25;
+    r = it/25; //r = 3;
   }
   
-  Flag(PVector pos, PVector Color){
+  Flag(PVector pos, PVector Color, int teamID){
     this.pos = pos;
     this.Color = Color;
+    this.teamID = teamID;
   }
   
   int drawPriority(){
@@ -33,7 +36,7 @@ class Flag implements GameObjectsPhysics{
   }
   
   boolean isDead(){
-    return false; 
+    return pickedup; 
   }
   
   void applyForce(PVector force){
@@ -41,16 +44,31 @@ class Flag implements GameObjectsPhysics{
   }
   
   int pickup(GameObjectsPhysics pickup, float value, float value2){
+    pickedup = true;
     return (int)value; 
   }
   
   boolean isColliding(GameObjectsPhysics gameObject){
     if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
-      return true; 
+      if(gameObject.pos().copy().sub(pos).mag() < (r() + gameObject.r())/2){
+        int val = gameObject.pickup(this, 1, 0);
+        if(val == 0){
+          pickedup = true;
+        }
+        
+        return true;
+      } 
     }
-    
-    return false; 
+    return false;
   }
+  
+  //boolean isColliding(GameObjectsPhysics gameObject){
+  //  if(gameObject.getGameObjectType() == blockTypes.Player || gameObject.getGameObjectType() == blockTypes.Enemy){
+  //    return true; 
+  //  }
+    
+  //  return false; 
+  //}
   
   blockTypes getGameObjectType(){    
     return blockTypes.Flag; 

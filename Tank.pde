@@ -18,11 +18,13 @@ class Tank implements GameObjectsPhysics {
   private float maxVel = 5;
   private float maxAcc = 1;
   private boolean player;
+  private boolean holdingFlag = false;
   private PVector Color;
   
   //private float RED, GREEN, BLUE;
 
   private int TankInstance = 0;
+  private int teamID = 0;
 
 
   private boolean colliding;
@@ -32,22 +34,23 @@ class Tank implements GameObjectsPhysics {
   private Weapon weapon;
 
   Tank() {
-    this(true, new PVector(random(width), random(height)), new PVector(0, 1, 0), 0, 10, 0);
+    this(true, new PVector(random(width), random(height)), new PVector(0, 1, 0), 0, 10, 0, 0);
   }
 
   Tank(boolean player, PVector Color, int TankInstance) {
-    this(player, new PVector(random(width), random(height)), Color, TankInstance, 10, 0);
+    this(player, new PVector(random(width), random(height)), Color, TankInstance, 10, 0, 0);
   }
 
   Tank(boolean player, PVector Color) {
-    this(player, new PVector(random(width), random(height)), Color, 0, 10, 0);
+    this(player, new PVector(random(width), random(height)), Color, 0, 10, 0, 0);
   }
 
-  Tank(boolean player, PVector pos, PVector Color, int TankInstance, int maxHealth, int maxShield) {
+  Tank(boolean player, PVector pos, PVector Color, int TankInstance, int maxHealth, int maxShield, int teamID) {
     this.player = player;
     this.pos = pos;
     this.TankInstance = TankInstance;
     this.Color = Color;
+    this.teamID = teamID;
     
     if(maxHealth == 0){
       this.maxHealth = defaultHealth; 
@@ -157,6 +160,13 @@ class Tank implements GameObjectsPhysics {
     }
     else if(pickup.getGameObjectType() == blockTypes.Ammo){
       return weapon.addAmmo((int)weaponIndex, (int)value);
+    }
+    else if(pickup.getGameObjectType() == blockTypes.Flag){
+      Flag flag = (Flag)pickup;
+      if(teamID == flag.teamID){
+        holdingFlag = true;
+        return 0; 
+      }
     }
     return (int)value; 
   }

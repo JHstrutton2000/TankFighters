@@ -28,18 +28,23 @@ class UIHandler{
         
         WeaponType();
         AmmoCount();
+        
+        TeamID();
+        FlagDisplay();
       }
     pop();
   }
   
   void TankInstance(){
-      //fill(150); //backEllipse
-      //ellipse(h, height-h/2, 2*h, h * 0.8);
-      
-      
       textSize(20);
       fill(0);
-      text("#" + SelectedTankInstance, h/2+1, height-h*0.4);
+      text("Inst: " + SelectedTankInstance, h/2+1, height-h*0.4+7.5);
+  }
+  
+  void TeamID(){
+      textSize(20);
+      fill(0);
+      text("ID:" + SelectedTank.teamID, h/2+1, height-h*0.4-7.5);
   }
   
   void HealthBar(){
@@ -67,12 +72,26 @@ class UIHandler{
   void WeaponType(){
     textSize(20);
     fill(0);
-    text(SelectedTank.weapon.eqquiped.name.toString(), BarWidth+100, height-h/2 - BarHeight+15);
+    text(SelectedTank.weapon.eqquiped.name.toString(), BarWidth+100, height-h/2 - BarHeight+10);
   }
   
   void AmmoCount(){
     textSize(20);
     fill(0);
-    text(SelectedTank.weapon.eqquiped.ammoCount + "/"+ SelectedTank.weapon.eqquiped.ammoMax, BarWidth+100, height-h/2 - BarHeight+30);
+    text(SelectedTank.weapon.eqquiped.ammoCount + "/"+ SelectedTank.weapon.eqquiped.ammoMax, BarWidth+100, height-h/2 - BarHeight+25);
+  }
+  
+  void FlagDisplay(){
+    if(SelectedTank.holdingFlag){
+      float x = BarWidth+250;
+      float y = height-h/2 - BarHeight-3;
+      float r = 3;
+      
+      rect(x, y, r, 10*r);
+      
+      fill(180, 0, 0);
+      triangle(x+(r)+0.1, y, x+(r)+0.1, y+(5*r), x+(5*r), y+(2.5*r));
+      
+    }
   }
 }

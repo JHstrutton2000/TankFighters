@@ -344,12 +344,12 @@ class MainMenu {
               if (t != -1) {                
                 blocks.add(new Block(x, y, 1, 1, new PVector(red(Ccol), green(Ccol), blue(Ccol)), new PVector(red(Cparms), green(Cparms), blue(Cparms)), t));
                 if (t == blockTypes.Enemy.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0, (int)red(Cparms), (int)green(Cparms)));
+                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), 0, (int)red(Cparms), (int)green(Cparms), (int)blue(Cparms)));
                 } else if (t == blockTypes.Player.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance, (int)red(Cparms), (int)green(Cparms)));
+                  gameObjectsPhysicsLists.add(new Tank(t == blockTypes.Player.ordinal(), pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), SelectedTankInstance, (int)red(Cparms), (int)green(Cparms), (int)blue(Cparms)));
                   SelectedTankInstance++;
                 } else if (t == blockTypes.Flag.ordinal()) {
-                  gameObjectsPhysicsLists.add(new Flag(pos, new PVector(red(Ccol), green(Ccol), blue(Ccol))));
+                  gameObjectsPhysicsLists.add(new Flag(pos, new PVector(red(Ccol), green(Ccol), blue(Ccol)), (int)red(Cparms)));
                 } else if (t == blockTypes.Health.ordinal()) {
                   gameObjectsPhysicsLists.add(new Health(pos, red(Cparms)));
                 } else if (t == blockTypes.Shield.ordinal()) {
