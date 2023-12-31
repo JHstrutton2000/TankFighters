@@ -9,6 +9,7 @@ int XCount, YCount;
 MainMenu mainMenu;
 mutltiplayerHandler multiPlayer;
 UIHandler ui;
+Darkness darkness;
 
 PVector center;
 float drawRadius = 400;
@@ -20,12 +21,13 @@ PImage back;
 int drawCycle    = 0;
 int maxDrawCycle = 0;
 
-boolean backgroundEnabled = false;
+boolean backgroundEnabled = true;
 
 void setup() {
 
   size(800, 800);
   ui = new UIHandler();
+  darkness = new Darkness(5000);
   
   servers = new ArrayList<String>();
   if(networked){
@@ -119,8 +121,13 @@ void draw() {
     }
 
     if (backgroundEnabled) {
-      image(back, center.x-500, center.y-500);
+      image(back, center.x-510, center.y-480);
+      
+      darkness.update();
+      darkness.Draw();
     }
+    
+    
     
     ui.update();
     ui.Draw();

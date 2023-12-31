@@ -164,16 +164,21 @@ class Tank implements GameObjectsPhysics {
     }
     else if(pickup.getGameObjectType() == blockTypes.Flag){
       Flag flag = (Flag)pickup;
-      if(teamID == flag.teamID && carriedFlag != null){
-        holdingFlag = false;
-        carriedFlag.pickedup = false;
-        carriedFlag = null;
+      if(teamID == flag.teamID){
+        if(carriedFlag != null){
+          holdingFlag = false;
+          carriedFlag.pickedup = false;
+          carriedFlag = null;
+        }
         return 1; 
       }
       else{
-        holdingFlag = true;
-        carriedFlag = (Flag)pickup;
-        return 0;
+        if(!holdingFlag){
+          holdingFlag = true;
+          carriedFlag = (Flag)pickup;
+          return 0;
+        }
+        return 1;
       }
       
     }

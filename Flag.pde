@@ -28,6 +28,10 @@ class Flag implements GameObjectsPhysics{
           triangle(this.pos.x+(r)+0.1, this.pos.y, this.pos.x+(r)+0.1, this.pos.y+(5*r), this.pos.x+(5*r), this.pos.y+(2.5*r));
         }
         
+        noStroke();
+        fill(Color.x, Color.y, Color.z);
+        rect(this.pos.x-2*r, this.pos.y+10*r, r*6, 1);
+        
       if (ring) {
           fill(255);
           text("#"+teamID, pos.x, pos.y+15*r);
