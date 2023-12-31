@@ -33,6 +33,22 @@ class Dust{
    
    void update(){
      this.pos.add(new PVector(random(-5, 5), random(-5, 5)));
+     
+     if(this.pos.x < 0){
+       this.pos.x = 0;
+     }
+     else if(this.pos.x > width){
+       this.pos.x = width; 
+     }
+     
+     if(this.pos.y < 0){
+       this.pos.y = 0;
+     }
+     else if(this.pos.y > height){
+       this.pos.y = height; 
+     }
+     
+     
    }
    
    void Draw(){
